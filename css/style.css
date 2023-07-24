@@ -3,7 +3,7 @@ padding:1%;
 margin:0px;
 margin-left:-5px;
 margin-right:-5;
-Display:flex;
+Display:inline-block;
 
 
 .dropdown {
