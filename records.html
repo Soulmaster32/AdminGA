@@ -3,72 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Records</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Employee Records Database</title>
+    <!-- Modern Font & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --primary: #4e54c8; --secondary: #8f94fb; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
-        body { background: #f4f7f6; color: #333; padding: 30px; min-height: 100vh; }
-        
-        .container {
-            max-width: 1200px; margin: 0 auto; background: white;
-            padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        /* --- THEME VARIABLES --- */
+        :root {
+            --primary: #4e54c8;
+            --primary-dark: #3a3fb0;
+            --secondary: #8f94fb;
+            --accent: #ff6b6b;
+            --success: #00b894;
+            --bg-body: #eff3f8;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap:10px; }
-        h2 { color: var(--primary); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-        .search-bar { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 250px; }
+        body {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: var(--text-dark);
+        }
+
+        /* --- GLASS CONTAINER --- */
+        .dashboard-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-out;
+            min-height: 80vh;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- HEADER SECTION --- */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f2f6;
+        }
+
+        .title-group h2 { font-weight: 600; color: var(--primary); font-size: 1.8rem; }
+        .title-group p { color: var(--text-light); font-size: 0.9rem; }
+
+        .controls { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+
+        /* Search Input */
+        .search-wrapper { position: relative; }
+        .search-input {
+            padding: 12px 20px 12px 40px;
+            border-radius: 50px;
+            border: 2px solid #e1e1e1;
+            outline: none;
+            width: 300px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .search-input:focus { border-color: var(--secondary); box-shadow: 0 0 0 4px rgba(143, 148, 251, 0.2); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+        .btn:active { transform: scale(0.98); }
+
+        .btn-export { background: var(--success); }
+        .btn-new { background: var(--primary); }
+        .btn-clear { background: var(--accent); }
+
+        /* --- TABLE DESIGN --- */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px; /* Forces scroll on small screens */
+        }
+
+        thead {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        th {
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f1f2f6;
+            color: var(--text-dark);
+            vertical-align: middle;
+        }
+
+        tbody tr {
+            transition: background 0.2s ease;
+            background: white;
+        }
         
-        .btn { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; color: white; text-decoration: none; font-size: 0.9rem; margin-left: 5px;}
-        .btn-green { background: #27ae60; }
-        .btn-blue { background: var(--primary); }
-        .btn-red { background: #e74c3c; }
+        /* Zebra Striping & Hover */
+        tbody tr:nth-child(even) { background: #fafbfc; }
+        tbody tr:hover { background: #f0f4ff; transform: scale(1); }
 
-        /* Table */
-        .table-wrap { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        th { background: var(--primary); color: white; padding: 15px; text-align: left; }
-        td { padding: 12px 15px; border-bottom: 1px solid #eee; }
-        tr:hover { background: #f9f9f9; }
-        
-        .sig-img { height: 40px; border: 1px solid #ddd; transition: 0.2s; background:white; }
-        .sig-img:hover { transform: scale(3); position: relative; z-index: 10; border-color: var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        /* Signature Image styling */
+        .sig-preview {
+            height: 40px;
+            width: auto;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            padding: 2px;
+            background: white;
+            transition: all 0.2s ease;
+            cursor: zoom-in;
+        }
+        .sig-preview:hover {
+            transform: scale(3.5);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-color: var(--primary);
+        }
 
-        /* Mobile Cards */
-        @media(max-width:768px) {
+        /* Delete Button */
+        .btn-delete-row {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--accent);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .btn-delete-row:hover { background: var(--accent); color: white; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-light);
+            display: none;
+        }
+        .empty-state div { font-size: 3rem; margin-bottom: 10px; opacity: 0.5; }
+
+        /* --- MOBILE CARD VIEW --- */
+        @media (max-width: 850px) {
+            .header-section { flex-direction: column; align-items: stretch; }
+            .controls { flex-direction: column; }
+            .search-input { width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+
+            /* Hide Table Header */
             thead { display: none; }
-            tr { display: block; margin-bottom: 15px; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-            td { display: block; text-align: right; padding-left: 50%; position: relative; }
-            td::before { content: attr(data-label); position: absolute; left: 15px; font-weight: bold; color: var(--primary); }
+
+            /* Turn Rows into Cards */
+            tbody, tr, td { display: block; width: 100%; }
+
+            tr {
+                margin-bottom: 20px;
+                background: white;
+                border-radius: 16px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+                border: 1px solid #f0f0f0;
+                padding: 20px;
+                position: relative;
+            }
+
+            td {
+                text-align: right;
+                padding: 10px 0;
+                border-bottom: 1px dashed #eee;
+                position: relative;
+                padding-left: 50%;
+            }
+
+            td:last-child { border-bottom: none; padding-top: 15px; }
+
+            /* Add Labels via CSS */
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                top: 12px;
+                font-weight: 600;
+                color: var(--text-light);
+                font-size: 0.85rem;
+                text-transform: uppercase;
+            }
+
+            /* Signature on Mobile */
+            .sig-preview { height: 50px; }
+            .sig-preview:hover { transform: scale(1.5); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h2>📋 Records</h2>
-            <input type="text" id="searchInput" class="search-bar" placeholder="Search name...">
-            <div>
-                <button onclick="exportCSV()" class="btn btn-green">Export Excel</button>
-                <a href="Home.html" class="btn btn-blue">+ New</a>
-                <button onclick="deleteAll()" class="btn btn-red">Clear All</button>
+
+    <div class="dashboard-container">
+        
+        <!-- Header -->
+        <div class="header-section">
+            <div class="title-group">
+                <h2>Employee Records</h2>
+                <p>Manage registered personnel and digital signatures</p>
+            </div>
+            
+            <div class="controls">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search by name or ID...">
+                </div>
+                
+                <button onclick="exportCSV()" class="btn btn-export">
+                    <span>⬇</span> Export CSV
+                </button>
+                <a href="Home.html" class="btn btn-new">
+                    <span>+</span> New Entry
+                </a>
+                <button onclick="deleteAll()" class="btn btn-clear">
+                    <span>🗑</span> Clear All
+                </button>
             </div>
         </div>
-        
-        <div class="table-wrap">
+
+        <!-- Table -->
+        <div class="table-container">
             <table id="recordsTable">
                 <thead>
                     <tr>
-                        <th>Full Name</th> <th>Dept</th> <th>Section</th> <th>Date</th> <th>Signature</th> <th>Action</th>
+                        <th width="20%">Full Name</th>
+                        <th width="15%">Department</th>
+                        <th width="15%">Section</th>
+                        <th width="20%">Date Registered</th>
+                        <th width="15%">Signature</th>
+                        <th width="15%">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody"></tbody>
+                <tbody id="tableBody">
+                    <!-- Javascript will load rows here -->
+                </tbody>
             </table>
         </div>
-        <p id="emptyMsg" style="text-align:center; padding:20px; display:none;">No records found.</p>
+
+        <!-- Empty State -->
+        <div id="emptyMsg" class="empty-state">
+            <div>📭</div>
+            <h3>No records found</h3>
+            <p>Go to "New Entry" to add your first employee.</p>
+        </div>
+
     </div>
-    <script src="js/records.js"></script>
+
+    <!-- Link to Logic -->
+    <script src="records.js"></script>
+
 </body>
 </html>
