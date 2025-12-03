@@ -4,133 +4,287 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Personnel Registration</title>
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- CSS VARIABLES & THEME --- */
+        /* --- THEME MATCHING RECORDS.HTML --- */
         :root {
             --primary: #4e54c8;
             --secondary: #8f94fb;
             --accent: #ff6b6b;
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --text-main: #2d3436;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
-        body {
-            background: linear-gradient(135deg, #4e54c8, #8f94fb);
-            min-height: 100vh;
-            display: flex; justify-content: center; align-items: center; padding: 20px;
-            overflow-x: hidden;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.6);
         }
 
-        /* Glass Card */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            /* Same Gradient as Records Page */
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND ANIMATION --- */
+        .circles {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; pointer-events: none;
+        }
+        .circles li {
+            position: absolute; display: block; list-style: none; width: 20px; height: 20px; background: rgba(255, 255, 255, 0.3); animation: animate 25s linear infinite; bottom: -150px;
+        }
+        .circles li:nth-child(1){ left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .circles li:nth-child(2){ left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .circles li:nth-child(3){ left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .circles li:nth-child(4){ left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+        .circles li:nth-child(5){ left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+        @keyframes animate {
+            0%{ transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
+            100%{ transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+        }
+
+        /* --- GLASS CARD --- */
         .card {
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            width: 100%; max-width: 650px; padding: 40px;
-            animation: slideUp 0.8s ease-out;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        header { text-align: center; margin-bottom: 30px; }
-        h2 { color: var(--primary); font-weight: 700; }
-        .clock-badge { background: #f1f2f6; padding: 5px 15px; border-radius: 50px; font-size: 0.85rem; color: #555; display: inline-block; margin-top:5px;}
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Form */
+        /* --- HEADER --- */
+        header { text-align: center; margin-bottom: 35px; }
+        h2 { color: var(--primary); font-weight: 700; font-size: 1.8rem; margin-bottom: 5px; }
+        
+        .clock-badge {
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.8);
+            color: var(--text-light);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        /* --- FORM STYLING --- */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .full-width { grid-column: span 2; }
-        
+
         .input-group { position: relative; margin-bottom: 5px; }
+
         .input-field {
-            width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 10px;
-            outline: none; transition: 0.3s; background: rgba(255,255,255,0.8);
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid transparent;
+            background: white;
+            border-radius: 12px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            color: var(--text-dark);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            font-weight: 500;
         }
-        .input-field:focus { border-color: var(--primary); background: #fff; }
-        
+
         .input-label {
-            position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-            color: #999; pointer-events: none; transition: 0.3s;
-        }
-        .input-field:focus ~ .input-label, .input-field:not(:placeholder-shown) ~ .input-label {
-            top: 0; font-size: 0.75rem; color: var(--primary); background: white; padding: 0 5px; font-weight: 700;
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+            transition: 0.3s ease all;
+            font-size: 0.9rem;
+            background: transparent;
         }
 
-        /* Signature */
+        /* Floating Label Logic */
+        .input-field:focus, .input-field:not(:placeholder-shown) {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(143, 148, 251, 0.15);
+        }
+        .input-field:focus ~ .input-label,
+        .input-field:not(:placeholder-shown) ~ .input-label {
+            top: -10px;
+            left: 10px;
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 700;
+            background: var(--glass-bg);
+            padding: 0 5px;
+            border-radius: 4px;
+        }
+
+        /* --- SIGNATURE PAD --- */
+        .sig-container-box { margin-top: 15px; }
+        .sig-label {
+            font-size: 0.85rem; color: var(--text-light); font-weight: 600; margin-bottom: 8px; display:block;
+        }
+
         .sig-wrapper {
-            border: 2px dashed #bbb; border-radius: 10px; height: 180px;
-            background: #fff; cursor: crosshair; overflow: hidden;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            position: relative;
+            background: rgba(255,255,255,0.8);
+            overflow: hidden;
+            transition: 0.3s;
+            height: 180px;
         }
-        canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+        .sig-wrapper:hover { border-color: var(--primary); background: white; }
         
-        .btn-register {
-            width: 100%; padding: 15px; background: linear-gradient(to right, var(--primary), var(--secondary));
-            border: none; border-radius: 10px; color: white; font-size: 1.1rem; font-weight: bold;
-            cursor: pointer; margin-top: 20px; transition: 0.3s;
+        canvas { 
+            display: block; width: 100%; height: 100%; 
+            cursor: crosshair; touch-action: none; /* Stops mobile scroll */
         }
-        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4); }
 
-        .clear-btn { background: none; border: none; color: var(--accent); cursor: pointer; float: right; margin-top: 5px; font-size: 0.85rem; }
+        .clear-btn {
+            color: var(--accent); background: none; border: none; cursor: pointer;
+            font-size: 0.85rem; font-weight: 600; text-decoration: underline; margin-top: 8px; float: right;
+        }
 
-        /* Toast */
-        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 999; }
-        .toast { background: white; padding: 15px 25px; border-radius: 8px; margin-bottom: 10px; border-left: 5px solid #2ecc71; box-shadow: 0 5px 15px rgba(0,0,0,0.1); animation: slideIn 0.5s; }
+        /* --- BUTTON --- */
+        .btn-register {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(78, 84, 200, 0.3);
+            margin-top: 25px;
+            letter-spacing: 0.5px;
+        }
+        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(78, 84, 200, 0.4); }
+        .btn-register:active { transform: scale(0.98); }
+
+        /* --- TOAST & MODAL --- */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; }
+        .toast {
+            background: white; padding: 15px 25px; border-radius: 12px; margin-bottom: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; align-items: center;
+            animation: slideIn 0.5s ease; border-left: 5px solid #ccc; font-weight: 500;
+        }
+        .toast.success { border-left-color: #00b894; }
         .toast.error { border-left-color: var(--accent); }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        @media(max-width:600px){ .form-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 3000;
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: white; padding: 40px; border-radius: 24px; text-align: center;
+            width: 90%; max-width: 380px; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .card { padding: 30px 20px; margin: 10px; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Animated Background -->
+    <ul class="circles"><li></li><li></li><li></li><li></li><li></li></ul>
+
     <div class="card">
         <header>
-            <h2>Registration Form</h2>
-            <div id="liveClock" class="clock-badge">--:--:--</div>
+            <h2>New Registration</h2>
+            <div id="liveClock" class="clock-badge">Loading...</div>
         </header>
 
         <form id="regForm" novalidate>
             <div class="form-grid">
+                <!-- Inputs -->
                 <div class="input-group">
                     <input type="text" id="fname" class="input-field" placeholder=" " required autocomplete="off">
                     <label class="input-label">First Name</label>
                 </div>
+                
                 <div class="input-group">
                     <input type="text" id="mname" class="input-field" placeholder=" " autocomplete="off">
                     <label class="input-label">Middle Name</label>
                 </div>
+                
                 <div class="input-group full-width">
                     <input type="text" id="lname" class="input-field" placeholder=" " required autocomplete="off">
                     <label class="input-label">Last Name</label>
                 </div>
+
                 <div class="input-group">
-                    <select id="dept" class="input-field" required>
+                    <select id="dept" class="input-field" required style="color: #333">
                         <option value="" disabled selected></option>
-                        <option value="IT">IT Dept</option>
-                        <option value="HR">HR Dept</option>
+                        <option value="IT">IT Department</option>
+                        <option value="HR">Human Resources</option>
                         <option value="Finance">Finance</option>
+                        <option value="Sales">Sales & Marketing</option>
                         <option value="Operations">Operations</option>
                     </select>
                     <label class="input-label">Department</label>
                 </div>
+
                 <div class="input-group">
                     <input type="text" id="section" class="input-field" placeholder=" " required autocomplete="off">
-                    <label class="input-label">Section</label>
+                    <label class="input-label">Section / Unit</label>
                 </div>
-                <div class="full-width">
-                    <label style="font-size:0.85rem; color:#666; font-weight:600;">Digital Signature</label>
+
+                <!-- Signature -->
+                <div class="full-width sig-container-box">
+                    <label class="sig-label">Digital Signature</label>
                     <div class="sig-wrapper" id="sigContainer">
                         <canvas id="sigCanvas"></canvas>
                     </div>
                     <button type="button" class="clear-btn" id="clearSig">Clear Signature</button>
                 </div>
             </div>
-            <button type="submit" class="btn-register">Submit Registration</button>
+
+            <button type="submit" class="btn-register">Submit Record</button>
         </form>
     </div>
+
+    <!-- Toast & Modal -->
     <div id="toast-container"></div>
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🎉</div>
+            <h3 style="color: var(--primary); margin-bottom: 10px;">Success!</h3>
+            <p style="color: #666;">Registration complete.</p>
+            <p style="font-size: 0.9rem; color: #999; margin-top: 10px;">Redirecting to dashboard...</p>
+        </div>
+    </div>
+
+    <!-- Logic Script -->
     <script src="js/extension.js"></script>
+
 </body>
 </html>
