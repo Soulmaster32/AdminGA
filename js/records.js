@@ -1,194 +1,90 @@
-/* 
- * RECORDS.JS 
- * Features: Load Data, Security (Sanitization), Search, Delete, Export to Excel
- */
-
 document.addEventListener("DOMContentLoaded", () => {
     loadRecords();
 
-    // Attach Search Listener
-    const searchInput = document.getElementById("searchInput");
-    if (searchInput) {
-        searchInput.addEventListener("keyup", (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            filterRecords(searchTerm);
+    // Live Search
+    document.getElementById("searchInput").addEventListener("keyup", (e) => {
+        const term = e.target.value.toLowerCase();
+        const rows = document.querySelectorAll("#tableBody tr");
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(term) ? "" : "none";
         });
-    }
+    });
 });
 
-// Global variable to hold data for filtering
-let allRegistrants = [];
+let allData = [];
 
-// --- 1. LOAD & RENDER DATA ---
 function loadRecords() {
-    const tableBody = document.getElementById("tableBody");
+    const tbody = document.getElementById("tableBody");
     const emptyMsg = document.getElementById("emptyMsg");
-    
-    // Clear current view
-    tableBody.innerHTML = "";
+    tbody.innerHTML = "";
 
-    // Fetch from Storage
-    allRegistrants = JSON.parse(localStorage.getItem("registrants")) || [];
+    // 1. Get Data
+    allData = JSON.parse(localStorage.getItem("registrants")) || [];
 
-    // Empty State Check
-    if (allRegistrants.length === 0) {
-        if(emptyMsg) emptyMsg.style.display = "block";
-        return;
-    } else {
-        if(emptyMsg) emptyMsg.style.display = "none";
-    }
-
-    // Render Rows (Reverse to show newest first)
-    allRegistrants.slice().reverse().forEach(person => {
-        createRow(person, tableBody);
-    });
-}
-
-// --- 2. HELPER: CREATE ROW (SECURE) ---
-function createRow(person, container) {
-    const row = document.createElement("tr");
-    
-    // Format Date
-    const dateObj = new Date(person.date);
-    const dateStr = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    
-    // Construct Name
-    const fullName = `${person.firstName} ${person.middleName ? person.middleName + ' ' : ''}${person.lastName}`;
-
-    // Create Cells safely using textContent to prevent XSS (Hacking via scripts in inputs)
-    
-    // 1. Name Cell
-    const tdName = document.createElement("td");
-    tdName.setAttribute("data-label", "Name");
-    tdName.innerHTML = `<strong></strong>`; // We keep strong tag but fill text safely
-    tdName.querySelector("strong").textContent = fullName;
-    row.appendChild(tdName);
-
-    // 2. Dept Cell
-    const tdDept = document.createElement("td");
-    tdDept.setAttribute("data-label", "Dept");
-    tdDept.textContent = person.dept;
-    row.appendChild(tdDept);
-
-    // 3. Section Cell
-    const tdSec = document.createElement("td");
-    tdSec.setAttribute("data-label", "Section");
-    tdSec.textContent = person.section;
-    row.appendChild(tdSec);
-
-    // 4. Date Cell
-    const tdDate = document.createElement("td");
-    tdDate.setAttribute("data-label", "Date");
-    tdDate.textContent = dateStr;
-    row.appendChild(tdDate);
-
-    // 5. Signature Cell (Image)
-    const tdSig = document.createElement("td");
-    tdSig.setAttribute("data-label", "Signature");
-    const img = document.createElement("img");
-    img.src = person.signature;
-    img.className = "sig-img";
-    img.alt = "Signature";
-    tdSig.appendChild(img);
-    row.appendChild(tdSig);
-
-    // 6. Action Cell
-    const tdAction = document.createElement("td");
-    tdAction.setAttribute("data-label", "Action");
-    
-    const delBtn = document.createElement("button");
-    delBtn.textContent = "✕ Delete";
-    delBtn.style.cssText = "color: #ff6b6b; background:none; border:none; cursor:pointer; font-weight:600;";
-    delBtn.onclick = () => deleteRecord(person.id);
-    
-    tdAction.appendChild(delBtn);
-    row.appendChild(tdAction);
-
-    // Add to table
-    container.appendChild(row);
-}
-
-// --- 3. SEARCH FUNCTIONALITY ---
-function filterRecords(term) {
-    const tableBody = document.getElementById("tableBody");
-    tableBody.innerHTML = ""; // Clear current
-
-    const filtered = allRegistrants.filter(person => {
-        const fullName = `${person.firstName} ${person.middleName} ${person.lastName}`.toLowerCase();
-        const dept = person.dept.toLowerCase();
-        // Check if name or dept matches search term
-        return fullName.includes(term) || dept.includes(term);
-    });
-
-    // Re-render filtered list (Reverse to keep newest top)
-    filtered.slice().reverse().forEach(person => {
-        createRow(person, tableBody);
-    });
-}
-
-// --- 4. EXPORT TO EXCEL (CSV) ---
-function exportToExcel() {
-    if (allRegistrants.length === 0) {
-        alert("No records to export!");
+    if(allData.length === 0) {
+        emptyMsg.style.display = "block";
         return;
     }
+    emptyMsg.style.display = "none";
 
-    // 1. Define Headers
-    let csvContent = "First Name,Middle Name,Last Name,Department,Section,Date Registered,Signature Status\n";
+    // 2. Render Rows (Newest first)
+    allData.slice().reverse().forEach(p => {
+        const row = document.createElement("tr");
+        const dateStr = new Date(p.date).toLocaleString();
+        const fullName = `${p.firstName} ${p.middleName} ${p.lastName}`;
 
-    // 2. Loop Data
-    allRegistrants.forEach(person => {
-        // Handle dates
-        const cleanDate = new Date(person.date).toLocaleString().replace(/,/g, ""); 
-        
-        // Sanitize strings (replace commas with spaces to avoid breaking CSV columns)
-        const f = person.firstName.replace(/,/g, " ");
-        const m = person.middleName.replace(/,/g, " ");
-        const l = person.lastName.replace(/,/g, " ");
-        const d = person.dept.replace(/,/g, " ");
-        const s = person.section.replace(/,/g, " ");
-
-        // Build Row
-        // Note: We do NOT export the base64 signature string because it's too large for Excel cells.
-        // We just mark it as "Signed".
-        const row = `${f},${m},${l},${d},${s},${cleanDate},Signed`;
-        
-        csvContent += row + "\n";
+        row.innerHTML = `
+            <td data-label="Name"><strong>${sanitize(fullName)}</strong></td>
+            <td data-label="Dept">${sanitize(p.dept)}</td>
+            <td data-label="Section">${sanitize(p.section)}</td>
+            <td data-label="Date">${dateStr}</td>
+            <td data-label="Signature"><img src="${p.signature}" class="sig-img"></td>
+            <td data-label="Action">
+                <button onclick="deleteRow('${p.id}')" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold;">Delete</button>
+            </td>
+        `;
+        tbody.appendChild(row);
     });
-
-    // 3. Create Download Link
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    
-    // 4. Trigger Download
-    link.setAttribute("href", url);
-    link.setAttribute("download", "employee_records.csv");
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
 }
 
-// --- 5. DELETE SINGLE RECORD ---
-function deleteRecord(id) {
-    if(!confirm("Are you sure you want to delete this record?")) return;
-
-    // Remove from array
-    allRegistrants = allRegistrants.filter(person => person.id !== id);
-    
-    // Save to LocalStorage
-    localStorage.setItem("registrants", JSON.stringify(allRegistrants));
-    
-    // Refresh Table
-    loadRecords();
+// Security: Prevent XSS
+function sanitize(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
 }
 
-// --- 6. DELETE ALL RECORDS ---
+// Delete One
+function deleteRow(id) {
+    if(confirm("Delete this record?")) {
+        allData = allData.filter(d => d.id !== id);
+        localStorage.setItem("registrants", JSON.stringify(allData));
+        loadRecords();
+    }
+}
+
+// Delete All
 function deleteAll() {
-    if(!confirm("WARNING: This will delete ALL records permanently. Continue?")) return;
+    if(confirm("Delete ALL records? This cannot be undone.")) {
+        localStorage.removeItem("registrants");
+        loadRecords();
+    }
+}
+
+// Export to Excel (CSV)
+function exportCSV() {
+    if(allData.length === 0) return alert("No data to export");
     
-    localStorage.removeItem("registrants");
-    allRegistrants = [];
-    loadRecords();
+    let csv = "First Name,Middle Name,Last Name,Dept,Section,Date\n";
+    allData.forEach(p => {
+        const row = [p.firstName, p.middleName, p.lastName, p.dept, p.section, p.date].map(i => `"${i}"`).join(",");
+        csv += row + "\n";
+    });
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "employees.csv";
+    link.click();
 }
