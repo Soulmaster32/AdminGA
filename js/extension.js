@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Redirect to records.html after 1.5s
             setTimeout(() => {
-                window.location.href = "records.html";
+                window.location.href = "Home.html";
             }, 1500);
         });
     }
