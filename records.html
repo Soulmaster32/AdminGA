@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Records</title>
-    <!-- Same Font -->
+    <title>Employee Records Dashboard</title>
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         /* --- SHARED THEME --- */
@@ -12,6 +12,7 @@
             --primary: #4e54c8;
             --secondary: #8f94fb;
             --accent: #ff6b6b;
+            --success: #27ae60;
             --bg-glass: rgba(255, 255, 255, 0.95);
         }
 
@@ -29,6 +30,7 @@
             margin: 0 auto;
             background: var(--bg-glass);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -37,47 +39,80 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Header Area */
-        .header-actions {
+        /* --- HEADER & ACTIONS --- */
+        .header-title {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: 700;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .action-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
             flex-wrap: wrap;
             gap: 15px;
+            margin-bottom: 25px;
         }
 
-        h2 { color: var(--primary); font-weight: 700; }
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+        #searchInput:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1); }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
         .btn {
-            padding: 10px 20px;
+            padding: 12px 20px;
             border-radius: 8px;
             border: none;
             cursor: pointer;
             font-weight: 600;
             transition: 0.3s;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        .btn:active { transform: scale(0.98); }
 
-        .btn-new { background: var(--primary); color: white; }
-        .btn-new:hover { background: #3b40a0; }
-
-        .btn-clear { background: var(--accent); color: white; margin-left: 10px; }
-        .btn-clear:hover { background: #d63031; }
+        .btn-excel { background: var(--success); }
+        .btn-new { background: var(--primary); }
+        .btn-clear { background: var(--accent); }
 
         /* --- TABLE STYLING --- */
         .table-wrapper {
-            overflow-x: auto; /* Scroll on small screens */
+            overflow-x: auto;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            min-width: 600px;
+            min-width: 700px; /* Force scroll on very small screens if not card view */
         }
 
         thead { background: var(--primary); color: white; }
@@ -86,32 +121,50 @@
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #eee;
+            vertical-align: middle;
         }
 
         tr:hover { background-color: #f8f9fa; }
 
-        /* Signature Image in Table */
+        /* Signature Image */
         .sig-img {
             height: 40px;
-            border: 1px solid #eee;
+            border: 1px solid #ddd;
             border-radius: 4px;
             padding: 2px;
             background: white;
             transition: transform 0.2s;
+            cursor: zoom-in;
         }
-        .sig-img:hover { transform: scale(3); position: relative; z-index: 10; border-color: var(--primary); }
+        .sig-img:hover { 
+            transform: scale(3.5); 
+            position: relative; 
+            z-index: 10; 
+            border-color: var(--primary); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
 
         /* Empty State */
         .no-records {
             text-align: center;
-            padding: 50px;
-            color: #888;
+            padding: 60px;
+            color: #999;
             font-style: italic;
+            background: white;
+            border-radius: 10px;
         }
 
         /* --- MOBILE RESPONSIVE (Card View) --- */
         @media (max-width: 768px) {
-            thead { display: none; } /* Hide Header */
+            body { padding: 15px; }
+            .container { padding: 20px; }
+
+            .action-bar { flex-direction: column; align-items: stretch; }
+            .btn-group { justify-content: space-between; }
+            .btn { flex: 1; justify-content: center; text-align: center; }
+
+            /* Table to Cards Transformation */
+            thead { display: none; } 
             
             table, tbody, tr, td { display: block; width: 100%; }
             
@@ -119,8 +172,9 @@
                 margin-bottom: 15px;
                 background: white;
                 border-radius: 10px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
                 border: 1px solid #eee;
+                overflow: hidden;
             }
 
             td {
@@ -128,34 +182,52 @@
                 padding-left: 50%;
                 position: relative;
                 border-bottom: 1px solid #f1f1f1;
+                font-size: 0.95rem;
             }
 
-            /* Add label before content */
+            td:last-child { border-bottom: none; }
+
+            /* Add label before content using data-label attribute */
             td::before {
                 content: attr(data-label);
                 position: absolute;
                 left: 15px;
-                width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
+                width: 40%;
                 text-align: left;
-                font-weight: bold;
+                font-weight: 600;
                 color: var(--primary);
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
+
+            .sig-img { height: 50px; }
+            .sig-img:hover { transform: scale(2); } /* Less zoom on mobile */
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="header-actions">
-            <h2>📋 Registered Personnel</h2>
-            <div>
-                <a href="Home.html" class="btn btn-new">+ Register New</a>
-                <button onclick="deleteAll()" class="btn btn-clear">Clear All</button>
+        
+        <h2 class="header-title">📋 Registered Personnel</h2>
+
+        <!-- Action Bar: Search + Buttons -->
+        <div class="action-bar">
+            <!-- Search Input -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search by Name or Department...">
+            </div>
+
+            <!-- Buttons -->
+            <div class="btn-group">
+                <button onclick="exportToExcel()" class="btn btn-excel">⬇ Export Excel</button>
+                <a href="index.html" class="btn btn-new">+ New Entry</a>
+                <button onclick="deleteAll()" class="btn btn-clear">🗑 Clear All</button>
             </div>
         </div>
 
+        <!-- Data Table -->
         <div class="table-wrapper">
             <table id="recordsTable">
                 <thead>
@@ -169,16 +241,21 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Rows will be inserted here by JS -->
+                    <!-- Rows inserted via records.js -->
                 </tbody>
             </table>
         </div>
         
+        <!-- Empty State Message -->
         <div id="emptyMsg" class="no-records" style="display:none;">
-            No records found.
+            <div style="font-size: 2rem; margin-bottom: 10px;">📭</div>
+            No records found. <br> <small>Go to "New Entry" to add someone.</small>
         </div>
+
     </div>
 
-    <script src="js/records.js"></script>
+    <!-- Link to Logic -->
+    <script src="records.js"></script>
+
 </body>
 </html>
