@@ -1,47 +1,414 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-      <title>Home</title>
-<link rel="stylesheet" href="css/style.css">
-      </head>
-      
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Registration System</title>
+    <style>
+        /* --- CSS3 ADVANCED STYLING --- */
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50e3c2;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
 
-<style>
-.gil1{Background:whitesmoke; color:gray;padding:1%;
-      margin-left:-5;margin-right:-5;
-      family-font:arial;}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
 
-</style>
-  <body>
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 700px;
+            padding: 40px;
+            overflow: hidden;
+            animation: slideIn 0.6s ease-out;
+        }
 
-        <div>
-      <img src="G-A.png" width="100%" height="auto"/>
-        </div></br>
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-<h1>ADMIN-General Affairs Section</br>
-<span style="font-size:12px;">Administration Department</span>
-</h1></br></hr>
-<div class="dropdown">
-  <button class="dropbtn">Designation</button>
-  <div class="dropdown-content">
-    <a href="#">Transportation</a>
-    <a href="#">Internal</a>
-    <a href="#">External</a>
-  </div>
-</div>
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
 
-<div class="gil1">
+        header h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
 
-<div>Menu</div>
-<div>Content</div>
-<div>Adds</div>
+        .datetime-display {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+            background: #eee;
+            padding: 5px 15px;
+            border-radius: 50px;
+            display: inline-block;
+        }
 
-</div>
+        /* Form Grid Layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
 
+        .form-group {
+            margin-bottom: 20px;
+        }
 
+        .full-width {
+            grid-column: span 2;
+        }
 
-    
-  </body>
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9rem;
+        }
 
-  
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        /* Signature Pad Styling */
+        .signature-area {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            position: relative;
+            height: 200px;
+            margin-bottom: 10px;
+            cursor: crosshair;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .sig-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-clear {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-submit {
+            background: linear-gradient(to right, #4a90e2, #50e3c2);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Result Card (Hidden by default) */
+        #resultCard {
+            display: none;
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+        }
+
+        #resultCard h3 {
+            color: var(--primary-color);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #f9f9f9;
+            padding-bottom: 5px;
+        }
+
+        .result-sig {
+            text-align: right;
+            margin-top: 15px;
+        }
+        
+        .result-sig img {
+            max-height: 80px;
+            border: 1px solid #eee;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h2>Employee Registration</h2>
+            <div class="datetime-display" id="clock">Loading Date/Time...</div>
+        </header>
+
+        <form id="regForm">
+            <div class="form-grid">
+                <!-- Name Section -->
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" placeholder="John" required>
+                </div>
+                <div class="form-group">
+                    <label for="middleName">Middle Name</label>
+                    <input type="text" id="middleName" placeholder="D.">
+                </div>
+                <div class="form-group full-width">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" placeholder="Doe" required>
+                </div>
+
+                <!-- Department Section -->
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select id="department" required>
+                        <option value="" disabled selected>Select Department</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="HR">Human Resources</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Operations">Operations</option>
+                        <option value="Marketing">Marketing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="section">Section / Unit</label>
+                    <input type="text" id="section" placeholder="e.g. Web Dev" required>
+                </div>
+
+                <!-- Electronic Signature -->
+                <div class="form-group full-width">
+                    <label>Electronic Signature</label>
+                    <div class="signature-area" id="sigContainer">
+                        <canvas id="sigCanvas"></canvas>
+                    </div>
+                    <div class="sig-controls">
+                        <button type="button" class="btn-clear" onclick="clearCanvas()">Clear Signature</button>
+                    </div>
+                </div>
+
+                <!-- Hidden inputs for auto-data -->
+                <input type="hidden" id="regDate">
+                <input type="hidden" id="regTime">
+            </div>
+
+            <button type="submit" class="btn-submit">Register User</button>
+        </form>
+    </div>
+
+    <!-- Output Visualization (Digital ID Card) -->
+    <div id="resultCard">
+        <h3>Registration Successful</h3>
+        <div class="result-row"><strong>Name:</strong> <span id="resName"></span></div>
+        <div class="result-row"><strong>Department:</strong> <span id="resDept"></span></div>
+        <div class="result-row"><strong>Section:</strong> <span id="resSection"></span></div>
+        <div class="result-row"><strong>Registered On:</strong> <span id="resDateTime"></span></div>
+        
+        <div class="result-sig">
+            <p><small>Authorized Signature:</small></p>
+            <img id="resSigImage" src="" alt="Signature">
+        </div>
+    </div>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
+        // 1. Auto Date and Time Clock
+        function updateClock() {
+            const now = new Date();
+            const dateString = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('clock').textContent = `${dateString} | ${timeString}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call
+
+        // 2. Canvas Signature Logic
+        const canvas = document.getElementById('sigCanvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('sigContainer');
+        let isDrawing = false;
+
+        // Resize canvas to fit container properly
+        function resizeCanvas() {
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas(); // Initial call
+
+        // Get Mouse/Touch Position
+        function getPos(canvas, evt) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (evt.clientX || evt.touches[0].clientX) - rect.left,
+                y: (evt.clientY || evt.touches[0].clientY) - rect.top
+            };
+        }
+
+        // Start Drawing
+        function startDraw(e) {
+            isDrawing = true;
+            const pos = getPos(canvas, e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            e.preventDefault(); // Prevent scrolling on touch
+        }
+
+        // Draw Movement
+        function draw(e) {
+            if (!isDrawing) return;
+            const pos = getPos(canvas, e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            e.preventDefault();
+        }
+
+        // Stop Drawing
+        function stopDraw() {
+            isDrawing = false;
+        }
+
+        // Event Listeners for Mouse
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('mouseleave', stopDraw);
+
+        // Event Listeners for Touch (Mobile)
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        canvas.addEventListener('touchend', stopDraw);
+
+        // Clear Canvas Function
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Check if canvas is empty
+        function isCanvasBlank(canvas) {
+            const blank = document.createElement('canvas');
+            blank.width = canvas.width;
+            blank.height = canvas.height;
+            return canvas.toDataURL() === blank.toDataURL();
+        }
+
+        // 3. Form Submission Logic
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Stop actual server submission for demo
+
+            // Validation: Check signature
+            if (isCanvasBlank(canvas)) {
+                alert('Please provide your signature.');
+                return;
+            }
+
+            // Capture Data
+            const fname = document.getElementById('firstName').value;
+            const mname = document.getElementById('middleName').value;
+            const lname = document.getElementById('lastName').value;
+            const dept = document.getElementById('department').value;
+            const section = document.getElementById('section').value;
+            
+            // Capture Timestamp
+            const now = new Date();
+            const timeStamp = now.toLocaleString();
+
+            // Display Result
+            document.getElementById('resName').textContent = `${fname} ${mname} ${lname}`;
+            document.getElementById('resDept').textContent = dept;
+            document.getElementById('resSection').textContent = section;
+            document.getElementById('resDateTime').textContent = timeStamp;
+
+            // Convert Signature to Image
+            const dataURL = canvas.toDataURL();
+            document.getElementById('resSigImage').src = dataURL;
+
+            // Show Result Card
+            const resultCard = document.getElementById('resultCard');
+            resultCard.style.display = 'block';
+            
+            // Scroll to result
+            resultCard.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
 </html>
