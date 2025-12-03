@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Advanced Registration System</title>
+    <title>Personnel Registration</title>
     <style>
         /* --- ADVANCED CSS3 & UI/UX --- */
         :root {
@@ -15,23 +15,23 @@
             --text-main: #2d3436;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
         /* Glassmorphism Container */
         .card {
             background: var(--glass);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 20px;
             box-shadow: var(--shadow);
             width: 100%;
@@ -41,6 +41,7 @@
             transform: translateY(20px);
             opacity: 0;
             animation: floatUp 0.8s forwards ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         @keyframes floatUp {
@@ -48,16 +49,15 @@
         }
 
         header { text-align: center; margin-bottom: 30px; }
-        h2 { color: var(--primary); font-weight: 700; letter-spacing: 1px; }
+        h2 { color: var(--primary); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 5px; }
         
         .clock-badge {
             background: #f1f2f6;
-            color: var(--text-main);
-            padding: 5px 15px;
+            color: #555;
+            padding: 6px 18px;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
-            margin-top: 10px;
             display: inline-block;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
@@ -74,7 +74,7 @@
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             outline: none;
-            background: transparent;
+            background: rgba(255,255,255,0.8);
             font-size: 1rem;
             transition: 0.3s;
             color: var(--text-main);
@@ -85,43 +85,46 @@
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #999;
+            color: #888;
             pointer-events: none;
             transition: 0.3s ease all;
-            background: white;
+            background: transparent;
             padding: 0 5px;
         }
 
-        /* Magic: Move label up on focus or if valid (has text) */
+        /* Move label up on focus or if valid */
         .input-field:focus, .input-field:not(:placeholder-shown) {
             border-color: var(--primary);
+            background: #fff;
         }
         .input-field:focus ~ .input-label,
         .input-field:not(:placeholder-shown) ~ .input-label {
             top: 0;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--primary);
-            font-weight: 600;
+            font-weight: 700;
+            background: white;
+            border-radius: 5px;
         }
 
         /* Signature Pad */
         .sig-wrapper {
             border: 2px dashed #ccc;
-            border-radius: 10px;
+            border-radius: 12px;
             position: relative;
             background: #fff;
             overflow: hidden;
             transition: 0.3s;
+            height: 180px;
         }
         .sig-wrapper:hover { border-color: var(--primary); }
         
         canvas { 
             display: block; 
             width: 100%; 
-            height: 180px; 
+            height: 100%; 
             cursor: crosshair;
-            /* Critical for mobile: stops page scrolling while signing */
-            touch-action: none; 
+            touch-action: none; /* Critical for mobile scroll prevention */
         }
 
         .sig-tools {
@@ -134,24 +137,27 @@
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
+            text-decoration: underline;
         }
 
         /* Button */
         .btn-register {
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
             box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
+            margin-top: 10px;
         }
+        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(78, 84, 200, 0.5); }
         .btn-register:active { transform: scale(0.98); }
 
         /* Toast Notifications */
@@ -166,7 +172,7 @@
             padding: 15px 25px;
             border-radius: 10px;
             margin-bottom: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             display: flex;
             align-items: center;
             animation: slideInRight 0.5s ease;
@@ -180,7 +186,7 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
-        /* Modal for Success */
+        /* Modal (Visual only, redirection happens via JS) */
         .modal {
             display: none;
             position: fixed;
@@ -192,14 +198,13 @@
         }
         .modal-content {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
             width: 90%;
             max-width: 400px;
             animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .modal img { width: 80px; margin-bottom: 15px; }
         @keyframes popIn {
             from { transform: scale(0.5); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -209,54 +214,60 @@
         @media (max-width: 600px) {
             .form-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
-            .card { padding: 25px; margin: 10px; }
+            .card { padding: 25px 20px; margin: 10px; }
         }
     </style>
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="card">
         <header>
             <h2>Registration Form</h2>
-            <div id="liveClock" class="clock-badge">--:--:--</div>
+            <div id="liveClock" class="clock-badge">Loading Time...</div>
         </header>
 
         <form id="regForm" novalidate>
             <div class="form-grid">
+                <!-- First Name -->
                 <div class="input-group">
-                    <input type="text" id="fname" class="input-field" placeholder=" " required>
+                    <input type="text" id="fname" class="input-field" placeholder=" " required autocomplete="off">
                     <label class="input-label">First Name</label>
                 </div>
+                
+                <!-- Middle Name -->
                 <div class="input-group">
-                    <input type="text" id="mname" class="input-field" placeholder=" ">
+                    <input type="text" id="mname" class="input-field" placeholder=" " autocomplete="off">
                     <label class="input-label">Middle Name</label>
                 </div>
+                
+                <!-- Last Name -->
                 <div class="input-group full-width">
-                    <input type="text" id="lname" class="input-field" placeholder=" " required>
+                    <input type="text" id="lname" class="input-field" placeholder=" " required autocomplete="off">
                     <label class="input-label">Last Name</label>
                 </div>
 
+                <!-- Department -->
                 <div class="input-group">
-                    <!-- Standard Select styled to match -->
                     <select id="dept" class="input-field" required style="color: #333">
                         <option value="" disabled selected></option>
                         <option value="IT">IT Dept</option>
                         <option value="HR">HR Dept</option>
                         <option value="Finance">Finance</option>
                         <option value="Sales">Sales</option>
+                        <option value="Operations">Operations</option>
                     </select>
                     <label class="input-label">Department</label>
                 </div>
 
+                <!-- Section -->
                 <div class="input-group">
-                    <input type="text" id="section" class="input-field" placeholder=" " required>
-                    <label class="input-label">Section</label>
+                    <input type="text" id="section" class="input-field" placeholder=" " required autocomplete="off">
+                    <label class="input-label">Section / Unit</label>
                 </div>
 
+                <!-- Signature -->
                 <div class="full-width">
-                    <label style="font-size: 0.85rem; color: #666; font-weight: 600; margin-left: 5px;">Digital Signature</label>
+                    <label style="font-size: 0.8rem; color: #666; font-weight: 700; margin-left: 5px; margin-bottom: 5px; display:block;">Digital Signature</label>
                     <div class="sig-wrapper" id="sigContainer">
                         <canvas id="sigCanvas"></canvas>
                     </div>
@@ -265,8 +276,8 @@
                     </div>
                 </div>
             </div>
-            <br>
-            <button type="submit" class="btn-register">Complete Registration</button>
+
+            <button type="submit" class="btn-register">Submit Registration</button>
         </form>
     </div>
 
@@ -276,16 +287,14 @@
     <!-- Success Modal -->
     <div id="successModal" class="modal">
         <div class="modal-content">
-            <div style="font-size: 3rem;">🎉</div>
+            <div style="font-size: 3rem; margin-bottom: 10px;">🎉</div>
             <h3 style="color: var(--primary);">Success!</h3>
-            <p>Registration completed.</p>
-            <p style="font-size:0.8rem; color:#888; margin-top:5px;">Duplicate check passed.</p>
-            <br>
-            <button class="btn-register" onclick="location.reload()" style="padding:10px;">Register New</button>
+            <p style="color: #666; margin-top: 10px;">Registration saved.</p>
+            <p style="font-size: 0.9rem; color: #999;">Redirecting to records...</p>
         </div>
     </div>
 
     <!-- Link to the Extension JS -->
-    <script src="js/extension.js"></script>
+    <script src="extension.js"></script>
 </body>
 </html>
