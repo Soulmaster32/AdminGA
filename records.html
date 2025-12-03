@@ -3,259 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Records Dashboard</title>
-    <!-- Google Font -->
+    <title>Employee Records</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* --- SHARED THEME --- */
-        :root {
-            --primary: #4e54c8;
-            --secondary: #8f94fb;
-            --accent: #ff6b6b;
-            --success: #27ae60;
-            --bg-glass: rgba(255, 255, 255, 0.95);
-        }
-
+        :root { --primary: #4e54c8; --secondary: #8f94fb; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
-        body {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            min-height: 100vh;
-            padding: 30px;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: var(--bg-glass);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- HEADER & ACTIONS --- */
-        .header-title {
-            margin-bottom: 20px;
-            color: var(--primary);
-            font-weight: 700;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        #searchInput {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            outline: none;
-            transition: 0.3s;
-            font-size: 0.95rem;
-        }
-        #searchInput:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1); }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            font-size: 0.9rem;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
-        .btn:active { transform: scale(0.98); }
-
-        .btn-excel { background: var(--success); }
-        .btn-new { background: var(--primary); }
-        .btn-clear { background: var(--accent); }
-
-        /* --- TABLE STYLING --- */
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            border: 1px solid #eee;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            min-width: 700px; /* Force scroll on very small screens if not card view */
-        }
-
-        thead { background: var(--primary); color: white; }
         
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-            vertical-align: middle;
+        body { background: #f4f7f6; color: #333; padding: 30px; min-height: 100vh; }
+        
+        .container {
+            max-width: 1200px; margin: 0 auto; background: white;
+            padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        tr:hover { background-color: #f8f9fa; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap:10px; }
+        h2 { color: var(--primary); }
 
-        /* Signature Image */
-        .sig-img {
-            height: 40px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 2px;
-            background: white;
-            transition: transform 0.2s;
-            cursor: zoom-in;
-        }
-        .sig-img:hover { 
-            transform: scale(3.5); 
-            position: relative; 
-            z-index: 10; 
-            border-color: var(--primary); 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+        .search-bar { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 250px; }
+        
+        .btn { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; color: white; text-decoration: none; font-size: 0.9rem; margin-left: 5px;}
+        .btn-green { background: #27ae60; }
+        .btn-blue { background: var(--primary); }
+        .btn-red { background: #e74c3c; }
 
-        /* Empty State */
-        .no-records {
-            text-align: center;
-            padding: 60px;
-            color: #999;
-            font-style: italic;
-            background: white;
-            border-radius: 10px;
-        }
+        /* Table */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th { background: var(--primary); color: white; padding: 15px; text-align: left; }
+        td { padding: 12px 15px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f9f9f9; }
+        
+        .sig-img { height: 40px; border: 1px solid #ddd; transition: 0.2s; background:white; }
+        .sig-img:hover { transform: scale(3); position: relative; z-index: 10; border-color: var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        /* --- MOBILE RESPONSIVE (Card View) --- */
-        @media (max-width: 768px) {
-            body { padding: 15px; }
-            .container { padding: 20px; }
-
-            .action-bar { flex-direction: column; align-items: stretch; }
-            .btn-group { justify-content: space-between; }
-            .btn { flex: 1; justify-content: center; text-align: center; }
-
-            /* Table to Cards Transformation */
-            thead { display: none; } 
-            
-            table, tbody, tr, td { display: block; width: 100%; }
-            
-            tr {
-                margin-bottom: 15px;
-                background: white;
-                border-radius: 10px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-                border: 1px solid #eee;
-                overflow: hidden;
-            }
-
-            td {
-                text-align: right;
-                padding-left: 50%;
-                position: relative;
-                border-bottom: 1px solid #f1f1f1;
-                font-size: 0.95rem;
-            }
-
-            td:last-child { border-bottom: none; }
-
-            /* Add label before content using data-label attribute */
-            td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 15px;
-                width: 40%;
-                text-align: left;
-                font-weight: 600;
-                color: var(--primary);
-                font-size: 0.85rem;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-
-            .sig-img { height: 50px; }
-            .sig-img:hover { transform: scale(2); } /* Less zoom on mobile */
+        /* Mobile Cards */
+        @media(max-width:768px) {
+            thead { display: none; }
+            tr { display: block; margin-bottom: 15px; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+            td { display: block; text-align: right; padding-left: 50%; position: relative; }
+            td::before { content: attr(data-label); position: absolute; left: 15px; font-weight: bold; color: var(--primary); }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        
-        <h2 class="header-title">📋 Registered Personnel</h2>
-
-        <!-- Action Bar: Search + Buttons -->
-        <div class="action-bar">
-            <!-- Search Input -->
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Search by Name or Department...">
-            </div>
-
-            <!-- Buttons -->
-            <div class="btn-group">
-                <button onclick="exportToExcel()" class="btn btn-excel">⬇ Export Excel</button>
-                <a href="Home.html" class="btn btn-new">+ New Entry</a>
-                <button onclick="deleteAll()" class="btn btn-clear">🗑 Clear All</button>
+        <div class="header">
+            <h2>📋 Records</h2>
+            <input type="text" id="searchInput" class="search-bar" placeholder="Search name...">
+            <div>
+                <button onclick="exportCSV()" class="btn btn-green">Export Excel</button>
+                <a href="index.html" class="btn btn-blue">+ New</a>
+                <button onclick="deleteAll()" class="btn btn-red">Clear All</button>
             </div>
         </div>
-
-        <!-- Data Table -->
-        <div class="table-wrapper">
+        
+        <div class="table-wrap">
             <table id="recordsTable">
                 <thead>
                     <tr>
-                        <th>Full Name</th>
-                        <th>Department</th>
-                        <th>Section</th>
-                        <th>Date Registered</th>
-                        <th>Signature</th>
-                        <th>Action</th>
+                        <th>Full Name</th> <th>Dept</th> <th>Section</th> <th>Date</th> <th>Signature</th> <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                    <!-- Rows inserted via records.js -->
-                </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
-        
-        <!-- Empty State Message -->
-        <div id="emptyMsg" class="no-records" style="display:none;">
-            <div style="font-size: 2rem; margin-bottom: 10px;">📭</div>
-            No records found. <br> <small>Go to "New Entry" to add someone.</small>
-        </div>
-
+        <p id="emptyMsg" style="text-align:center; padding:20px; display:none;">No records found.</p>
     </div>
-
-    <!-- Link to Logic -->
-    <script src="records.js"></script>
-
+    <script src="js/records.js"></script>
 </body>
 </html>
