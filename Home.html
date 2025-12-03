@@ -4,362 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Personnel Registration</title>
-    <!-- Modern Font -->
+    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
     <style>
-        /* --- CSS VARIABLES & RESET --- */
+        /* --- CSS VARIABLES & THEME --- */
         :root {
             --primary: #4e54c8;
             --secondary: #8f94fb;
             --accent: #ff6b6b;
             --glass-bg: rgba(255, 255, 255, 0.9);
-            --glass-border: rgba(255, 255, 255, 0.5);
             --text-main: #2d3436;
-            --text-light: #636e72;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
+        
         body {
-            background: #4e54c8;  
-            background: linear-gradient(to left, #8f94fb, #4e54c8);  
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            display: flex; justify-content: center; align-items: center; padding: 20px;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* --- ANIMATED BACKGROUND --- */
-        .circles {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden;
-            z-index: 0; /* Behind everything */
-            pointer-events: none;
-        }
-        .circles li {
-            position: absolute;
-            display: block;
-            list-style: none;
-            width: 20px; height: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            animation: animate 25s linear infinite;
-            bottom: -150px;
-        }
-        .circles li:nth-child(1){ left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
-        .circles li:nth-child(2){ left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
-        .circles li:nth-child(3){ left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
-        .circles li:nth-child(4){ left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
-        .circles li:nth-child(5){ left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
-        .circles li:nth-child(6){ left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
-        .circles li:nth-child(7){ left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
-        .circles li:nth-child(8){ left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
-        .circles li:nth-child(9){ left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
-        .circles li:nth-child(10){ left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
-
-        @keyframes animate {
-            0%{ transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
-            100%{ transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
-        }
-
-        /* --- GLASSMORPHISM CARD --- */
+        /* Glass Card */
         .card {
             background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.3);
-            width: 100%;
-            max-width: 650px;
-            padding: 40px;
-            position: relative;
-            z-index: 10; /* Above background */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            width: 100%; max-width: 650px; padding: 40px;
             animation: slideUp 0.8s ease-out;
         }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- HEADER & CLOCK --- */
         header { text-align: center; margin-bottom: 30px; }
-        
-        h2 { 
-            color: var(--primary); 
-            font-weight: 700; 
-            letter-spacing: 0.5px; 
-            margin-bottom: 8px;
-            font-size: 1.8rem;
-        }
-        
-        .clock-badge {
-            background: #f1f2f6;
-            color: var(--text-light);
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-            border: 1px solid #e1e1e1;
-        }
+        h2 { color: var(--primary); font-weight: 700; }
+        .clock-badge { background: #f1f2f6; padding: 5px 15px; border-radius: 50px; font-size: 0.85rem; color: #555; display: inline-block; margin-top:5px;}
 
-        /* --- FORM GRID & FLOATING LABELS --- */
+        /* Form */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .full-width { grid-column: span 2; }
-
+        
         .input-group { position: relative; margin-bottom: 5px; }
-
         .input-field {
-            width: 100%;
-            padding: 14px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            outline: none;
-            background: rgba(255,255,255,0.8);
-            font-size: 1rem;
-            transition: all 0.3s;
-            color: var(--text-main);
-            font-weight: 500;
+            width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 10px;
+            outline: none; transition: 0.3s; background: rgba(255,255,255,0.8);
         }
-
+        .input-field:focus { border-color: var(--primary); background: #fff; }
+        
         .input-label {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            pointer-events: none;
-            transition: 0.3s ease all;
-            background: transparent;
-            padding: 0 5px;
-            font-size: 0.95rem;
+            position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+            color: #999; pointer-events: none; transition: 0.3s;
+        }
+        .input-field:focus ~ .input-label, .input-field:not(:placeholder-shown) ~ .input-label {
+            top: 0; font-size: 0.75rem; color: var(--primary); background: white; padding: 0 5px; font-weight: 700;
         }
 
-        /* Focus Effects */
-        .input-field:focus {
-            border-color: var(--primary);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(78, 84, 200, 0.1);
-        }
-
-        /* Label Movement Logic */
-        .input-field:focus ~ .input-label,
-        .input-field:not(:placeholder-shown) ~ .input-label {
-            top: 0;
-            font-size: 0.75rem;
-            color: var(--primary);
-            font-weight: 700;
-            background: white;
-            border-radius: 4px;
-            padding: 0 4px;
-        }
-
-        /* --- SIGNATURE PAD --- */
-        .sig-container-box {
-            margin-top: 10px;
-        }
-
-        .sig-label {
-            font-size: 0.85rem; 
-            color: var(--text-light); 
-            font-weight: 700; 
-            margin-bottom: 8px; 
-            display:block;
-        }
-
+        /* Signature */
         .sig-wrapper {
-            border: 2px dashed #ccc;
-            border-radius: 12px;
-            position: relative;
-            background: #fff;
-            overflow: hidden;
-            transition: 0.3s;
-            height: 180px;
+            border: 2px dashed #bbb; border-radius: 10px; height: 180px;
+            background: #fff; cursor: crosshair; overflow: hidden;
         }
-        .sig-wrapper:hover, .sig-wrapper:active { 
-            border-color: var(--primary); 
-            background: #fafafa;
-        }
+        canvas { width: 100%; height: 100%; display: block; touch-action: none; }
         
-        canvas { 
-            display: block; 
-            width: 100%; 
-            height: 100%; 
-            cursor: crosshair;
-            /* CRITICAL FIX FOR MOBILE: Prevents page scrolling when signing */
-            touch-action: none; 
-        }
-
-        .sig-tools {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 8px;
-        }
-        
-        .clear-btn {
-            color: var(--accent);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: 0.2s;
-            text-decoration: underline;
-        }
-        .clear-btn:hover { color: #d63031; }
-
-        /* --- SUBMIT BUTTON --- */
         .btn-register {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
-            margin-top: 25px;
-            letter-spacing: 0.5px;
+            width: 100%; padding: 15px; background: linear-gradient(to right, var(--primary), var(--secondary));
+            border: none; border-radius: 10px; color: white; font-size: 1.1rem; font-weight: bold;
+            cursor: pointer; margin-top: 20px; transition: 0.3s;
         }
-        .btn-register:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 20px rgba(78, 84, 200, 0.5); 
-        }
-        .btn-register:active { transform: scale(0.98); }
+        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4); }
 
-        /* --- TOAST & MODAL --- */
-        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; }
-        .toast {
-            background: white; padding: 15px 25px; border-radius: 10px;
-            margin-bottom: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            display: flex; align-items: center; animation: slideInRight 0.5s ease;
-            border-left: 5px solid #ccc; font-size: 0.9rem;
-        }
-        .toast.success { border-left-color: #2ecc71; }
+        .clear-btn { background: none; border: none; color: var(--accent); cursor: pointer; float: right; margin-top: 5px; font-size: 0.85rem; }
+
+        /* Toast */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 999; }
+        .toast { background: white; padding: 15px 25px; border-radius: 8px; margin-bottom: 10px; border-left: 5px solid #2ecc71; box-shadow: 0 5px 15px rgba(0,0,0,0.1); animation: slideIn 0.5s; }
         .toast.error { border-left-color: var(--accent); }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 3000;
-            justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: white; padding: 40px; border-radius: 20px;
-            text-align: center; width: 90%; max-width: 400px;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        /* --- MOBILE ADJUSTMENTS --- */
-        @media (max-width: 600px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .full-width { grid-column: span 1; }
-            .card { padding: 30px 20px; margin: 15px; }
-            h2 { font-size: 1.5rem; }
-        }
+        @media(max-width:600px){ .form-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
     </style>
 </head>
 <body>
-
-    <!-- Animated Background -->
-    <ul class="circles">
-        <li></li><li></li><li></li><li></li><li></li>
-        <li></li><li></li><li></li><li></li><li></li>
-    </ul>
-
     <div class="card">
         <header>
-            <h2>Employee Registration</h2>
-            <div id="liveClock" class="clock-badge">Loading...</div>
+            <h2>Registration Form</h2>
+            <div id="liveClock" class="clock-badge">--:--:--</div>
         </header>
 
         <form id="regForm" novalidate>
             <div class="form-grid">
-                <!-- First Name -->
                 <div class="input-group">
                     <input type="text" id="fname" class="input-field" placeholder=" " required autocomplete="off">
                     <label class="input-label">First Name</label>
                 </div>
-                
-                <!-- Middle Name -->
                 <div class="input-group">
                     <input type="text" id="mname" class="input-field" placeholder=" " autocomplete="off">
                     <label class="input-label">Middle Name</label>
                 </div>
-                
-                <!-- Last Name -->
                 <div class="input-group full-width">
                     <input type="text" id="lname" class="input-field" placeholder=" " required autocomplete="off">
                     <label class="input-label">Last Name</label>
                 </div>
-
-                <!-- Department -->
                 <div class="input-group">
-                    <select id="dept" class="input-field" required style="color: #333">
+                    <select id="dept" class="input-field" required>
                         <option value="" disabled selected></option>
-                        <option value="IT">IT Department</option>
-                        <option value="HR">Human Resources</option>
-                        <option value="Finance">Finance / Accounting</option>
-                        <option value="Sales">Sales & Marketing</option>
-                        <option value="Operations">Operations / Logistics</option>
-                        <option value="Executive">Executive Office</option>
+                        <option value="IT">IT Dept</option>
+                        <option value="HR">HR Dept</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Operations">Operations</option>
                     </select>
                     <label class="input-label">Department</label>
                 </div>
-
-                <!-- Section -->
                 <div class="input-group">
                     <input type="text" id="section" class="input-field" placeholder=" " required autocomplete="off">
-                    <label class="input-label">Section / Unit</label>
+                    <label class="input-label">Section</label>
                 </div>
-
-                <!-- Signature -->
-                <div class="full-width sig-container-box">
-                    <label class="sig-label">Digital Signature (Sign Here)</label>
+                <div class="full-width">
+                    <label style="font-size:0.85rem; color:#666; font-weight:600;">Digital Signature</label>
                     <div class="sig-wrapper" id="sigContainer">
                         <canvas id="sigCanvas"></canvas>
                     </div>
-                    <div class="sig-tools">
-                        <button type="button" class="clear-btn" id="clearSig">Reset Signature</button>
-                    </div>
+                    <button type="button" class="clear-btn" id="clearSig">Clear Signature</button>
                 </div>
             </div>
-
-            <button type="submit" class="btn-register">Complete Registration</button>
+            <button type="submit" class="btn-register">Submit Registration</button>
         </form>
     </div>
-
-    <!-- Toast Container -->
     <div id="toast-container"></div>
-
-    <!-- Success Modal -->
-    <div id="successModal" class="modal">
-        <div class="modal-content">
-            <div style="font-size: 3.5rem; margin-bottom: 15px;">🎉</div>
-            <h3 style="color: var(--primary); margin-bottom: 10px;">Registered!</h3>
-            <p style="color: #666;">Data saved successfully.</p>
-            <p style="font-size: 0.9rem; color: #999; margin-top: 5px;">Redirecting to records...</p>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT CONNECTION -->
-    <!-- Placing script here ensures HTML is loaded before JS runs -->
-    <script src="extension.js"></script>
-
+    <script src="js/extension.js"></script>
 </body>
 </html>
