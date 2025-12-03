@@ -2,413 +2,290 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Registration System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Advanced Registration System</title>
     <style>
-        /* --- CSS3 ADVANCED STYLING --- */
+        /* --- ADVANCED CSS3 & UI/UX --- */
         :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #50e3c2;
-            --bg-color: #f4f7f6;
-            --text-color: #333;
-            --card-bg: #ffffff;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --primary: #4e54c8;
+            --secondary: #8f94fb;
+            --accent: #ff6b6b;
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-main: #2d3436;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 20px;
+            overflow-x: hidden;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        /* Glassmorphism Container */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 20px;
             box-shadow: var(--shadow);
             width: 100%;
-            max-width: 700px;
+            max-width: 650px;
             padding: 40px;
-            overflow: hidden;
-            animation: slideIn 0.6s ease-out;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: floatUp 0.8s forwards ease-out;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes floatUp {
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 20px;
-        }
-
-        header h2 {
-            color: #333;
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .datetime-display {
-            font-size: 0.9rem;
-            color: #666;
-            font-weight: 600;
-            background: #eee;
+        header { text-align: center; margin-bottom: 30px; }
+        h2 { color: var(--primary); font-weight: 700; letter-spacing: 1px; }
+        
+        .clock-badge {
+            background: #f1f2f6;
+            color: var(--text-main);
             padding: 5px 15px;
             border-radius: 50px;
-            display: inline-block;
-        }
-
-        /* Form Grid Layout */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .full-width {
-            grid-column: span 2;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
+            font-size: 0.85rem;
             font-weight: 600;
-            color: #555;
-            font-size: 0.9rem;
+            margin-top: 10px;
+            display: inline-block;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        input, select {
+        /* Floating Label Form System */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+
+        .input-group { position: relative; margin-bottom: 5px; }
+
+        .input-field {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e1e1;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            padding: 15px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
             outline: none;
+            background: transparent;
+            font-size: 1rem;
+            transition: 0.3s;
+            color: var(--text-main);
         }
 
-        input:focus, select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        .input-label {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+            transition: 0.3s ease all;
+            background: white;
+            padding: 0 5px;
         }
 
-        /* Signature Pad Styling */
-        .signature-area {
+        /* Magic: Move label up on focus or if valid (has text) */
+        .input-field:focus, .input-field:not(:placeholder-shown) {
+            border-color: var(--primary);
+        }
+        .input-field:focus ~ .input-label,
+        .input-field:not(:placeholder-shown) ~ .input-label {
+            top: 0;
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Signature Pad */
+        .sig-wrapper {
             border: 2px dashed #ccc;
             border-radius: 10px;
-            background-color: #fff;
             position: relative;
-            height: 200px;
-            margin-bottom: 10px;
+            background: #fff;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .sig-wrapper:hover { border-color: var(--primary); }
+        
+        canvas { 
+            display: block; 
+            width: 100%; 
+            height: 180px; 
             cursor: crosshair;
+            /* Critical for mobile: stops page scrolling while signing */
+            touch-action: none; 
         }
 
-        canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .sig-controls {
+        .sig-tools {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 20px;
+            margin-top: 5px;
         }
-
-        .btn-clear {
-            background: #ff6b6b;
-            color: white;
+        .clear-btn {
+            color: var(--accent);
+            background: none;
             border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        .btn-submit {
-            background: linear-gradient(to right, #4a90e2, #50e3c2);
-            color: white;
-            border: none;
+        /* Button */
+        .btn-register {
             width: 100%;
             padding: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 10px;
+            color: white;
             font-size: 1.1rem;
             font-weight: bold;
-            border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
         }
+        .btn-register:active { transform: scale(0.98); }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        /* Toast Notifications */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
         }
-
-        /* Result Card (Hidden by default) */
-        #resultCard {
-            display: none;
-            margin-top: 30px;
+        .toast {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 700px;
-            position: relative;
-        }
-
-        #resultCard h3 {
-            color: var(--primary-color);
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .result-row {
-            display: flex;
-            justify-content: space-between;
+            padding: 15px 25px;
+            border-radius: 10px;
             margin-bottom: 10px;
-            border-bottom: 1px solid #f9f9f9;
-            padding-bottom: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            animation: slideInRight 0.5s ease;
+            border-left: 5px solid #ccc;
         }
-
-        .result-sig {
-            text-align: right;
-            margin-top: 15px;
-        }
+        .toast.success { border-left-color: #2ecc71; }
+        .toast.error { border-left-color: var(--accent); }
         
-        .result-sig img {
-            max-height: 80px;
-            border: 1px solid #eee;
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        /* Mobile Responsiveness */
+        /* Modal for Success */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal img { width: 80px; margin-bottom: 15px; }
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Mobile Adjustments */
         @media (max-width: 600px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .full-width {
-                grid-column: span 1;
-            }
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .card { padding: 25px; margin: 10px; }
         }
     </style>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container">
+    <div class="card">
         <header>
-            <h2>Employee Registration</h2>
-            <div class="datetime-display" id="clock">Loading Date/Time...</div>
+            <h2>Registration Form</h2>
+            <div id="liveClock" class="clock-badge">--:--:--</div>
         </header>
 
-        <form id="regForm">
+        <form id="regForm" novalidate>
             <div class="form-grid">
-                <!-- Name Section -->
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" placeholder="John" required>
+                <div class="input-group">
+                    <input type="text" id="fname" class="input-field" placeholder=" " required>
+                    <label class="input-label">First Name</label>
                 </div>
-                <div class="form-group">
-                    <label for="middleName">Middle Name</label>
-                    <input type="text" id="middleName" placeholder="D.">
+                <div class="input-group">
+                    <input type="text" id="mname" class="input-field" placeholder=" ">
+                    <label class="input-label">Middle Name</label>
                 </div>
-                <div class="form-group full-width">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" placeholder="Doe" required>
+                <div class="input-group full-width">
+                    <input type="text" id="lname" class="input-field" placeholder=" " required>
+                    <label class="input-label">Last Name</label>
                 </div>
 
-                <!-- Department Section -->
-                <div class="form-group">
-                    <label for="department">Department</label>
-                    <select id="department" required>
-                        <option value="" disabled selected>Select Department</option>
-                        <option value="IT">Information Technology</option>
-                        <option value="HR">Human Resources</option>
+                <div class="input-group">
+                    <!-- Standard Select styled to match -->
+                    <select id="dept" class="input-field" required style="color: #333">
+                        <option value="" disabled selected></option>
+                        <option value="IT">IT Dept</option>
+                        <option value="HR">HR Dept</option>
                         <option value="Finance">Finance</option>
-                        <option value="Operations">Operations</option>
-                        <option value="Marketing">Marketing</option>
+                        <option value="Sales">Sales</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label for="section">Section / Unit</label>
-                    <input type="text" id="section" placeholder="e.g. Web Dev" required>
+                    <label class="input-label">Department</label>
                 </div>
 
-                <!-- Electronic Signature -->
-                <div class="form-group full-width">
-                    <label>Electronic Signature</label>
-                    <div class="signature-area" id="sigContainer">
+                <div class="input-group">
+                    <input type="text" id="section" class="input-field" placeholder=" " required>
+                    <label class="input-label">Section</label>
+                </div>
+
+                <div class="full-width">
+                    <label style="font-size: 0.85rem; color: #666; font-weight: 600; margin-left: 5px;">Digital Signature</label>
+                    <div class="sig-wrapper" id="sigContainer">
                         <canvas id="sigCanvas"></canvas>
                     </div>
-                    <div class="sig-controls">
-                        <button type="button" class="btn-clear" onclick="clearCanvas()">Clear Signature</button>
+                    <div class="sig-tools">
+                        <button type="button" class="clear-btn" id="clearSig">Clear Signature</button>
                     </div>
                 </div>
-
-                <!-- Hidden inputs for auto-data -->
-                <input type="hidden" id="regDate">
-                <input type="hidden" id="regTime">
             </div>
-
-            <button type="submit" class="btn-submit">Register User</button>
+            <br>
+            <button type="submit" class="btn-register">Complete Registration</button>
         </form>
     </div>
 
-    <!-- Output Visualization (Digital ID Card) -->
-    <div id="resultCard">
-        <h3>Registration Successful</h3>
-        <div class="result-row"><strong>Name:</strong> <span id="resName"></span></div>
-        <div class="result-row"><strong>Department:</strong> <span id="resDept"></span></div>
-        <div class="result-row"><strong>Section:</strong> <span id="resSection"></span></div>
-        <div class="result-row"><strong>Registered On:</strong> <span id="resDateTime"></span></div>
-        
-        <div class="result-sig">
-            <p><small>Authorized Signature:</small></p>
-            <img id="resSigImage" src="" alt="Signature">
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div style="font-size: 3rem;">🎉</div>
+            <h3 style="color: var(--primary);">Success!</h3>
+            <p>Registration completed.</p>
+            <p style="font-size:0.8rem; color:#888; margin-top:5px;">Duplicate check passed.</p>
+            <br>
+            <button class="btn-register" onclick="location.reload()" style="padding:10px;">Register New</button>
         </div>
     </div>
 
-    <script>
-        /* --- JAVASCRIPT LOGIC --- */
-
-        // 1. Auto Date and Time Clock
-        function updateClock() {
-            const now = new Date();
-            const dateString = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            const timeString = now.toLocaleTimeString();
-            document.getElementById('clock').textContent = `${dateString} | ${timeString}`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock(); // Initial call
-
-        // 2. Canvas Signature Logic
-        const canvas = document.getElementById('sigCanvas');
-        const ctx = canvas.getContext('2d');
-        const container = document.getElementById('sigContainer');
-        let isDrawing = false;
-
-        // Resize canvas to fit container properly
-        function resizeCanvas() {
-            canvas.width = container.offsetWidth;
-            canvas.height = container.offsetHeight;
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = '#000';
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas(); // Initial call
-
-        // Get Mouse/Touch Position
-        function getPos(canvas, evt) {
-            const rect = canvas.getBoundingClientRect();
-            return {
-                x: (evt.clientX || evt.touches[0].clientX) - rect.left,
-                y: (evt.clientY || evt.touches[0].clientY) - rect.top
-            };
-        }
-
-        // Start Drawing
-        function startDraw(e) {
-            isDrawing = true;
-            const pos = getPos(canvas, e);
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
-            e.preventDefault(); // Prevent scrolling on touch
-        }
-
-        // Draw Movement
-        function draw(e) {
-            if (!isDrawing) return;
-            const pos = getPos(canvas, e);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-            e.preventDefault();
-        }
-
-        // Stop Drawing
-        function stopDraw() {
-            isDrawing = false;
-        }
-
-        // Event Listeners for Mouse
-        canvas.addEventListener('mousedown', startDraw);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDraw);
-        canvas.addEventListener('mouseleave', stopDraw);
-
-        // Event Listeners for Touch (Mobile)
-        canvas.addEventListener('touchstart', startDraw, { passive: false });
-        canvas.addEventListener('touchmove', draw, { passive: false });
-        canvas.addEventListener('touchend', stopDraw);
-
-        // Clear Canvas Function
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        // Check if canvas is empty
-        function isCanvasBlank(canvas) {
-            const blank = document.createElement('canvas');
-            blank.width = canvas.width;
-            blank.height = canvas.height;
-            return canvas.toDataURL() === blank.toDataURL();
-        }
-
-        // 3. Form Submission Logic
-        document.getElementById('regForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Stop actual server submission for demo
-
-            // Validation: Check signature
-            if (isCanvasBlank(canvas)) {
-                alert('Please provide your signature.');
-                return;
-            }
-
-            // Capture Data
-            const fname = document.getElementById('firstName').value;
-            const mname = document.getElementById('middleName').value;
-            const lname = document.getElementById('lastName').value;
-            const dept = document.getElementById('department').value;
-            const section = document.getElementById('section').value;
-            
-            // Capture Timestamp
-            const now = new Date();
-            const timeStamp = now.toLocaleString();
-
-            // Display Result
-            document.getElementById('resName').textContent = `${fname} ${mname} ${lname}`;
-            document.getElementById('resDept').textContent = dept;
-            document.getElementById('resSection').textContent = section;
-            document.getElementById('resDateTime').textContent = timeStamp;
-
-            // Convert Signature to Image
-            const dataURL = canvas.toDataURL();
-            document.getElementById('resSigImage').src = dataURL;
-
-            // Show Result Card
-            const resultCard = document.getElementById('resultCard');
-            resultCard.style.display = 'block';
-            
-            // Scroll to result
-            resultCard.scrollIntoView({ behavior: 'smooth' });
-        });
-    </script>
+    <!-- Link to the Extension JS -->
+    <script src="js/extension.js"></script>
 </body>
 </html>
