@@ -120,6 +120,33 @@ document.addEventListener("DOMContentLoaded", () => {
         blank.height = canvas.height;
         return canvas.toDataURL() === blank.toDataURL();
     }
+    
+    // *** NEW HELPER FUNCTION: Reset the form ***
+    function resetRegistrationForm() {
+        // Reset text inputs
+        document.getElementById("fname").value = "";
+        document.getElementById("mname").value = "";
+        document.getElementById("lname").value = "";
+        document.getElementById("section").value = "";
+        
+        // Reset department select (to the first disabled option)
+        const deptSelect = document.getElementById("dept");
+        deptSelect.selectedIndex = 0;
+        
+        // Clear the signature canvas
+        if (ctx && canvas) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Hide the success modal
+        const successModal = document.getElementById("successModal");
+        if(successModal) successModal.style.display = "none";
+
+        // Optional: Reset focus for the next entry
+        document.getElementById("fname").focus();
+    }
+    // ------------------------------------------
+
 
     // --- 4. FORM SUBMISSION ---
     const form = document.getElementById("regForm");
@@ -184,18 +211,18 @@ document.addEventListener("DOMContentLoaded", () => {
             registrants.push(newRecord);
             localStorage.setItem("registrants", JSON.stringify(registrants));
 
-            // E. Success & Redirect
-            showToast("Registration Saved!", "success");
+            // E. Success & Return to Form (No Redirect)
+            showToast("Registration Saved! Ready for next entry.", "success");
             triggerConfetti();
 
             // Show Modal
             const successModal = document.getElementById("successModal");
             if(successModal) successModal.style.display = "flex";
 
-            // Redirect to records.html after 1.5s
+            // *** REPLACED REDIRECTION WITH FORM RESET ***
             setTimeout(() => {
-                window.location.href = "https://soulmaster32.github.io/AdminGA/Home.html";
-            }, 1500);
+                resetRegistrationForm();
+            }, 1500); // Wait 1.5s for the success message/confetti to display
         });
     }
 
