@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Redirect to records.html after 1.5s
             setTimeout(() => {
-                window.location.href = "../Home.html";
+                window.location.href = "https://soulmaster32.github.io/AdminGA/Home.html";
             }, 1500);
         });
     }
