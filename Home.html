@@ -2,307 +2,351 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Personnel Registration</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- THEME MATCHING RECORDS.HTML --- */
+        /* --- THEME VARIABLES --- */
         :root {
             --primary: #4e54c8;
+            --primary-dark: #3a3fb0;
             --secondary: #8f94fb;
             --accent: #ff6b6b;
+            --success: #00b894;
+            --bg-body: #eff3f8;
             --text-dark: #2d3436;
             --text-light: #636e72;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.6);
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
         body {
-            /* Same Gradient as Records Page - Perfect backdrop for snow/sparkles */
             background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            overflow-x: hidden;
-            position: relative;
         }
 
-        /* --- BACKGROUND ANIMATION (CHRISTMAS SNOW/SPARKLES) --- */
-        .circles {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; pointer-events: none;
-        }
-        .circles li {
-            position: absolute; display: block; list-style: none; width: 20px; height: 20px; 
-            /* Updated for Snow/Sparkle Effect */
-            background: rgba(255, 255, 255, 0.8); /* Whiter, more opaque */
-            border-radius: 50%; /* Always round for a flake/orb */
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Subtle glow */
-            animation: animate 25s linear infinite; 
-            bottom: -150px;
-        }
-        /* Increased density and varied sizes for a better snow/sparkle effect */
-        .circles li:nth-child(1){ left: 25%; width: 90px; height: 90px; animation-delay: 0s; }
-        .circles li:nth-child(2){ left: 10%; width: 25px; height: 25px; animation-delay: 2s; animation-duration: 12s; }
-        .circles li:nth-child(3){ left: 70%; width: 30px; height: 30px; animation-delay: 4s; }
-        .circles li:nth-child(4){ left: 40%; width: 70px; height: 70px; animation-delay: 0s; animation-duration: 18s; }
-        .circles li:nth-child(5){ left: 65%; width: 25px; height: 25px; animation-delay: 0s; }
-        .circles li:nth-child(6){ left: 80%; width: 50px; height: 50px; animation-delay: 3s; animation-duration: 20s; }
-        .circles li:nth-child(7){ left: 5%; width: 35px; height: 35px; animation-delay: 7s; animation-duration: 15s; }
-        .circles li:nth-child(8){ left: 50%; width: 15px; height: 15px; animation-delay: 1s; animation-duration: 10s; }
-        .circles li:nth-child(9){ left: 90%; width: 60px; height: 60px; animation-delay: 5s; animation-duration: 25s; }
-
-        @keyframes animate {
-            0%{ transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 50%; } /* Start round */
-            100%{ transform: translateY(-1200px) rotate(720deg); opacity: 0; border-radius: 50%; } /* End round, increased height */
-        }
-
-        /* --- GLASS CARD --- */
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            width: 100%;
+        /* --- CARD CONTAINER --- */
+        .card-wrapper {
             max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             padding: 40px;
-            position: relative;
-            z-index: 10;
-            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-top: 10px; /* Space for toast container */
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- HEADER --- */
-        header { text-align: center; margin-bottom: 35px; }
-        h2 { color: var(--primary); font-weight: 700; font-size: 1.8rem; margin-bottom: 5px; }
-        
-        .clock-badge {
-            background: rgba(255,255,255,0.6);
-            border: 1px solid rgba(255,255,255,0.8);
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f1f2f6;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            color: var(--primary-dark);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .header p {
             color: var(--text-light);
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .live-clock {
+            color: var(--text-light);
+            font-size: 1rem;
             font-weight: 500;
+            margin-top: 15px;
+            padding: 8px 15px;
+            background: #f1f2f6;
+            border-radius: 8px;
             display: inline-block;
         }
 
-        /* --- FORM STYLING --- */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .full-width { grid-column: span 2; }
+        /* --- FORM STYLES --- */
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-        .input-group { position: relative; margin-bottom: 5px; }
-
-        .input-field {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid transparent;
-            background: white;
-            border-radius: 12px;
-            outline: none;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            color: var(--text-dark);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        label {
+            display: block;
+            margin-bottom: 8px;
             font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.95rem;
         }
 
-        .input-label {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            pointer-events: none;
-            transition: 0.3s ease all;
-            font-size: 0.9rem;
-            background: transparent;
+        .input-group {
+            display: flex;
+            gap: 15px;
         }
 
-        /* Floating Label Logic */
-        .input-field:focus, .input-field:not(:placeholder-shown) {
+        .input-group > div {
+            flex-grow: 1;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            outline: none;
+            background: var(--white);
+        }
+
+        input[type="text"]:focus, select:focus {
             border-color: var(--secondary);
-            box-shadow: 0 0 0 4px rgba(143, 148, 251, 0.15);
+            box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.2);
         }
-        .input-field:focus ~ .input-label,
-        .input-field:not(:placeholder-shown) ~ .input-label {
-            top: -10px;
-            left: 10px;
-            font-size: 0.75rem;
-            color: var(--primary);
-            font-weight: 700;
-            background: var(--glass-bg);
-            padding: 0 5px;
-            border-radius: 4px;
+
+        /* Required Asterisk */
+        label.required::after {
+            content: " *";
+            color: var(--accent);
         }
 
         /* --- SIGNATURE PAD --- */
-        .sig-container-box { margin-top: 15px; }
-        .sig-label {
-            font-size: 0.85rem; color: var(--text-light); font-weight: 600; margin-bottom: 8px; display:block;
-        }
-
-        .sig-wrapper {
+        .sig-container {
             border: 2px dashed #ccc;
-            border-radius: 12px;
+            border-radius: 10px;
+            height: 150px;
             position: relative;
-            background: rgba(255,255,255,0.8);
-            overflow: hidden;
-            transition: 0.3s;
-            height: 180px;
-        }
-        .sig-wrapper:hover { border-color: var(--primary); background: white; }
-        
-        canvas { 
-            display: block; width: 100%; height: 100%; 
-            cursor: crosshair; touch-action: none; /* Stops mobile scroll */
+            background: #fafafa;
+            margin-bottom: 10px;
+            cursor: crosshair;
         }
 
-        .clear-btn {
-            color: var(--accent); background: none; border: none; cursor: pointer;
-            font-size: 0.85rem; font-weight: 600; text-decoration: underline; margin-top: 8px; float: right;
-        }
-
-        /* --- BUTTON --- */
-        .btn-register {
+        .sig-container canvas {
+            display: block;
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 14px;
+            height: 100%;
+        }
+
+        .sig-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .btn-clear {
+            background: var(--accent);
             color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-clear:hover { background: #e85a5a; }
+
+        /* --- SUBMIT BUTTON --- */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(78, 84, 200, 0.3);
-            margin-top: 25px;
-            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
         }
-        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(78, 84, 200, 0.4); }
-        .btn-register:active { transform: scale(0.98); }
 
-        /* --- TOAST & MODAL --- */
-        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; }
+        .btn-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(78, 84, 200, 0.5);
+        }
+        .btn-submit:active { transform: scale(0.98); }
+
+        .btn-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .btn-link:hover { color: var(--primary-dark); }
+
+
+        /* --- TOAST NOTIFICATIONS --- */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
         .toast {
-            background: white; padding: 15px 25px; border-radius: 12px; margin-bottom: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; align-items: center;
-            animation: slideIn 0.5s ease; border-left: 5px solid #ccc; font-weight: 500;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            opacity: 1;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
-        .toast.success { border-left-color: #00b894; }
-        .toast.error { border-left-color: var(--accent); }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .toast.error { background-color: var(--accent); }
+        .toast.success { background-color: var(--success); }
 
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 3000;
-            justify-content: center; align-items: center;
+        /* --- SUCCESS MODAL --- */
+        #successModal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none; /* Controlled by JS */
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            animation: modalFadeIn 0.3s ease-out;
         }
+
         .modal-content {
-            background: white; padding: 40px; border-radius: 24px; text-align: center;
-            width: 90%; max-width: 380px; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 400px;
+            transform: scale(0.9);
+            animation: modalPop 0.3s forwards;
         }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* Mobile */
-        @media (max-width: 600px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .full-width { grid-column: span 1; }
-            .card { padding: 30px 20px; margin: 10px; }
+        .modal-content h3 {
+            color: var(--success);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .modal-content p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            color: var(--success);
+            display: block;
+            margin-bottom: 15px;
+            animation: bounce 0.8s ease-out;
+        }
+        
+        @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes modalPop { 
+            0% { transform: scale(0.8); opacity: 0; } 
+            100% { transform: scale(1); opacity: 1; } 
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+        }
+
+        /* --- MOBILE ADJUSTMENTS --- */
+        @media (max-width: 500px) {
+            .input-group {
+                flex-direction: column;
+            }
+            .card-wrapper {
+                padding: 25px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <ul class="circles">
-        <li></li><li></li><li></li><li></li><li></li>
-        <li></li><li></li><li></li><li></li>
-    </ul>
+    <div id="toast-container"></div>
 
-    <div class="card">
-        <header>
-            <h2>Christmas Registration</h2>
-            <div id="liveClock" class="clock-badge">Loading...</div>
-        </header>
+    <div class="card-wrapper">
 
-        <form id="regForm" novalidate>
-            <div class="form-grid">
-                <div class="input-group">
-                    <input type="text" id="fname" class="input-field" placeholder=" " required autocomplete="off">
-                    <label class="input-label">First Name</label>
+        <div class="header">
+            <h1>THPAL Christmas Registration</h1>
+            <p>Please provide your details below.</p>
+            <div id="liveClock" class="live-clock"></div>
+        </div>
+        
+        <form id="regForm">
+            
+            <div class="form-group input-group">
+                <div>
+                    <label for="fname" class="required">First Name</label>
+                    <input type="text" id="fname" name="fname" required>
                 </div>
-                
-                <div class="input-group">
-                    <input type="text" id="mname" class="input-field" placeholder=" " autocomplete="off">
-                    <label class="input-label">Middle Name</label>
-                </div>
-                
-                <div class="input-group full-width">
-                    <input type="text" id="lname" class="input-field" placeholder=" " required autocomplete="off">
-                    <label class="input-label">Last Name</label>
-                </div>
-
-                <div class="input-group full-width">
-                    <select id="dept" class="input-field" required style="color: #333">
-                        <option value="" disabled selected></option>
-                        <option value="HR">Administration / Human Resources</option>
-                        <option value="GA">Administration / General Affairs</option>
-                        <option value="LMR">Administration / Labor Management Relations</option>
-                        <option value="Accounting">Administration / Accounting</option>
-                        <option value="ComRel">Community Relations</option>
-                        <option value="Civil">Engineering / Civil</option>
-                        <option value="Electrical">Engineering / Electrical</option>
-                        <option value="Mechanical">Engineering / Mechanical</option>
-                        <option value="RM">Maintenance / Reliability Maintenance</option>
-                        <option value="SSaSC">Maintenance / SHE, Services and Supply Chain</option>
-                        <option value="Ms">Maintenance / Electrical and Instrument</option>
-                        <option value="I.T">Maintenance / Information Technology</option>
-                        <option value="OSH">Occupational Safety and Health (Health)</option>
-                        <option value="OSH">Occupational Safety and Health (Safety)</option>
-                        <option value="Procurement">Procurement and Logistics (Procurement)</option>
-                        <option value="Logistics">Procurement and Logistics (Logistics)</option>
-                        <option value="HPAL">Production Hpal</option>
-                        <option value="MS">Production MS</option>
-                        <option value="Scandium">Rare Metal (Scandium)</option>
-                        <option value="Chromite">Rare Metal (Chromite)</option> 
-                        <option value="Security">Security</option>
-                        <option value="Chromite">Technical (MEPEO)</option>
-                        <option value="Chromite">Technical (Laboratory)</option>
-                    </select>
-                    <label class="input-label">Department</label>
-                </div>
-                
-                <div class="full-width sig-container-box">
-                    <label class="sig-label">Digital Signature</label>
-                    <div class="sig-wrapper" id="sigContainer">
-                        <canvas id="sigCanvas"></canvas>
-                    </div>
-                    <button type="button" class="clear-btn" id="clearSig">Clear Signature</button>
+                <div>
+                    <label for="mname">Middle Name (Optional)</label>
+                    <input type="text" id="mname" name="mname">
                 </div>
             </div>
 
-            <button type="submit" class="btn-register">Register</button>
+            <div class="form-group">
+                <label for="lname" class="required">Last Name</label>
+                <input type="text" id="lname" name="lname" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dept" class="required">Department</label>
+                <select id="dept" name="dept" required>
+                    <option value="" disabled selected>Select Department</option>
+                    <option value="HR">Human Resources (HR)</option>
+                    <option value="IT">Information Technology (IT)</option>
+                    <option value="FIN">Finance</option>
+                    <option value="OPS">Operations</option>
+                    <option value="ENG">Engineering</option>
+                    </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="sigCanvas" class="required">Digital Signature</label>
+                <div id="sigContainer" class="sig-container">
+                    <canvas id="sigCanvas"></canvas>
+                </div>
+                <div class="sig-controls">
+                    <button type="button" id="clearSig" class="btn-clear">Clear</button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Register Attendance</button>
         </form>
+
+        <a href="records.html" class="btn-link">View All Registered Employees</a>
+
     </div>
 
-    <div id="toast-container"></div>
-    <div id="successModal" class="modal">
+    <div id="successModal">
         <div class="modal-content">
-            <div style="font-size: 3rem; margin-bottom: 15px;">🎉</div>
-            <h3 style="color: var(--primary); margin-bottom: 10px;">Success!</h3>
-            <p style="color: #666;">Registration complete.</p>
-            <p style="font-size: 0.9rem; color: #999; margin-top: 10px;">Redirecting to dashboard...</p>
+            <span class="modal-icon">🎉</span>
+            <h3>Registration Complete!</h3>
+            <p>Thank you for registering. Merry Christmas!</p>
+            <button onclick="document.getElementById('successModal').style.display='none';" class="btn-clear" style="background: var(--success);">Close</button>
         </div>
     </div>
 
