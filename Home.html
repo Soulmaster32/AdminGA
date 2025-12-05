@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Personnel Registration</title>
-    <!-- Modern Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -226,7 +225,6 @@
 </head>
 <body>
 
-    <!-- Animated Background (Updated for Christmas Snow/Sparkles) -->
     <ul class="circles">
         <li></li><li></li><li></li><li></li><li></li>
         <li></li><li></li><li></li><li></li>
@@ -240,7 +238,6 @@
 
         <form id="regForm" novalidate>
             <div class="form-grid">
-                <!-- Inputs -->
                 <div class="input-group">
                     <input type="text" id="fname" class="input-field" placeholder=" " required autocomplete="off">
                     <label class="input-label">First Name</label>
@@ -256,7 +253,7 @@
                     <label class="input-label">Last Name</label>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group full-width">
                     <select id="dept" class="input-field" required style="color: #333">
                         <option value="" disabled selected></option>
                         <option value="HR">Administration / Human Resources</option>
@@ -285,13 +282,7 @@
                     </select>
                     <label class="input-label">Department</label>
                 </div>
-
-                <div class="input-group">
-                    <input type="text" id="section" class="input-field" placeholder=" " required autocomplete="off">
-                    <label class="input-label">Section</label>
-                </div>
-
-                <!-- Signature -->
+                
                 <div class="full-width sig-container-box">
                     <label class="sig-label">Digital Signature</label>
                     <div class="sig-wrapper" id="sigContainer">
@@ -305,7 +296,6 @@
         </form>
     </div>
 
-    <!-- Toast & Modal -->
     <div id="toast-container"></div>
     <div id="successModal" class="modal">
         <div class="modal-content">
@@ -316,7 +306,6 @@
         </div>
     </div>
 
-    <!-- Logic Script -->
     <script src="js/extension.js"></script>
 
 </body>
