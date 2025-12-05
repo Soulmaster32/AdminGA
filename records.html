@@ -3,295 +3,694 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Records Database</title>
+    <title>THPAL - Christmas Party 2025</title>
     
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 (Popups) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    colors: {
+                        theme: {
+                            gold: '#C5A059',
+                            dark: '#0F172A',
+                            emerald: '#047857',
+                            light: '#F8FAFC',
+                            red: '#be123c'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* (Your CSS remains here, unchanged) */
-        :root {
-            --primary: #4e54c8;
-            --primary-dark: #3a3fb0;
-            --secondary: #8f94fb;
-            --accent: #ff6b6b;
-            --success: #00b894;
-            --bg-body: #eff3f8;
-            --text-dark: #2d3436;
-            --text-light: #636e72;
-            --white: #ffffff;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
         body {
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: var(--text-dark);
+            background-color: #f8fafc;
+            overflow-x: hidden;
         }
 
-        /* --- GLASS CONTAINER --- */
-        .dashboard-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            animation: fadeIn 0.8s ease-out;
-            min-height: 80vh;
+        /* --- Snowfall Animation --- */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: #cbd5e1;
+            font-size: 1em;
+            font-family: Arial;
+            text-shadow: 0 0 1px #000;
+            z-index: 0;
+            user-select: none;
+            cursor: default;
+            animation-name: snowflakes-fall, snowflakes-shake;
+            animation-duration: 10s, 3s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+            animation-play-state: running, running;
+            opacity: 0.6;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- HEADER SECTION --- */
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f1f2f6;
+        @keyframes snowflakes-fall {
+            0% { top: -10%; }
+            100% { top: 100%; }
         }
 
-        .title-group h2 { font-weight: 600; color: var(--primary); font-size: 1.8rem; }
-        .title-group p { color: var(--text-light); font-size: 0.9rem; }
-
-        .controls { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
-
-        /* Search Input */
-        .search-wrapper { position: relative; }
-        .search-input {
-            padding: 12px 20px 12px 40px;
-            border-radius: 50px;
-            border: 2px solid #e1e1e1;
-            outline: none;
-            width: 300px;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+        @keyframes snowflakes-shake {
+            0% { transform: translateX(0px); }
+            50% { transform: translateX(80px); }
+            100% { transform: translateX(0px); }
         }
-        .search-input:focus { border-color: var(--secondary); box-shadow: 0 0 0 4px rgba(143, 148, 251, 0.2); }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
 
-        /* Buttons */
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-size: 0.9rem;
+        /* --- Custom Scrollbar --- */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* --- Tab Animations --- */
+        .tab-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tab-active {
+            background: linear-gradient(135deg, #047857 0%, #064e3b 100%);
             color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 15px -3px rgba(4, 120, 87, 0.3);
+            transform: translateY(-2px);
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
-        .btn:active { transform: scale(0.98); }
-
-        .btn-export { background: var(--success); }
-        .btn-new { background: var(--primary); }
-        .btn-clear { background: var(--accent); }
-
-        /* --- TABLE DESIGN --- */
-        .table-container {
-            overflow-x: auto;
-            border-radius: 16px;
-            background: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        .tab-inactive {
+            background-color: white;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+        .tab-inactive:hover {
+            color: #047857;
+            border-color: #047857;
+            background-color: #f0fdf4;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px; 
-        }
-
-        thead {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        th {
-            padding: 18px 20px;
-            text-align: left;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-        }
-
-        td {
-            padding: 16px 20px;
-            border-bottom: 1px solid #f1f2f6;
-            color: var(--text-dark);
-            vertical-align: middle;
-        }
-
-        tbody tr {
-            transition: background 0.2s ease;
-            background: white;
-        }
-        
-        /* Zebra Striping & Hover */
-        tbody tr:nth-child(even) { background: #fafbfc; }
-        tbody tr:hover { background: #f0f4ff; transform: scale(1); }
-
-        /* Signature Image styling */
-        .sig-preview {
-            height: 40px;
-            width: auto;
-            border: 1px solid #e1e1e1;
-            border-radius: 4px;
-            padding: 2px;
-            background: white;
+        /* --- Table Interactions --- */
+        tr.record-row {
             transition: all 0.2s ease;
-            cursor: zoom-in;
         }
-        .sig-preview:hover {
-            transform: scale(3.5);
-            position: relative;
+        tr.record-row:hover {
+            background-color: #fff;
+            transform: scale(1.01);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             z-index: 10;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            border-color: var(--primary);
+            position: relative;
         }
 
-        /* Delete Button */
-        .btn-delete-row {
-            background: rgba(255, 107, 107, 0.1);
-            color: var(--accent);
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.8rem;
-            transition: 0.2s;
-        }
-        .btn-delete-row:hover { background: var(--accent); color: white; }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--text-light);
-            display: none;
-        }
-        .empty-state div { font-size: 3rem; margin-bottom: 10px; opacity: 0.5; }
-
-        /* --- MOBILE CARD VIEW --- */
-        @media (max-width: 850px) {
-            .header-section { flex-direction: column; align-items: stretch; }
-            .controls { flex-direction: column; }
-            .search-input { width: 100%; }
-            .btn { width: 100%; justify-content: center; }
-
-            /* Hide Table Header */
-            thead { display: none; }
-
-            /* Turn Rows into Cards */
-            tbody, tr, td { display: block; width: 100%; }
-
-            tr {
-                margin-bottom: 20px;
-                background: white;
-                border-radius: 16px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-                border: 1px solid #f0f0f0;
-                padding: 20px;
-                position: relative;
-            }
-
-            td {
-                text-align: right;
-                padding: 10px 0;
-                border-bottom: 1px dashed #eee;
-                position: relative;
-                padding-left: 50%;
-            }
-
-            td:last-child { border-bottom: none; padding-top: 15px; }
-
-            /* Add Labels via CSS */
-            td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 0;
-                top: 12px;
-                font-weight: 600;
-                color: var(--text-light);
-                font-size: 0.85rem;
-                text-transform: uppercase;
-            }
-
-            /* Signature on Mobile */
-            .sig-preview { height: 50px; }
-            .sig-preview:hover { transform: scale(1.5); }
+        /* --- Glassmorphism --- */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
         }
     </style>
 </head>
-<body>
+<body class="text-slate-700 font-sans min-h-screen relative">
 
-    <div class="dashboard-container">
+    <!-- Snow Container -->
+    <div id="snow-container" aria-hidden="true"></div>
+
+    <div class="max-w-7xl mx-auto p-4 lg:p-8 relative z-10">
         
-        <div class="header-section">
-            <div class="title-group">
-                <h2>THPAL Christmas Registration Record</h2>
-                <p> Merry Christmas and Advance Happy New Year.!!! </p>
+        <!-- Header Section -->
+        <div class="glass-panel rounded-2xl shadow-sm border-t-4 border-theme-gold p-6 mb-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                <i class="fas fa-holly-berry text-9xl text-theme-red"></i>
             </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-end md:items-center relative z-10">
+                <div class="mb-4 md:mb-0">
+                    <h1 class="text-3xl md:text-4xl font-serif text-slate-800 font-bold tracking-tight">THPAL YEAR END PARTY 2025</h1>
+                    <div class="flex items-center gap-2 mt-2 text-slate-500 text-sm font-medium">
+                        <span class="bg-theme-gold/10 text-theme-gold px-2 py-0.5 rounded text-xs border border-theme-gold/20">2025</span>
+                        <span>Christmas Party Registration Record</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 items-center w-full md:w-auto">
+                    <!-- Stat Box -->
+                    <div class="bg-slate-50 px-5 py-2 rounded-xl border border-slate-100 text-right mr-2 hidden lg:block">
+                        <span class="block text-[10px] text-slate-400 uppercase tracking-widest font-bold">Confirmed</span>
+                        <span id="count" class="text-2xl font-serif text-theme-emerald font-bold">0</span>
+                    </div>
+                    
+                    <a href="Home.html" class="flex-1 md:flex-none justify-center bg-slate-800 hover:bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-bold shadow-lg shadow-slate-300 transition flex items-center gap-2 transform active:scale-95">
+                        <i class="fas fa-plus text-theme-gold"></i> <span>New Guest</span>
+                    </a>
+                    <button onclick="fetchRecords()" class="bg-white border border-slate-200 hover:text-theme-emerald hover:border-theme-emerald text-slate-500 px-4 py-3 rounded-xl shadow-sm transition active:rotate-180" title="Refresh List">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Card -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 border border-white overflow-hidden flex flex-col min-h-[700px]">
             
-            <div class="controls">
-                <div class="search-wrapper">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search by name or ID...">
+            <!-- Controls Section -->
+            <div class="p-6 border-b border-slate-100 bg-white">
+                
+                <!-- Search -->
+                <div class="mb-6">
+                    <div class="relative max-w-md">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-slate-300"></i>
+                        </div>
+                        <input type="text" id="searchInput" placeholder="Search name or department..." 
+                               class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-theme-emerald/50 focus:bg-white transition sm:text-sm shadow-inner">
+                    </div>
+                </div>
+
+                <!-- Interactive Tabs -->
+                <div class="flex gap-3 overflow-x-auto no-scrollbar pb-1" id="categoryTabs">
+                    <!-- Tabs injected by JS -->
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="overflow-x-auto flex-grow bg-white/50 relative">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0 bg-slate-50/95 backdrop-blur z-20 shadow-sm">
+                        <tr class="text-slate-400 text-xs font-bold uppercase tracking-wider">
+                            <th class="p-5 font-sans">Guest Profile</th>
+                            <th class="p-5 font-sans">Department / Team</th>
+                            <th class="p-5 font-sans hidden md:table-cell">Registration Time</th>
+                            <th class="p-5 font-sans text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-50 text-sm text-slate-600">
+                        <!-- Rows injected via JS -->
+                    </tbody>
+                </table>
+                
+                <!-- Loading State -->
+                <div id="loadingState" class="absolute inset-0 bg-white/80 flex flex-col items-center justify-center z-30 hidden">
+                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-theme-emerald mb-4"></div>
+                    <p class="text-slate-400 font-serif italic animate-pulse">Checking the guest list...</p>
                 </div>
                 
-                <button onclick="exportCSV()" class="btn btn-export">
-                    <span>⬇</span> Export CSV
-                </button>
-                <a href="Home.html" class="btn btn-new">
-                    <span>+</span> New Entry
-                </a>
-                <button onclick="deleteAll()" class="btn btn-clear">
-                    <span>🗑</span> Clear All
-                </button>
+                <!-- Empty State -->
+                <div id="emptyMessage" class="hidden flex flex-col items-center justify-center py-20">
+                    <div class="bg-slate-50 rounded-full h-24 w-24 flex items-center justify-center mb-4 border border-slate-100 shadow-inner">
+                        <i class="fas fa-clipboard-list text-4xl text-slate-300"></i>
+                    </div>
+                    <h3 class="text-xl font-serif text-slate-700 font-bold">No records found</h3>
+                    <p class="text-slate-400 text-sm mt-1">Try selecting a different category or search term.</p>
+                </div>
+            </div>
+            
+            <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-between items-center text-[10px] uppercase tracking-wider text-slate-400 font-bold">
+                <span><i class="fas fa-database mr-1"></i> Supabase Connected</span>
+                <span>Merry Christmas</span>
             </div>
         </div>
-
-        <div class="table-container">
-            <table id="recordsTable">
-                <thead>
-                    <tr>
-                        <th width="30%">Full Name</th>
-                        <th width="25%">Department</th>
-                        <th width="25%">Date Registered</th>
-                        <th width="10%">Signature</th>
-                        <th width="10%">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    </tbody>
-            </table>
-        </div>
-
-        <div id="emptyMsg" class="empty-state">
-            <div>📭</div>
-            <h3>No records found</h3>
-            <p>Go to "New Entry" to add your first employee.</p>
-        </div>
-
     </div>
 
-    <script src="js/records.js"></script>
+    <!-- ================= MODALS ================= -->
 
+    <!-- VIEW DETAILS MODAL (Guest Pass Style) -->
+    <div id="viewModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeViewModal()"></div>
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all relative border border-slate-200">
+                
+                <!-- Top Decoration -->
+                <div class="h-2 bg-gradient-to-r from-theme-gold via-yellow-400 to-theme-gold"></div>
+                
+                <div class="p-8 text-center relative">
+                    <!-- Close Btn -->
+                    <button onclick="closeViewModal()" class="absolute top-4 right-4 text-slate-300 hover:text-slate-600 transition">
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                    <!-- Logo / Icon -->
+                    <div class="mx-auto h-20 w-20 bg-theme-emerald rounded-full flex items-center justify-center shadow-lg ring-4 ring-emerald-50 mb-6">
+                        <i class="fas fa-id-badge text-3xl text-white"></i>
+                    </div>
+
+                    <h2 class="text-xs font-bold text-theme-gold uppercase tracking-[0.2em] mb-1">Official Guest Pass</h2>
+                    <h1 id="view_fullname" class="text-2xl font-serif font-bold text-slate-800 mb-2">Guest Name</h1>
+                    
+                    <div class="inline-block px-4 py-1.5 rounded-full bg-slate-100 text-slate-600 font-bold text-sm mb-6 border border-slate-200" id="view_dept">
+                        Department
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-left bg-slate-50 p-4 rounded-lg border border-slate-100 text-sm">
+                        <div>
+                            <span class="block text-[10px] text-slate-400 uppercase font-bold">Reference ID</span>
+                            <span id="view_id" class="font-mono text-slate-600">#000</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-[10px] text-slate-400 uppercase font-bold">Date</span>
+                            <span id="view_date" class="text-slate-600">Dec 25</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-dashed border-slate-200">
+                         <div class="text-[10px] text-slate-400 italic">"May your days be merry and bright."</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div id="editModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeEditModal()"></div>
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden transform transition-all">
+                
+                <div class="bg-slate-800 px-6 py-4 flex justify-between items-center border-b border-slate-700">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-user-edit text-theme-gold"></i> Edit Record
+                    </h3>
+                    <button onclick="closeEditModal()" class="text-slate-400 hover:text-white transition">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="p-8 space-y-5">
+                    <input type="hidden" id="edit_id">
+                    
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-5">
+                            <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase">First Name</label>
+                            <input type="text" id="edit_first" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none transition bg-slate-50 focus:bg-white">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase text-center">M.I.</label>
+                            <input type="text" id="edit_middle" class="w-full px-2 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none transition bg-slate-50 focus:bg-white text-center">
+                        </div>
+                        <div class="col-span-5">
+                            <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase">Last Name</label>
+                            <input type="text" id="edit_last" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none transition bg-slate-50 focus:bg-white">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase">Department / Designation</label>
+                        <div class="relative">
+                            <i class="fas fa-briefcase absolute left-3 top-3 text-slate-400"></i>
+                            <select id="edit_dept" class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none bg-slate-50 focus:bg-white cursor-pointer appearance-none">
+                                <optgroup label="Administration">
+                                    <option value="G.A">General Affairs (G.A)</option>
+                                    <option value="HR">Human Resources (HR)</option>
+                                    <option value="Accounting">Accounting</option>
+                                    <option value="LMR">Labor Management (LMR)</option>
+                                    <option value="ComRel">Community Relations</option>
+                                </optgroup>
+                                <optgroup label="Engineering">
+                                    <option value="Civil">Civil Engineering</option>
+                                    <option value="Mechanical">Mechanical Engineering</option>
+                                    <option value="Electrical">Electrical Engineering</option>
+                                </optgroup>
+                                <optgroup label="Maintenance">
+                                    <option value="RM">Reliability Maintenance (RM)</option>
+                                    <option value="SS&SC">SHE, Services & Supply Chain</option>
+                                    <option value="E&I">Electrical & Instrument</option>
+                                </optgroup>
+                                <optgroup label="Production">
+                                    <option value="PSU">Power Station & Utilities (PSU)</option>
+                                    <option value="HPAL">Production (HPAL)</option>
+                                    <option value="MS">Production (MS)</option>
+                                </optgroup>
+                                <optgroup label="Rare Metal">
+                                    <option value="Scandium">Scandium</option>
+                                    <option value="Chromite">Chromite</option>
+                                </optgroup>
+                                <optgroup label="Others">
+                                    <option value="Health">Health</option>
+                                    <option value="Safety">Safety</option>
+                                    <option value="Security">Security</option>
+                                    <option value="Procurement">Procurement</option>
+                                    <option value="Logistics">Logistics</option>
+                                    <option value="MEPEO">Technical (MEPEO)</option>
+                                    <option value="Laboratory">Laboratory</option>
+                                </optgroup>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 px-8 py-5 flex flex-row-reverse gap-3 border-t border-slate-100">
+                    <button type="button" onclick="saveEdit()" class="w-full sm:w-auto inline-flex justify-center rounded-lg border border-transparent shadow-md px-6 py-2.5 bg-theme-emerald text-sm font-bold text-white hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-emerald transition">
+                        Save Changes
+                    </button>
+                    <button type="button" onclick="closeEditModal()" class="w-full sm:w-auto inline-flex justify-center rounded-lg border border-slate-300 shadow-sm px-6 py-2.5 bg-white text-sm font-bold text-slate-700 hover:bg-slate-50 focus:outline-none transition">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- SUPABASE CONFIGURATION ---
+        const SUPABASE_URL = 'https://hbkitssxgajgncavxqng.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // --- GLOBAL STATE ---
+        let allRecords = [];
+        let currentCategory = 'All';
+
+        // --- DATA MAPPING ---
+        const categories = [
+            { id: 'All', label: 'All Guests', icon: 'fa-users' },
+            { id: 'Administration', label: 'Admin', icon: 'fa-user-tie' },
+            { id: 'Engineering', label: 'Engineering', icon: 'fa-hard-hat' },
+            { id: 'Maintenance', label: 'Maintenance', icon: 'fa-tools' },
+            { id: 'Production', label: 'Production', icon: 'fa-industry' },
+            { id: 'Rare Metal', label: 'Rare Metals', icon: 'fa-gem' },
+            { id: 'Others', label: 'Others', icon: 'fa-ellipsis-h' }
+        ];
+
+        const deptMap = {
+            'G.A': 'Administration', 'HR': 'Administration', 'Accounting': 'Administration', 'LMR': 'Administration', 'ComRel': 'Administration',
+            'Civil': 'Engineering', 'Mechanical': 'Engineering', 'Electrical': 'Engineering',
+            'RM': 'Maintenance', 'SS&SC': 'Maintenance', 'E&I': 'Maintenance',
+            'HPAL': 'Production', 'MS': 'Production', 'PSU': 'Production', 
+            'Scandium': 'Rare Metal', 'Chromite': 'Rare Metal',
+            'Health': 'Others', 'Safety': 'Others', 'Security': 'Others', 'MEPEO': 'Others', 'Laboratory': 'Others', 'Procurement': 'Others', 'Logistics': 'Others'
+        };
+
+        // --- SNOWFALL ANIMATION ---
+        function createSnowflakes() {
+            const container = document.getElementById('snow-container');
+            const numberOfSnowflakes = 50; 
+            
+            for (let i = 0; i < numberOfSnowflakes; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '&#10052;'; // snowflake entity
+                
+                // Random properties
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's, ' + (Math.random() * 3 + 2) + 's';
+                snowflake.style.animationDelay = (Math.random() * 5) + 's, ' + (Math.random() * 2) + 's';
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                
+                container.appendChild(snowflake);
+            }
+        }
+
+        // --- TABS LOGIC ---
+        function initTabs() {
+            const container = document.getElementById('categoryTabs');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="filterCategory('${cat.id}')" id="tab-${cat.id}" 
+                    class="tab-btn group relative whitespace-nowrap px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-3 border transition-all duration-300">
+                    <i class="fas ${cat.icon} text-lg opacity-70 group-hover:opacity-100 transition-opacity"></i> 
+                    <span>${cat.label}</span>
+                </button>
+            `).join('');
+            
+            updateTabStyles();
+        }
+
+        function updateTabStyles() {
+            categories.forEach(cat => {
+                const btn = document.getElementById(`tab-${cat.id}`);
+                if (cat.id === currentCategory) {
+                    btn.className = "tab-btn tab-active whitespace-nowrap px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-3 border border-transparent";
+                } else {
+                    btn.className = "tab-btn tab-inactive whitespace-nowrap px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-3 bg-white";
+                }
+            });
+        }
+
+        function filterCategory(catId) {
+            currentCategory = catId;
+            updateTabStyles();
+            applyFilters();
+        }
+
+        // --- DATA FETCHING ---
+        async function fetchRecords() {
+            const tbody = document.getElementById('tableBody');
+            const loading = document.getElementById('loadingState');
+            const empty = document.getElementById('emptyMessage');
+            
+            tbody.innerHTML = '';
+            loading.classList.remove('hidden');
+            empty.classList.add('hidden');
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('registrations')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                allRecords = data;
+                applyFilters();
+
+            } catch (err) {
+                console.error(err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Connection Issue',
+                    text: 'Unable to retrieve the guest list. Please check your internet.',
+                    confirmButtonColor: '#047857'
+                });
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filtered = allRecords.filter(record => {
+                // Category Filter
+                let catMatch = false;
+                const recordCat = deptMap[record.department];
+
+                if (currentCategory === 'All') catMatch = true;
+                else if (currentCategory === 'Others') catMatch = (recordCat === 'Others' || !recordCat);
+                else catMatch = (recordCat === currentCategory);
+
+                // Search Filter
+                const nameFull = `${record.first_name} ${record.last_name}`.toLowerCase();
+                const nameMatch = nameFull.includes(searchTerm) || (record.department && record.department.toLowerCase().includes(searchTerm));
+
+                return catMatch && nameMatch;
+            });
+
+            renderTable(filtered);
+        }
+
+        // --- RENDER TABLE ---
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            const countSpan = document.getElementById('count');
+            const emptyMsg = document.getElementById('emptyMessage');
+
+            tbody.innerHTML = '';
+            countSpan.textContent = data.length;
+
+            if (data.length === 0) {
+                emptyMsg.classList.remove('hidden');
+                return;
+            } else {
+                emptyMsg.classList.add('hidden');
+            }
+
+            data.forEach((row, index) => {
+                const date = new Date(row.created_at).toLocaleDateString("en-US", { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' });
+                const initial = row.first_name.charAt(0).toUpperCase();
+
+                // Style based on Category
+                const cat = deptMap[row.department] || 'Others';
+                let badgeClass = "bg-slate-100 text-slate-600";
+                if(cat === 'Administration') badgeClass = "bg-purple-100 text-purple-700 border border-purple-200";
+                if(cat === 'Engineering') badgeClass = "bg-blue-100 text-blue-700 border border-blue-200";
+                if(cat === 'Maintenance') badgeClass = "bg-amber-100 text-amber-700 border border-amber-200";
+                if(cat === 'Production') badgeClass = "bg-orange-100 text-orange-700 border border-orange-200";
+                if(cat === 'Rare Metal') badgeClass = "bg-emerald-100 text-emerald-700 border border-emerald-200";
+
+                const tr = document.createElement('tr');
+                tr.className = "record-row border-b border-slate-50 last:border-0";
+                tr.style.animationDelay = `${index * 50}ms`; // Stagger animation
+                tr.innerHTML = `
+                    <td class="p-5">
+                        <div class="flex items-center gap-4">
+                            <div class="h-11 w-11 rounded-full bg-slate-800 text-theme-gold flex items-center justify-center font-serif font-bold text-lg shadow-md ring-4 ring-white">
+                                ${initial}
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-800 text-base font-serif">${row.first_name} ${row.last_name}</div>
+                                <div class="text-xs text-slate-400 font-medium">${row.middle_name ? row.middle_name : ''}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-5">
+                        <span class="px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider ${badgeClass} shadow-sm">
+                            ${row.department}
+                        </span>
+                    </td>
+                    <td class="p-5 hidden md:table-cell">
+                        <div class="flex items-center text-slate-500 text-xs font-medium bg-slate-50 inline-block px-3 py-1 rounded-full">
+                            <i class="far fa-calendar-alt mr-2 text-slate-400"></i> ${date}
+                        </div>
+                    </td>
+                    <td class="p-5 text-center">
+                        <div class="flex justify-center items-center gap-2">
+                             <button onclick="openViewModal(${row.id})" class="h-9 w-9 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition flex items-center justify-center shadow-sm" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button onclick="openEditModal(${row.id})" class="h-9 w-9 rounded-full bg-amber-50 text-amber-600 hover:bg-amber-500 hover:text-white transition flex items-center justify-center shadow-sm" title="Edit">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button onclick="deleteRecord(${row.id})" class="h-9 w-9 rounded-full bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition flex items-center justify-center shadow-sm" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // --- ACTIONS ---
+        
+        // VIEW
+        function openViewModal(id) {
+            const record = allRecords.find(r => r.id === id);
+            if(!record) return;
+
+            document.getElementById('view_fullname').textContent = `${record.first_name} ${record.middle_name ? record.middle_name + ' ' : ''}${record.last_name}`;
+            document.getElementById('view_dept').textContent = record.department;
+            document.getElementById('view_id').textContent = '#' + String(record.id).padStart(4, '0');
+            document.getElementById('view_date').textContent = new Date(record.created_at).toLocaleDateString();
+
+            const modal = document.getElementById('viewModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.querySelector('div.transform').classList.remove('scale-95', 'opacity-0');
+                modal.querySelector('div.transform').classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeViewModal() {
+            const modal = document.getElementById('viewModal');
+            modal.querySelector('div.transform').classList.remove('scale-100', 'opacity-100');
+            modal.querySelector('div.transform').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+        }
+
+        // EDIT
+        function openEditModal(id) {
+            const record = allRecords.find(r => r.id === id);
+            if(!record) return;
+
+            document.getElementById('edit_id').value = record.id;
+            document.getElementById('edit_first').value = record.first_name;
+            document.getElementById('edit_middle').value = record.middle_name || '';
+            document.getElementById('edit_last').value = record.last_name;
+            document.getElementById('edit_dept').value = record.department;
+
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.querySelector('div.transform').classList.remove('translate-y-4', 'opacity-0');
+                modal.querySelector('div.transform').classList.add('translate-y-0', 'opacity-100');
+            }, 10);
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            modal.querySelector('div.transform').classList.remove('translate-y-0', 'opacity-100');
+            modal.querySelector('div.transform').classList.add('translate-y-4', 'opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+        }
+
+        async function saveEdit() {
+            const id = document.getElementById('edit_id').value;
+            const updates = {
+                first_name: document.getElementById('edit_first').value,
+                middle_name: document.getElementById('edit_middle').value,
+                last_name: document.getElementById('edit_last').value,
+                department: document.getElementById('edit_dept').value
+            };
+
+            const { error } = await supabaseClient.from('registrations').update(updates).eq('id', id);
+            
+            if(!error) {
+                closeEditModal();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Updated!',
+                    text: 'Guest details have been modified.',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    toast: true
+                });
+                fetchRecords();
+            } else {
+                Swal.fire('Error', 'Could not update record.', 'error');
+            }
+        }
+
+        // DELETE
+        async function deleteRecord(id) {
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "This will permanently remove the guest from the list.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#be123c',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Yes, remove it',
+                background: '#fff',
+                customClass: {
+                    popup: 'rounded-xl'
+                }
+            });
+
+            if (result.isConfirmed) {
+                const { error } = await supabaseClient.from('registrations').delete().eq('id', id);
+                if (!error) {
+                    Swal.fire({
+                        icon: 'success', 
+                        title: 'Deleted',
+                        text: 'Guest removed successfully',
+                        timer: 1500, 
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                    fetchRecords();
+                } else {
+                    Swal.fire('Error', 'Could not delete record.', 'error');
+                }
+            }
+        }
+
+        // Listeners
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+        // Init
+        createSnowflakes();
+        initTabs();
+        fetchRecords();
+    </script>
 </body>
 </html>
