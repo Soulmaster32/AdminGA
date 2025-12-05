@@ -1,23 +1,28 @@
 /* * EXTENSION.JS 
- * Logic for: Registration, Clock, Signature, Validation, Storage, Redirection
+ * Logic for: Registration, Clock, Signature, Validation, Storage, Database Insertion
  */
+
+// SUPABASE CLIENT INITIALIZATION
+const SUPABASE_URL = 'https://hbkitssxgajgncavxang.supabase.co'; // Your project URL
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE'; // Your anon public key
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.addEventListener("DOMContentLoaded", () => {
     
-    // --- 1. LIVE CLOCK ---
+    // --- 1. LIVE CLOCK (No changes) ---
     const clockElement = document.getElementById("liveClock");
     
     function updateTime() {
         if(!clockElement) return;
         const now = new Date();
         const dateOptions = { weekday: 'short', month: 'short', day: 'numeric' };
-        // Format: Mon, Dec 4 • 10:00:00 AM
         clockElement.textContent = `${now.toLocaleDateString('en-US', dateOptions)} • ${now.toLocaleTimeString()}`;
     }
     setInterval(updateTime, 1000);
     updateTime();
 
-    // --- 2. SIGNATURE PAD ENGINE ---
+    // --- 2. SIGNATURE PAD ENGINE (No changes) ---
     const canvas = document.getElementById("sigCanvas");
     const ctx = canvas ? canvas.getContext("2d") : null;
     const container = document.getElementById("sigContainer");
@@ -27,12 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Canvas Resize (Responsive)
     function resizeCanvas() {
         if(!canvas || !container) return;
-        
-        // Make internal resolution match display size
         canvas.width = container.offsetWidth;
         canvas.height = container.offsetHeight;
         
-        // Reset brush styles after resize
+        // Reset brush styles
         ctx.strokeStyle = "#2d3436";
         ctx.lineWidth = 2.5;
         ctx.lineCap = "round";
@@ -40,17 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     window.addEventListener("resize", resizeCanvas);
-    setTimeout(resizeCanvas, 100); // Init delay
+    setTimeout(resizeCanvas, 100); 
 
     // Coordinate Calculator (Touch & Mouse)
     function getPos(e) {
         const rect = canvas.getBoundingClientRect();
         const cx = e.touches ? e.touches[0].clientX : e.clientX;
         const cy = e.touches ? e.touches[0].clientY : e.clientY;
-        return {
-            x: cx - rect.left,
-            y: cy - rect.top
-        };
+        return { x: cx - rect.left, y: cy - rect.top };
     }
 
     // Drawing Logic
@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const draw = (e) => {
             if (!isDrawing) return;
-            // Prevent scrolling on mobile while signing
             if (e.cancelable) e.preventDefault(); 
             const pos = getPos(e);
             ctx.lineTo(pos.x, pos.y);
@@ -79,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         canvas.addEventListener("mouseup", stop);
         canvas.addEventListener("mouseleave", stop);
 
-        // Touch Events (Passive: false required to prevent scroll)
+        // Touch Events
         canvas.addEventListener("touchstart", start, { passive: false });
         canvas.addEventListener("touchmove", draw, { passive: false });
         canvas.addEventListener("touchend", stop);
@@ -92,9 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 3. HELPER FUNCTIONS ---
-    
-    // Toast Notification
+    // --- 3. HELPER FUNCTIONS (No changes) ---
     function showToast(message, type = 'success') {
         const container = document.getElementById('toast-container');
         if(!container) return;
@@ -104,14 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
         toast.innerHTML = `<strong>${type === 'success' ? '✔' : '⚠'}</strong> &nbsp; ${message}`;
         container.appendChild(toast);
         
-        // Remove after 3s
         setTimeout(() => {
             toast.style.opacity = '0';
             setTimeout(() => toast.remove(), 500);
         }, 3000);
     }
 
-    // Check Empty Signature
     function isSignatureEmpty() {
         if(!canvas) return true;
         const blank = document.createElement('canvas');
@@ -120,38 +115,30 @@ document.addEventListener("DOMContentLoaded", () => {
         return canvas.toDataURL() === blank.toDataURL();
     }
     
-    // *** UPDATED HELPER FUNCTION: Reset the form ***
     function resetRegistrationForm() {
-        // Reset text inputs
         document.getElementById("fname").value = "";
         document.getElementById("mname").value = "";
         document.getElementById("lname").value = "";
-        // REMOVED: document.getElementById("section").value = "";
         
-        // Reset department select (to the first disabled option)
         const deptSelect = document.getElementById("dept");
         deptSelect.selectedIndex = 0;
         
-        // Clear the signature canvas
         if (ctx && canvas) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        // Hide the success modal
         const successModal = document.getElementById("successModal");
         if(successModal) successModal.style.display = "none";
 
-        // Optional: Reset focus for the next entry
         document.getElementById("fname").focus();
     }
-    // ------------------------------------------
 
 
-    // --- 4. FORM SUBMISSION ---
+    // --- 4. FORM SUBMISSION (Supabase Integration) ---
     const form = document.getElementById("regForm");
 
     if(form) {
-        form.addEventListener("submit", (e) => {
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
             // A. Capture Data
@@ -159,10 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const mname = document.getElementById("mname").value.trim();
             const lname = document.getElementById("lname").value.trim();
             const dept = document.getElementById("dept").value;
-            // REMOVED: const section = document.getElementById("section").value.trim();
 
             // B. Validation
-            // UPDATED: Removed 'section' from validation check
             if (!fname || !lname || !dept) {
                 showToast("Please fill in all required fields.", "error");
                 return;
@@ -173,20 +158,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // C. Duplicate Check
-            // Unique ID = name combo
+            // C. Duplicate Check against Supabase
             const uniqueID = `${fname}-${mname}-${lname}`.toLowerCase().replace(/\s/g, '');
             
-            // Get existing data
-            let registrants = JSON.parse(localStorage.getItem("registrants")) || [];
+            const { data: existingData, error: checkError } = await supabase
+                .from('registrations')
+                .select('unique_id')
+                .eq('unique_id', uniqueID);
 
-            // Check if ID exists
-            const isDuplicate = registrants.some(person => person.id === uniqueID);
+            if (checkError) {
+                console.error("Supabase Check Error:", checkError);
+                showToast("A database error occurred during validation.", "error");
+                return;
+            }
 
-            if (isDuplicate) {
+            if (existingData && existingData.length > 0) {
                 showToast(`${fname} ${lname} is already registered!`, "error");
-                // Shake Card Animation
-                const card = document.querySelector('.card');
+                const card = document.querySelector('.card-wrapper');
                 card.animate([
                     { transform: 'translateX(0)' }, 
                     { transform: 'translateX(-10px)' }, 
@@ -196,37 +184,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // D. Save Data Object
-            // UPDATED: Removed 'section' property from the newRecord object
+            // D. Save Data to Supabase
             const newRecord = {
-                id: uniqueID,
-                firstName: fname,
-                middleName: mname,
-                lastName: lname,
+                unique_id: uniqueID, // Matches the SQL column name
+                first_name: fname,
+                middle_name: mname,
+                last_name: lname,
                 dept: dept,
-                date: new Date().toISOString(),
-                signature: canvas.toDataURL() // Save signature image
+                signature: canvas.toDataURL() 
+                // date_registered is set by default in SQL
             };
 
-            registrants.push(newRecord);
-            localStorage.setItem("registrants", JSON.stringify(registrants));
+            const { error: insertError } = await supabase
+                .from('registrations')
+                .insert([newRecord]);
 
-            // E. Success & Return to Form (No Redirect)
+            if (insertError) {
+                console.error("Supabase Insert Error:", insertError);
+                showToast("Registration failed due to a database error.", "error");
+                return;
+            }
+
+            // E. Success & Form Reset
             showToast("Registration Saved! Ready for next entry.", "success");
             triggerConfetti();
 
-            // Show Modal
             const successModal = document.getElementById("successModal");
             if(successModal) successModal.style.display = "flex";
 
-            // *** REPLACED REDIRECTION WITH FORM RESET ***
             setTimeout(() => {
                 resetRegistrationForm();
-            }, 1500); // Wait 1.5s for the success message/confetti to display
+            }, 1500); 
         });
     }
 
-    // --- 5. CONFETTI EFFECT ---
+    // --- 5. CONFETTI EFFECT (No changes) ---
     function triggerConfetti() {
         const colors = ['#4e54c8', '#8f94fb', '#ff6b6b', '#feca57', '#00b894'];
         
