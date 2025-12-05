@@ -2,7 +2,7 @@
  * Logic for: Registration, Clock, Signature, Validation, Supabase Submission
  */
 
-// ⚠️ IMPORTANT: REPLACE WITH YOUR ACTUAL SUPABASE CREDENTIALS
+// ✅ SUPABASE CREDENTIALS UPDATED
 const SUPABASE_URL = 'https://hbkitssxgajgncavxang.supabase.co'; 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE'; 
 
