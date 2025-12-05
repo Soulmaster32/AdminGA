@@ -20,6 +20,7 @@
 
     <script>
         tailwind.config = {
+            darkMode: 'class', // Enabled manual Dark Mode toggling
             theme: {
                 extend: {
                     fontFamily: {
@@ -31,14 +32,16 @@
                         gala: {
                             gold: '#C5A059',
                             goldLight: '#E5C585',
-                            dark: '#022c22',
+                            dark: '#000000', // Changed to Black
                             red: '#9B2C2C',
                             green: '#064E3B',
                             accent: '#134e4a'
                         }
                     },
                     backgroundImage: {
-                        'winter-pattern': "radial-gradient(circle at center, #115e59 0%, #022c22 100%)",
+                        // UPDATED: Background is now Black (Radial gradient for depth)
+                        'winter-pattern-dark': "radial-gradient(circle at center, #27272a 0%, #000000 100%)",
+                        'winter-pattern-light': "radial-gradient(circle at center, #f8fafc 0%, #e2e8f0 100%)",
                         'gold-shimmer': "linear-gradient(45deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 60%)"
                     },
                     animation: {
@@ -62,7 +65,8 @@
 
     <style>
         body {
-            background-color: #022c22;
+            /* Transition for theme switching */
+            transition: background 0.5s ease, color 0.5s ease;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
         }
@@ -77,33 +81,66 @@
             pointer-events: none;
             z-index: 1;
         }
+        
         .snowflake {
             position: absolute;
             top: -10px;
-            color: rgba(255,255,255, 0.2);
             animation: fall linear infinite;
         }
+
+        /* Dark mode snow is white/transparent */
+        .dark .snowflake {
+            color: rgba(255,255,255, 0.3);
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
+        }
+        /* Light mode snow is slate blue/grey to be visible */
+        .snowflake {
+            color: #cbd5e1; 
+        }
+
         @keyframes fall {
             to { transform: translateY(110vh); }
         }
 
-        /* Glassmorphism */
+        /* Glassmorphism - Adaptive */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            -webkit-backdrop-filter: blur(20px);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        /* Light Mode Glass */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Dark Mode Glass - Updated for Black Background */
+        .dark .glass-panel {
+            background: rgba(20, 20, 20, 0.6); /* Slightly darker glass */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 1);
         }
 
         /* Form styling */
         .custom-input {
             transition: all 0.3s ease;
-            border-bottom: 2px solid #e2e8f0;
-            font-size: 16px; /* Prevents iOS zoom */
+            border-bottom: 2px solid #cbd5e1;
+            font-size: 16px; 
         }
+        .dark .custom-input {
+            border-bottom: 2px solid #3f3f46;
+            background-color: rgba(255,255,255,0.05);
+            color: white;
+        }
+        
         .custom-input:focus {
             border-bottom-color: #C5A059;
             background-color: #fffbf0;
+        }
+        .dark .custom-input:focus {
+            background-color: rgba(255,255,255,0.1);
         }
 
         /* Ticket Design */
@@ -120,19 +157,22 @@
             top: 50%;
             width: 24px;
             height: 24px;
-            background-color: #1f2937; 
             border-radius: 50%;
             transform: translateY(-50%);
             border: 1px solid #C5A059; 
             z-index: 10;
+            transition: background-color 0.3s;
         }
         .ticket-edge-left { left: -14px; border-right: none; }
         .ticket-edge-right { right: -14px; border-left: none; }
 
+        /* Handle Ticket Edge blending with backgrounds */
+        .ticket-edge-bg { background-color: #f8fafc; } /* Light mode bg match */
+        .dark .ticket-edge-bg { background-color: #000000; } /* Dark mode bg match (Black) */
+
         /* Custom Scrollbar for Select */
         select::-webkit-scrollbar { width: 6px; }
         select::-webkit-scrollbar-thumb { background-color: #C5A059; border-radius: 4px; }
-        select::-webkit-scrollbar-track { background-color: #f1f1f1; }
 
         /* Desktop Layout Utils */
         @media (min-width: 1024px) {
@@ -144,51 +184,64 @@
                 width: 90%;
             }
             .ticket-edge-left, .ticket-edge-right {
-                background-color: #ffffff; /* Matches glass panel on desktop inside container */
-                opacity: 0.1;
+                 opacity: 0.2; 
+                 background-color: #fff; /* Simplify for glass */
             }
         }
     </style>
 </head>
-<body class="bg-winter-pattern min-h-screen flex items-center justify-center p-4 lg:p-8 relative">
+<!-- Initialized with Dark Mode by default -->
+<body class="bg-winter-pattern-light dark:bg-winter-pattern-dark min-h-screen flex items-center justify-center p-4 lg:p-8 relative dark">
 
     <!-- Snow Animation Container -->
     <div id="snow-container"></div>
+
+    <!-- Theme Toggle Button -->
+    <div class="absolute top-4 right-4 z-50">
+        <button onclick="toggleTheme()" class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-slate-600 dark:text-gala-gold p-3 rounded-full shadow-lg hover:scale-110 transition-transform border border-slate-200 dark:border-white/10 group">
+            <i class="fas fa-sun hidden dark:inline"></i>
+            <i class="fas fa-moon inline dark:hidden"></i>
+        </button>
+    </div>
 
     <!-- MAIN CONTAINER -->
     <div class="relative z-10 w-full desktop-split">
         
         <!-- LEFT SIDE: Welcome/Text (Visible on Desktop) -->
-        <div class="hidden lg:flex flex-col justify-center text-white p-8 animate-float">
+        <div class="hidden lg:flex flex-col justify-center text-slate-700 dark:text-white p-8 animate-float transition-colors">
             <div class="border-l-4 border-gala-gold pl-6 mb-8">
-                <p class="font-serif text-gala-gold uppercase tracking-[0.3em] text-sm mb-2">Exclusive Invitation</p>
-                <h1 class="text-7xl font-script text-white drop-shadow-lg mb-2 leading-tight">Year End<br>Party 2025</h1>
-                <p class="text-xl font-serif text-gray-300 italic">"A Night of Elegance & Gratitude"</p>
+                <p class="font-serif text-gala-gold uppercase tracking-[0.3em] text-sm mb-2">TAGANITO HPAL NICKEL CORPORATION</p>
+                <h1 class="text-7xl font-script drop-shadow-lg mb-2 leading-tight">BlackOut<br>Party 2025</h1>
+                <p class="text-xl font-serif text-slate-500 dark:text-gray-400 italic">"Year End Party 2025"</p>
             </div>
             
-            <div class="text-sm font-sans text-gray-300 max-w-md leading-relaxed mb-10">
+            <div class="text-sm font-sans text-slate-600 dark:text-gray-300 max-w-md leading-relaxed mb-10 font-medium">
                 Join us as we celebrate the milestones of THPAL. A night filled with music, fine dining, and holiday cheer awaits you.
             </div>
 
             <!-- Countdown Timer -->
             <div>
-                <p class="text-[10px] text-gala-gold uppercase tracking-widest mb-2">Time Until Celebration</p>
+                <p class="text-[10px] text-gala-gold uppercase tracking-widest mb-2 font-bold">Time Until Celebration</p>
                 <div class="grid grid-cols-4 gap-4 text-center max-w-sm">
-                    <div class="bg-black/30 backdrop-blur-sm p-3 rounded border border-white/10 shadow-lg">
-                        <span id="days" class="block text-2xl font-serif text-white">00</span>
-                        <span class="text-[9px] uppercase tracking-wider text-gala-gold">Days</span>
+                    <!-- Timer Block -->
+                    <div class="bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm p-3 rounded-lg border border-slate-200 dark:border-white/10 shadow-lg group hover:border-gala-gold transition">
+                        <span id="days" class="block text-2xl font-serif text-slate-800 dark:text-white font-bold">06</span>
+                        <span class="text-[9px] uppercase tracking-wider text-slate-500 dark:text-gala-gold group-hover:text-gala-gold">Days</span>
                     </div>
-                    <div class="bg-black/30 backdrop-blur-sm p-3 rounded border border-white/10 shadow-lg">
-                        <span id="hours" class="block text-2xl font-serif text-white">00</span>
-                        <span class="text-[9px] uppercase tracking-wider text-gala-gold">Hrs</span>
+                    <!-- Timer Block -->
+                    <div class="bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm p-3 rounded-lg border border-slate-200 dark:border-white/10 shadow-lg group hover:border-gala-gold transition">
+                        <span id="hours" class="block text-2xl font-serif text-slate-800 dark:text-white font-bold">08</span>
+                        <span class="text-[9px] uppercase tracking-wider text-slate-500 dark:text-gala-gold group-hover:text-gala-gold">Hrs</span>
                     </div>
-                    <div class="bg-black/30 backdrop-blur-sm p-3 rounded border border-white/10 shadow-lg">
-                        <span id="minutes" class="block text-2xl font-serif text-white">00</span>
-                        <span class="text-[9px] uppercase tracking-wider text-gala-gold">Mins</span>
+                    <!-- Timer Block -->
+                    <div class="bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm p-3 rounded-lg border border-slate-200 dark:border-white/10 shadow-lg group hover:border-gala-gold transition">
+                        <span id="minutes" class="block text-2xl font-serif text-slate-800 dark:text-white font-bold">30</span>
+                        <span class="text-[9px] uppercase tracking-wider text-slate-500 dark:text-gala-gold group-hover:text-gala-gold">Mins</span>
                     </div>
-                    <div class="bg-black/30 backdrop-blur-sm p-3 rounded border border-white/10 shadow-lg">
-                        <span id="seconds" class="block text-2xl font-serif text-white">00</span>
-                        <span class="text-[9px] uppercase tracking-wider text-gala-gold">Secs</span>
+                    <!-- Timer Block -->
+                    <div class="bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm p-3 rounded-lg border border-slate-200 dark:border-white/10 shadow-lg group hover:border-gala-gold transition">
+                        <span id="seconds" class="block text-2xl font-serif text-slate-800 dark:text-white font-bold">10</span>
+                        <span class="text-[9px] uppercase tracking-wider text-slate-500 dark:text-gala-gold group-hover:text-gala-gold">Secs</span>
                     </div>
                 </div>
             </div>
@@ -200,10 +253,10 @@
             <!-- Mobile Header (Hidden on large screens) -->
             <div class="lg:hidden text-center mb-6 w-full">
                 <h1 class="text-5xl font-script text-gala-gold drop-shadow-md">Christmas Party</h1>
-                <p class="text-white/80 font-serif text-sm tracking-widest uppercase mt-1">THPAL Year End Party 2025</p>
+                <p class="text-slate-600 dark:text-white/80 font-serif text-sm tracking-widest uppercase mt-1">THPAL Year End Party 2025</p>
             </div>
 
-            <div class="w-full glass-panel rounded-2xl overflow-hidden relative border-t-4 border-gala-gold shadow-2xl">
+            <div class="w-full glass-panel rounded-2xl overflow-hidden relative border-t-4 border-gala-gold shadow-2xl transition-all">
                 
                 <!-- Decorative Top Ornament -->
                 <div class="absolute -top-16 -right-16 w-32 h-32 bg-gala-gold rounded-full blur-3xl opacity-20 pointer-events-none"></div>
@@ -212,10 +265,10 @@
                     
                     <!-- Form Header -->
                     <div class="text-center mb-6 lg:mb-8">
-                        <h2 class="text-2xl font-serif text-gala-green font-bold">Christmas Registration</h2>
-                        <div class="flex justify-center items-center gap-4 mt-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
-                            <span class="bg-slate-100 px-2 py-1 rounded"><i class="far fa-calendar-alt text-gala-gold mr-1"></i> Dec 06</span>
-                            <span class="bg-slate-100 px-2 py-1 rounded"><i class="far fa-clock text-gala-gold mr-1"></i> 6:00 PM</span>
+                        <h2 class="text-2xl font-serif text-slate-800 dark:text-gala-gold font-bold transition-colors">THPAL YEAR END REGISTRATION</h2>
+                        <div class="flex justify-center items-center gap-4 mt-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                            <span class="bg-slate-100 dark:bg-white/5 px-2 py-1 rounded transition-colors"><i class="far fa-calendar-alt text-gala-gold mr-1"></i> Dec 06</span>
+                            <span class="bg-slate-100 dark:bg-white/5 px-2 py-1 rounded transition-colors"><i class="far fa-clock text-gala-gold mr-1"></i> 6:00 PM</span>
                         </div>
                     </div>
 
@@ -226,85 +279,84 @@
                             <div class="grid grid-cols-4 gap-3">
                                 <!-- First Name -->
                                 <div class="col-span-3">
-                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">First Name</label>
+                                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">First Name</label>
                                     <div class="relative">
-                                        <i class="fas fa-user absolute left-3 top-3.5 text-slate-300 text-xs"></i>
+                                        <i class="fas fa-user absolute left-3 top-3.5 text-slate-400 text-xs"></i>
                                         <input type="text" id="firstName" required 
-                                            class="custom-input w-full bg-slate-50 rounded-t px-3 pl-8 py-3 text-slate-800 font-serif focus:outline-none placeholder-slate-300"
+                                            class="custom-input w-full bg-slate-50 rounded-t px-3 pl-8 py-3 text-slate-800 focus:outline-none placeholder-slate-400"
                                             placeholder="First Name">
                                     </div>
                                 </div>
                                 
                                 <!-- Middle Initial -->
                                 <div class="col-span-1">
-                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">M.I.</label>
+                                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">M.I.</label>
                                     <input type="text" id="middleName" maxlength="3" 
-                                        class="custom-input w-full bg-slate-50 rounded-t px-1 py-3 text-center text-slate-800 font-serif focus:outline-none placeholder-slate-300"
+                                        class="custom-input w-full bg-slate-50 rounded-t px-1 py-3 text-center text-slate-800 focus:outline-none placeholder-slate-400"
                                         placeholder="-">
                                 </div>
                             </div>
 
                             <!-- Last Name -->
                             <div>
-                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Last Name</label>
+                                <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Last Name</label>
                                 <div class="relative">
-                                    <i class="far fa-user absolute left-3 top-3.5 text-slate-300 text-xs"></i>
+                                    <i class="far fa-user absolute left-3 top-3.5 text-slate-400 text-xs"></i>
                                     <input type="text" id="lastName" required 
-                                        class="custom-input w-full bg-slate-50 rounded-t px-3 pl-8 py-3 text-slate-800 font-serif focus:outline-none placeholder-slate-300"
+                                        class="custom-input w-full bg-slate-50 rounded-t px-3 pl-8 py-3 text-slate-800 focus:outline-none placeholder-slate-400"
                                         placeholder="Last Name">
                                 </div>
                             </div>
 
                             <!-- Department -->
                             <div>
-                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Department / Division</label>
+                                <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Department / Division</label>
                                 <div class="relative">
-                                    <i class="fas fa-building absolute left-3 top-3.5 text-slate-300 text-xs z-10"></i>
-                                    <select id="department" required class="custom-input w-full bg-slate-50 rounded-t pl-8 pr-3 py-3 text-slate-800 font-serif focus:outline-none appearance-none cursor-pointer relative z-0 truncate">
-                                        <option value="" disabled selected>Select Your Designation</option>
-                                        <optgroup label="Administration">
+                                    <i class="fas fa-building absolute left-3 top-3.5 text-slate-400 text-xs z-10"></i>
+                                    <select id="department" required class="custom-input w-full bg-slate-50 rounded-t pl-8 pr-3 py-3 text-slate-800 focus:outline-none appearance-none cursor-pointer relative z-0 truncate">
+                                        <option value="" disabled selected class="text-slate-400">Select Your Designation</option>
+                                        <optgroup label="Administration" class="text-slate-800 dark:text-slate-800">
                                             <option value="General Affairs">General Affairs</option>
                                             <option value="Human Resources">Human Resources</option>
                                             <option value="Accounting">Accounting</option>
                                             <option value="Labor Management Relations">Labor Management Relations</option>
                                         </optgroup>
-                                        <optgroup label="Comrel">
+                                        <optgroup label="Comrel" class="text-slate-800 dark:text-slate-800">
                                             <option value="Community Relations">Community Relations</option>
                                         </optgroup>
-                                        <optgroup label="Engineering">
+                                        <optgroup label="Engineering" class="text-slate-800 dark:text-slate-800">
                                             <option value="Engineering Civil">Engineering Civil</option>
                                             <option value="Engineering Mechanical">Engineering Mechanical</option>
                                             <option value="Engineering Electrical">Engineering Electrical</option>
                                         </optgroup>
-                                        <optgroup label="Maintenance">
+                                        <optgroup label="Maintenance" class="text-slate-800 dark:text-slate-800">
                                             <option value="Reliability Maintenance">Reliability Maintenance</option>
                                             <option value="SHE, Services and Supply Chain">SHE, Services and Supply Chain</option>
-                                            <option value="Maintenance | Electrical and Instrument">Electrical and Instrument</option>
-                                             <option value="Maintenance | Information Technology">Information Technology</option>
+                                            <option value="Electrical and Instrument">Electrical and Instrument</option>
                                         </optgroup>
-                                        <optgroup label="Production">
+                                        <optgroup label="Production" class="text-slate-800 dark:text-slate-800">
                                             <option value="Production (HPAL)">Production (HPAL)</option>
                                             <option value="Production (MS)">Production (MS)</option> 
                                         </optgroup>
-                                        <optgroup label="PSU">
+                                        <optgroup label="PSU" class="text-slate-800 dark:text-slate-800">
                                             <option value="Power Station Utilities">Power Station Utilities</option>
                                         </optgroup>
-                                        <optgroup label="Rare Metals">
+                                        <optgroup label="Rare Metals" class="text-slate-800 dark:text-slate-800">
                                             <option value="Scandium">Scandium</option>
                                             <option value="Chromite">Chromite</option>
                                         </optgroup>
-                                        <optgroup label="OSH">
+                                        <optgroup label="OSH" class="text-slate-800 dark:text-slate-800">
                                             <option value="Occupational Safety and Health (Health)">Occupational Safety and Health (Health)</option>
                                             <option value="Occupational Safety and Health (Safety)">Occupational Safety and Health (Safety)</option>
                                         </optgroup>
-                                        <optgroup label="Security">
+                                        <optgroup label="Security" class="text-slate-800 dark:text-slate-800">
                                             <option value="Security">Security</option>
                                         </optgroup>
-                                        <optgroup label="Procurement and Logistics">
+                                        <optgroup label="Procurement and Logistics" class="text-slate-800 dark:text-slate-800">
                                             <option value="Procurement and Logistics (Procurement)">Procurement</option>
                                             <option value="Procurement and Logistics (Logistics)">Logistics</option> 
                                         </optgroup>
-                                        <optgroup label="Technical">
+                                        <optgroup label="Technical" class="text-slate-800 dark:text-slate-800">
                                             <option value="Technical (MEPEO)">MEPEO</option>
                                             <option value="Technical (Laboratory)">Laboratory</option>
                                         </optgroup>
@@ -326,9 +378,9 @@
                     <!-- SUCCESS TICKET -->
                     <div id="successTicket" class="hidden opacity-0 transition-all duration-700 transform scale-95">
                         <div class="golden-ticket p-6 rounded text-center relative">
-                            <!-- Punch Holes for visual effect -->
-                            <div class="ticket-edge-left bg-[#134e4a] lg:bg-white/95"></div>
-                            <div class="ticket-edge-right bg-[#134e4a] lg:bg-white/95"></div>
+                            <!-- Punch Holes -->
+                            <div class="ticket-edge-left ticket-edge-bg"></div>
+                            <div class="ticket-edge-right ticket-edge-bg"></div>
 
                             <div class="border-2 border-dashed border-gala-gold/30 p-4 rounded h-full relative z-20">
                                 <div class="mb-3">
@@ -357,7 +409,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button onclick="location.reload()" class="mt-6 w-full text-xs text-slate-300 hover:text-white uppercase tracking-widest transition flex items-center justify-center gap-2">
+                        <button onclick="location.reload()" class="mt-6 w-full text-xs text-slate-500 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white uppercase tracking-widest transition flex items-center justify-center gap-2">
                             <i class="fas fa-redo"></i> Register Another Guest
                         </button>
                     </div>
@@ -369,26 +421,79 @@
             </div>
             
             <div class="text-center mt-6 lg:hidden">
-                <p class="text-white/30 text-[10px] uppercase tracking-[0.3em] font-serif">THPAL Annual Celebration</p>
+                <p class="text-slate-400 dark:text-white/30 text-[10px] uppercase tracking-[0.3em] font-serif transition-colors">THPAL Annual Celebration</p>
             </div>
         </div>
     </div>
 
     <script>
-        // --- 1. COUNTDOWN LOGIC (FIXED DISPLAY) ---
-        function updateCountdown() {
-            // Display set to exactly 5 Days, 2 Hours, 54 Minutes, 20 Seconds
-            document.getElementById("days").innerText = "05";
-            document.getElementById("hours").innerText = "02";
-            document.getElementById("minutes").innerText = "54";
-            document.getElementById("seconds").innerText = "20";
+        // --- 1. DARK MODE LOGIC ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                html.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
         }
-        updateCountdown();
+        // Initialize Theme from LocalStorage or default to Dark
+        if (localStorage.theme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
 
-        // --- 2. SNOWFALL EFFECT ---
+        // --- 2. COUNTDOWN LOGIC ---
+        // Target: 6 Days, 8 Hours, 30 Mins, 10 Secs from NOW (page load)
+        function startCountdown() {
+            // Set the date we're counting down to
+            const now = new Date().getTime();
+            const daysInMs = 6 * 24 * 60 * 60 * 1000;
+            const hoursInMs = 8 * 60 * 60 * 1000;
+            const minsInMs = 30 * 60 * 1000;
+            const secsInMs = 10 * 1000;
+            
+            const countDownDate = now + daysInMs + hoursInMs + minsInMs + secsInMs;
+
+            // Update the count down every 1 second
+            const x = setInterval(function() {
+
+                const current = new Date().getTime();
+                const distance = countDownDate - current;
+
+                // Time calculations
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display
+                document.getElementById("days").innerHTML = String(days).padStart(2, '0');
+                document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
+                document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
+                document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
+
+                // If the count down is finished
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("seconds").innerHTML = "00";
+                }
+            }, 1000);
+            
+            // Initial render to prevent flicker
+            document.getElementById("days").innerHTML = "06";
+            document.getElementById("hours").innerHTML = "08";
+            document.getElementById("minutes").innerHTML = "30";
+            document.getElementById("seconds").innerHTML = "10";
+        }
+        startCountdown();
+
+        // --- 3. SNOWFALL EFFECT ---
         function createSnow() {
             const container = document.getElementById('snow-container');
-            const particleCount = window.innerWidth < 768 ? 20 : 50; // Less snow on mobile
+            const particleCount = window.innerWidth < 768 ? 20 : 50; 
             
             for(let i=0; i<particleCount; i++){
                 const snow = document.createElement('div');
@@ -397,7 +502,7 @@
                 
                 snow.style.left = Math.random() * 100 + 'vw';
                 snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                snow.style.opacity = Math.random() * 0.4;
+                snow.style.opacity = Math.random() * 0.4 + 0.1;
                 snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
                 
                 container.appendChild(snow);
@@ -405,12 +510,12 @@
         }
         createSnow();
 
-        // --- 3. SUPABASE CONFIG ---
+        // --- 4. SUPABASE CONFIG ---
         const SUPABASE_URL = 'https://hbkitssxgajgncavxqng.supabase.co'; 
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // --- 4. SUBMISSION LOGIC ---
+        // --- 5. SUBMISSION LOGIC ---
         document.getElementById('regForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -446,7 +551,8 @@
                         title: 'Guest Found',
                         text: `${firstName} ${lastName} is already on the guest list.`,
                         confirmButtonColor: '#064E3B',
-                        background: '#fff',
+                        background: document.documentElement.classList.contains('dark') ? '#000000' : '#fff',
+                        color: document.documentElement.classList.contains('dark') ? '#fff' : '#000',
                         iconColor: '#C5A059',
                         customClass: {
                             popup: 'rounded-xl border-2 border-gala-gold/20'
@@ -493,7 +599,9 @@
                     icon: 'error',
                     title: 'System Error',
                     text: 'We could not process your request. Please try again.',
-                    confirmButtonColor: '#9B2C2C'
+                    confirmButtonColor: '#9B2C2C',
+                    background: document.documentElement.classList.contains('dark') ? '#000000' : '#fff',
+                    color: document.documentElement.classList.contains('dark') ? '#fff' : '#000',
                 });
                 resetButton(submitBtn, originalBtnContent);
             }
