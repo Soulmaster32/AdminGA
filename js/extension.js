@@ -1,16 +1,16 @@
 /* * EXTENSION.JS 
- * Logic for: Registration, Clock, Signature, Validation, Storage, Database Insertion
+ * Logic for: Registration, Clock, Signature, Validation, Supabase Submission
  */
 
-// SUPABASE CLIENT INITIALIZATION
-const SUPABASE_URL = 'https://hbkitssxgajgncavxang.supabase.co'; // Your project URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE'; // Your anon public key
+// ⚠️ IMPORTANT: REPLACE WITH YOUR ACTUAL SUPABASE CREDENTIALS
+const SUPABASE_URL = 'https://hbkitssxgajgncavxang.supabase.co'; 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE'; 
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.addEventListener("DOMContentLoaded", () => {
     
-    // --- 1. LIVE CLOCK (No changes) ---
+    // --- 1. LIVE CLOCK ---
     const clockElement = document.getElementById("liveClock");
     
     function updateTime() {
@@ -22,20 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(updateTime, 1000);
     updateTime();
 
-    // --- 2. SIGNATURE PAD ENGINE (No changes) ---
+    // --- 2. SIGNATURE PAD ENGINE ---
     const canvas = document.getElementById("sigCanvas");
     const ctx = canvas ? canvas.getContext("2d") : null;
     const container = document.getElementById("sigContainer");
     const clearBtn = document.getElementById("clearSig");
     let isDrawing = false;
 
-    // Canvas Resize (Responsive)
     function resizeCanvas() {
         if(!canvas || !container) return;
         canvas.width = container.offsetWidth;
         canvas.height = container.offsetHeight;
-        
-        // Reset brush styles
         ctx.strokeStyle = "#2d3436";
         ctx.lineWidth = 2.5;
         ctx.lineCap = "round";
@@ -45,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", resizeCanvas);
     setTimeout(resizeCanvas, 100); 
 
-    // Coordinate Calculator (Touch & Mouse)
     function getPos(e) {
         const rect = canvas.getBoundingClientRect();
         const cx = e.touches ? e.touches[0].clientX : e.clientX;
@@ -53,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return { x: cx - rect.left, y: cy - rect.top };
     }
 
-    // Drawing Logic
     if (canvas) {
         const start = (e) => {
             isDrawing = true;
@@ -72,26 +67,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const stop = () => { isDrawing = false; ctx.closePath(); };
 
-        // Mouse Events
         canvas.addEventListener("mousedown", start);
         canvas.addEventListener("mousemove", draw);
         canvas.addEventListener("mouseup", stop);
         canvas.addEventListener("mouseleave", stop);
-
-        // Touch Events
         canvas.addEventListener("touchstart", start, { passive: false });
         canvas.addEventListener("touchmove", draw, { passive: false });
         canvas.addEventListener("touchend", stop);
     }
 
-    // Clear Button
     if (clearBtn) {
         clearBtn.addEventListener("click", () => {
             if(ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
         });
     }
 
-    // --- 3. HELPER FUNCTIONS (No changes) ---
+    // --- 3. HELPER FUNCTIONS ---
     function showToast(message, type = 'success') {
         const container = document.getElementById('toast-container');
         if(!container) return;
@@ -133,8 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("fname").focus();
     }
 
-
-    // --- 4. FORM SUBMISSION (Supabase Integration) ---
+    // --- 4. FORM SUBMISSION (Supabase) ---
     const form = document.getElementById("regForm");
 
     if(form) {
@@ -186,13 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // D. Save Data to Supabase
             const newRecord = {
-                unique_id: uniqueID, // Matches the SQL column name
+                unique_id: uniqueID, 
                 first_name: fname,
                 middle_name: mname,
                 last_name: lname,
                 dept: dept,
                 signature: canvas.toDataURL() 
-                // date_registered is set by default in SQL
             };
 
             const { error: insertError } = await supabase
@@ -218,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 5. CONFETTI EFFECT (No changes) ---
+    // --- 5. CONFETTI EFFECT ---
     function triggerConfetti() {
         const colors = ['#4e54c8', '#8f94fb', '#ff6b6b', '#feca57', '#00b894'];
         
