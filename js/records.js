@@ -1,11 +1,10 @@
-/* 
- * RECORDS.JS
+/* * RECORDS.JS
  * Features: 
  * - Load Data from LocalStorage
- * - Render Responsive Table
+ * - Render Responsive Table (Section column removed)
  * - Staggered Animations (Waterfall effect)
  * - Real-time Search
- * - CSV Export
+ * - CSV Export (Section column removed)
  * - Secure Data Handling
  */
 
@@ -63,6 +62,7 @@ function createRow(person, index) {
     const fullName = `${person.firstName} ${person.middleName ? person.middleName + ' ' : ''}${person.lastName}`;
 
     // Construct HTML (Safe innerHTML)
+    // UPDATED: Removed the <td> element for 'Section'
     row.innerHTML = `
         <td data-label="Full Name">
             <strong style="color:var(--primary)">${escapeHtml(fullName)}</strong>
@@ -72,7 +72,6 @@ function createRow(person, index) {
                 ${escapeHtml(person.dept)}
             </span>
         </td>
-        <td data-label="Section">${escapeHtml(person.section)}</td>
         <td data-label="Date Registered">${dateStr}</td>
         <td data-label="Signature">
             <img src="${person.signature}" class="sig-preview" alt="Signature">
@@ -109,8 +108,9 @@ function setupSearch() {
         let hasVisible = false;
 
         rows.forEach(row => {
-            // Get text from the row (Name, Dept, Section)
-            const text = row.innerText.toLowerCase();
+            // Get text from the row (Name, Dept, Date)
+            // Note: InnerText implicitly handles visible text only, so no change needed here
+            const text = row.innerText.toLowerCase(); 
             
             if(text.includes(term)) {
                 row.style.display = "";
@@ -137,7 +137,8 @@ function exportCSV() {
     }
 
     // CSV Header
-    let csvContent = "First Name,Middle Name,Last Name,Department,Section,Date Registered,Signature Status\n";
+    // UPDATED: Removed "Section" from the header
+    let csvContent = "First Name,Middle Name,Last Name,Department,Date Registered,Signature Status\n";
 
     allData.forEach(p => {
         // Wrap fields in quotes to handle commas within names
@@ -145,10 +146,11 @@ function exportCSV() {
         const m = `"${p.middleName}"`;
         const l = `"${p.lastName}"`;
         const d = `"${p.dept}"`;
-        const s = `"${p.section}"`;
+        // REMOVED: const s = `"${p.section}"`; 
         const date = `"${new Date(p.date).toLocaleString()}"`;
 
-        csvContent += `${f},${m},${l},${d},${s},${date},"Signed"\n`;
+        // UPDATED: Removed 's' (section) from the content line
+        csvContent += `${f},${m},${l},${d},${date},"Signed"\n`;
     });
 
     // Create Download Link
