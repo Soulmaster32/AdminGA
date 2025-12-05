@@ -7,7 +7,7 @@
  * - Secure Data Handling
  */
 
-// ⚠️ IMPORTANT: REPLACE WITH YOUR ACTUAL SUPABASE CREDENTIALS
+// ✅ SUPABASE CREDENTIALS UPDATED
 const SUPABASE_URL = 'https://hbkitssxgajgncavxang.supabase.co'; 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE'; 
 
@@ -74,109 +74,60 @@ function createRow(person, index) {
     const dateStr = dateObj.toLocaleDateString(undefined, { 
         year: 'numeric', month: 'short', day: 'numeric' 
     }) + ' <small style="color:#999">' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + '</small>';
-    
-    // Full Name
-    const fullName = `${person.first_name} ${person.middle_name ? person.middle_name + ' ' : ''}${person.last_name}`;
 
     row.innerHTML = `
-        <td data-label="Full Name">
-            <strong style="color:var(--primary)">${escapeHtml(fullName)}</strong>
-        </td>
-        <td data-label="Department">
-            <span style="background:#eff3f8; padding:4px 8px; border-radius:4px; font-size:0.85rem; font-weight:500;">
-                ${escapeHtml(person.dept)}
-            </span>
-        </td>
+        <td data-label="Full Name">${person.first_name} ${person.middle_name ? person.middle_name + ' ' : ''}${person.last_name}</td>
+        <td data-label="Department">${person.dept}</td>
         <td data-label="Date Registered">${dateStr}</td>
-        <td data-label="Signature">
-            <img src="${person.signature}" class="sig-preview" alt="Signature">
-        </td>
-        <td data-label="Actions">
-            <button onclick="deleteRecord('${person.id}')" class="btn-delete-row">
-                ✕ Delete
-            </button>
-        </td>
+        <td data-label="Signature"><img src="${person.signature}" alt="Signature Preview" class="sig-preview"></td>
+        <td data-label="Actions"><button class="btn-delete-row" onclick="deleteRecord('${person.id}')">Delete</button></td>
     `;
-
     return row;
 }
 
-// --- 3. SECURITY HELPER ---
-function escapeHtml(text) {
-    if (!text) return "";
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-// --- 4. SEARCH FUNCTIONALITY ---
+// --- 3. SEARCH & FILTER ---
 function setupSearch() {
-    const searchInput = document.getElementById("searchInput");
-    if(!searchInput) return;
-
-    searchInput.addEventListener("keyup", (e) => {
-        const term = e.target.value.toLowerCase();
-        const rows = document.querySelectorAll("#tableBody tr");
-        let hasVisible = false;
-
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase(); 
-            
-            if(text.includes(term)) {
-                row.style.display = "";
-                hasVisible = true;
-            } else {
-                row.style.display = "none";
-            }
+    const searchInput = document.getElementById('searchInput');
+    if(searchInput) {
+        searchInput.addEventListener('keyup', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredData = allData.filter(person => {
+                const fullName = `${person.first_name} ${person.middle_name} ${person.last_name}`.toLowerCase();
+                const uniqueId = person.unique_id.toLowerCase();
+                const dept = person.dept.toLowerCase();
+                
+                return fullName.includes(query) || uniqueId.includes(query) || dept.includes(query);
+            });
+            renderFilteredRecords(filteredData);
         });
-
-        const emptyMsg = document.getElementById("emptyMsg");
-        if(emptyMsg) {
-             emptyMsg.style.display = hasVisible ? "none" : "block";
-             if(!hasVisible) emptyMsg.querySelector('h3').innerText = "No matching records";
-        }
-    });
+    }
 }
 
-// --- 5. EXPORT TO CSV ---
-function exportCSV() {
-    if (allData.length === 0) {
-        alert("No records to export.");
+function renderFilteredRecords(data) {
+    const tableBody = document.getElementById("tableBody");
+    const emptyMsg = document.getElementById("emptyMsg");
+    
+    tableBody.innerHTML = "";
+    if (data.length === 0) {
+        if(emptyMsg) {
+             emptyMsg.innerHTML = "<div>🔍</div><h3>No results found</h3><p>Try a different name or department.</p>";
+             emptyMsg.style.display = "block";
+        }
+    } else {
+        if(emptyMsg) emptyMsg.style.display = "none";
+        data.forEach((person, index) => {
+            const row = createRow(person, index);
+            tableBody.appendChild(row);
+        });
+    }
+}
+
+
+// --- 4. DELETE RECORD ---
+async function deleteRecord(id) {
+    if (!confirm("Are you sure you want to delete this record? This cannot be undone.")) {
         return;
     }
-
-    // CSV Header 
-    let csvContent = "First Name,Middle Name,Last Name,Department,Date Registered,Signature Status\n";
-
-    allData.forEach(p => {
-        const f = `"${p.first_name}"`;
-        const m = `"${p.middle_name || ''}"`; 
-        const l = `"${p.last_name}"`;
-        const d = `"${p.dept}"`;
-        const date = `"${new Date(p.date_registered).toLocaleString()}"`;
-
-        csvContent += `${f},${m},${l},${d},${date},"Signed"\n`;
-    });
-
-    // Create Download Link
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `Employees_${new Date().toISOString().slice(0,10)}.csv`;
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-// --- 6. DELETE LOGIC (Supabase Integration) ---
-async function deleteRecord(id) {
-    // Note: 'id' here is the primary key (BIGINT) from the SQL table
-    if(!confirm("Are you sure you want to permanently delete this record?")) return;
 
     const { error } = await supabase
         .from('registrations')
@@ -185,36 +136,74 @@ async function deleteRecord(id) {
 
     if (error) {
         console.error("Error deleting record:", error);
-        alert("Deletion failed due to a database error.");
+        alert("Failed to delete record: " + error.message);
+    } else {
+        // Reload records after successful deletion
+        loadRecords(); 
+    }
+}
+
+// --- 5. DELETE ALL RECORDS (Admin Functionality) ---
+async function deleteAll() {
+     if (!confirm("⚠️ WARNING: Are you ABSOLUTELY sure you want to delete ALL records? This action is irreversible.")) {
         return;
     }
     
-    // Re-render Table
-    loadRecords();
-}
-
-async function deleteAll() {
-    if(allData.length === 0) return;
+    // Note: This operation requires elevated database permissions which your anonymous key might not have.
+    // Assuming 'id' is your primary key. You can't delete everything with a simple filter.
+    // The most efficient way is often to truncate the table or use a delete statement without conditions,
+    // which usually requires an Admin JWT and is not recommended for a frontend app like this.
+    // For this demonstration, we'll try to delete all rows based on an assumption of a small dataset.
     
-    if(!confirm("⚠️ WARNING: This will wipe ALL data. This cannot be undone.\n\nAre you sure?")) return;
-    
-    // Delete ALL rows
-    const { error } = await supabase
+    const { data, error } = await supabase
         .from('registrations')
         .delete()
-        .neq('id', 0); // Delete all where id != 0
+        .neq('id', 0); // Deletes all rows where ID is NOT 0 (i.e., everything, assuming ID is positive)
 
     if (error) {
         console.error("Error deleting all records:", error);
-        alert("Failed to clear all data due to a database error.");
+        alert("Failed to clear all records. You may need higher permissions: " + error.message);
+    } else {
+        alert("All records have been successfully cleared.");
+        loadRecords(); 
+    }
+}
+
+
+// --- 6. EXPORT TO CSV ---
+function exportCSV() {
+    if (allData.length === 0) {
+        alert("No data to export!");
         return;
     }
 
-    allData = [];
-    loadRecords();
-}
+    const headers = ["ID", "First Name", "Middle Name", "Last Name", "Department", "Date Registered", "Unique ID"];
+    const csvRows = [];
+    csvRows.push(headers.join(','));
 
-// Global exposure for HTML onclick
-window.exportCSV = exportCSV;
-window.deleteRecord = deleteRecord;
-window.deleteAll = deleteAll;
+    for (const record of allData) {
+        const dateObj = new Date(record.date_registered);
+        const dateString = dateObj.toLocaleString(); // Use a simple string for export
+
+        const row = [
+            `"${record.id}"`, // ID (primary key)
+            `"${record.first_name}"`,
+            `"${record.middle_name || ''}"`,
+            `"${record.last_name}"`,
+            `"${record.dept}"`,
+            `"${dateString}"`,
+            `"${record.unique_id}"`
+        ];
+        csvRows.push(row.join(','));
+    }
+
+    const csvString = csvRows.join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'employee_registrations.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
