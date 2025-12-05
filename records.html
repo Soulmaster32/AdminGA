@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Records Database</title>
-    <!-- Modern Font & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
@@ -111,7 +110,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 800px; /* Forces scroll on small screens */
+            min-width: 700px; /* Adjusted min-width since one column is removed */
         }
 
         thead {
@@ -241,7 +240,6 @@
 
     <div class="dashboard-container">
         
-        <!-- Header -->
         <div class="header-section">
             <div class="title-group">
                 <h2>THPAL Christmas Registration Record</h2>
@@ -266,26 +264,22 @@
             </div>
         </div>
 
-        <!-- Table -->
         <div class="table-container">
             <table id="recordsTable">
                 <thead>
                     <tr>
-                        <th width="20%">Full Name</th>
-                        <th width="15%">Department</th>
-                        <th width="15%">Section</th>
-                        <th width="20%">Date Registered</th>
+                        <th width="25%">Full Name</th>
+                        <th width="20%">Department</th>
+                        <th width="25%">Date Registered</th>
                         <th width="15%">Signature</th>
                         <th width="15%">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Javascript will load rows here -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
-        <!-- Empty State -->
         <div id="emptyMsg" class="empty-state">
             <div>📭</div>
             <h3>No records found</h3>
@@ -294,7 +288,6 @@
 
     </div>
 
-    <!-- Link to Logic -->
     <script src="js/records.js"></script>
 
 </body>
