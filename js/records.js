@@ -7,7 +7,7 @@
  * - Secure Data Handling
  */
 
-// ✅ SUPABASE CREDENTIALS UPDATED
+// ✅ SUPABASE CREDENTIALS
 const SUPABASE_URL = 'https://hbkitssxgajgncavxang.supabase.co'; 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE'; 
 
@@ -123,8 +123,9 @@ function renderFilteredRecords(data) {
 }
 
 
-// --- 4. DELETE RECORD ---
-async function deleteRecord(id) {
+// --- 4. DELETE RECORD (EXPOSED GLOBALLY) ---
+// Note: This function is now exposed globally for use in records.html onclick
+window.deleteRecord = async function(id) {
     if (!confirm("Are you sure you want to delete this record? This cannot be undone.")) {
         return;
     }
@@ -143,17 +144,12 @@ async function deleteRecord(id) {
     }
 }
 
-// --- 5. DELETE ALL RECORDS (Admin Functionality) ---
-async function deleteAll() {
+// --- 5. DELETE ALL RECORDS (EXPOSED GLOBALLY) ---
+// Note: This function is now exposed globally for use in records.html onclick
+window.deleteAll = async function() {
      if (!confirm("⚠️ WARNING: Are you ABSOLUTELY sure you want to delete ALL records? This action is irreversible.")) {
         return;
     }
-    
-    // Note: This operation requires elevated database permissions which your anonymous key might not have.
-    // Assuming 'id' is your primary key. You can't delete everything with a simple filter.
-    // The most efficient way is often to truncate the table or use a delete statement without conditions,
-    // which usually requires an Admin JWT and is not recommended for a frontend app like this.
-    // For this demonstration, we'll try to delete all rows based on an assumption of a small dataset.
     
     const { data, error } = await supabase
         .from('registrations')
@@ -170,8 +166,9 @@ async function deleteAll() {
 }
 
 
-// --- 6. EXPORT TO CSV ---
-function exportCSV() {
+// --- 6. EXPORT TO CSV (EXPOSED GLOBALLY) ---
+// Note: This function is now exposed globally for use in records.html onclick
+window.exportCSV = function() {
     if (allData.length === 0) {
         alert("No data to export!");
         return;
@@ -179,14 +176,14 @@ function exportCSV() {
 
     const headers = ["ID", "First Name", "Middle Name", "Last Name", "Department", "Date Registered", "Unique ID"];
     const csvRows = [];
-    csvRows.push(headers.join(','));
+    csvRows.push(headers.map(h => `"${h}"`).join(',')); // Ensure headers are quoted
 
     for (const record of allData) {
         const dateObj = new Date(record.date_registered);
-        const dateString = dateObj.toLocaleString(); // Use a simple string for export
+        const dateString = dateObj.toLocaleString(); 
 
         const row = [
-            `"${record.id}"`, // ID (primary key)
+            `"${record.id}"`, 
             `"${record.first_name}"`,
             `"${record.middle_name || ''}"`,
             `"${record.last_name}"`,
