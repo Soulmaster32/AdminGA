@@ -2,358 +2,525 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>THPAL Christmas Gala 2025</title>
     
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        script: ['"Great Vibes"', 'cursive'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    colors: {
+                        gala: {
+                            gold: '#C5A059',
+                            goldLight: '#E5C585',
+                            dark: '#022c22',
+                            red: '#9B2C2C',
+                            green: '#064E3B',
+                            accent: '#134e4a'
+                        }
+                    },
+                    backgroundImage: {
+                        'winter-pattern': "radial-gradient(circle at center, #115e59 0%, #022c22 100%)",
+                        'gold-shimmer': "linear-gradient(45deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 60%)"
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'shimmer': 'shimmer 3s infinite linear'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* (Your CSS remains here, unchanged) */
-        :root {
-            --primary: #4e54c8;
-            --primary-dark: #3a3fb0;
-            --secondary: #8f94fb;
-            --accent: #ff6b6b;
-            --success: #00b894;
-            --bg-body: #eff3f8;
-            --text-dark: #2d3436;
-            --text-light: #636e72;
-            --white: #ffffff;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
         body {
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            background-color: #022c22;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- CARD CONTAINER --- */
-        .card-wrapper {
-            max-width: 600px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: var(--shadow);
-            animation: fadeIn 0.8s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            margin-top: 10px;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- HEADER --- */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #f1f2f6;
-            padding-bottom: 20px;
-        }
-
-        .header h1 {
-            color: var(--primary-dark);
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-
-        .header p {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
-        .live-clock {
-            color: var(--text-light);
-            font-size: 1rem;
-            font-weight: 500;
-            margin-top: 15px;
-            padding: 8px 15px;
-            background: #f1f2f6;
-            border-radius: 8px;
-            display: inline-block;
-        }
-
-        /* --- FORM STYLES --- */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 15px;
-        }
-
-        .input-group > div {
-            flex-grow: 1;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e1e1;
-            border-radius: 10px;
-            font-size: 1rem;
-            color: var(--text-dark);
-            transition: all 0.3s ease;
-            outline: none;
-            background: var(--white);
-        }
-
-        input[type="text"]:focus, select:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.2);
-        }
-
-        /* Required Asterisk */
-        label.required::after {
-            content: " *";
-            color: var(--accent);
-        }
-
-        /* --- SIGNATURE PAD --- */
-        .sig-container {
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            height: 150px;
-            position: relative;
-            background: #fafafa;
-            margin-bottom: 10px;
-            cursor: crosshair;
-        }
-
-        .sig-container canvas {
-            display: block;
+        /* Snow Effect */
+        #snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: rgba(255,255,255, 0.2);
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { transform: translateY(110vh); }
         }
 
-        .sig-controls {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
 
-        .btn-clear {
-            background: var(--accent);
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .btn-clear:hover { background: #e85a5a; }
-
-        /* --- SUBMIT BUTTON --- */
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
+        /* Form styling */
+        .custom-input {
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 16px; /* Prevents iOS zoom */
+        }
+        .custom-input:focus {
+            border-bottom-color: #C5A059;
+            background-color: #fffbf0;
         }
 
-        .btn-submit:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(78, 84, 200, 0.5);
+        /* Ticket Design */
+        .golden-ticket {
+            background: radial-gradient(circle at center, #fff 0%, #fdfcf8 100%);
+            border: 1px solid #C5A059;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
-        .btn-submit:active { transform: scale(0.98); }
+        /* Perforated Edges */
+        .ticket-edge-left, .ticket-edge-right {
+            position: absolute;
+            top: 50%;
+            width: 24px;
+            height: 24px;
+            background-color: #1f2937; 
+            border-radius: 50%;
+            transform: translateY(-50%);
+            border: 1px solid #C5A059; 
+            z-index: 10;
+        }
+        .ticket-edge-left { left: -14px; border-right: none; }
+        .ticket-edge-right { right: -14px; border-left: none; }
 
-        .btn-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-        .btn-link:hover { color: var(--primary-dark); }
+        /* Custom Scrollbar for Select */
+        select::-webkit-scrollbar { width: 6px; }
+        select::-webkit-scrollbar-thumb { background-color: #C5A059; border-radius: 4px; }
+        select::-webkit-scrollbar-track { background-color: #f1f1f1; }
 
-
-        /* --- TOAST NOTIFICATIONS --- */
-        #toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        .toast {
-            background-color: var(--primary);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            opacity: 1;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .toast.error { background-color: var(--accent); }
-        .toast.success { background-color: var(--success); }
-
-        /* --- SUCCESS MODAL --- */
-        #successModal {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: none; /* Controlled by JS */
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-            animation: modalFadeIn 0.3s ease-out;
-        }
-
-        .modal-content {
-            background: var(--white);
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            width: 90%;
-            max-width: 400px;
-            transform: scale(0.9);
-            animation: modalPop 0.3s forwards;
-        }
-
-        .modal-content h3 {
-            color: var(--success);
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-        }
-
-        .modal-content p {
-            color: var(--text-light);
-            margin-bottom: 20px;
-        }
-
-        .modal-icon {
-            font-size: 4rem;
-            color: var(--success);
-            display: block;
-            margin-bottom: 15px;
-            animation: bounce 0.8s ease-out;
-        }
-        
-        @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes modalPop { 
-            0% { transform: scale(0.8); opacity: 0; } 
-            100% { transform: scale(1); opacity: 1; } 
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-30px); }
-            60% { transform: translateY(-15px); }
-        }
-
-        /* --- MOBILE ADJUSTMENTS --- */
-        @media (max-width: 500px) {
-            .input-group {
-                flex-direction: column;
+        /* Desktop Layout Utils */
+        @media (min-width: 1024px) {
+            .desktop-split {
+                display: grid;
+                grid-template-columns: 1fr 1.2fr;
+                gap: 2rem;
+                max-width: 1200px;
+                width: 90%;
             }
-            .card-wrapper {
-                padding: 25px;
+            .ticket-edge-left, .ticket-edge-right {
+                background-color: #ffffff; /* Matches glass panel on desktop inside container */
+                opacity: 0.1;
             }
         }
     </style>
 </head>
-<body>
+<body class="bg-winter-pattern min-h-screen flex items-center justify-center p-4 lg:p-8 relative">
 
-    <div id="toast-container"></div>
+    <!-- Snow Animation Container -->
+    <div id="snow-container"></div>
 
-    <div class="card-wrapper">
-
-        <div class="header">
-            <h1>THPAL Christmas Registration</h1>
-            <p>Please provide your details below.</p>
-            <div id="liveClock" class="live-clock"></div>
-        </div>
+    <!-- MAIN CONTAINER -->
+    <div class="relative z-10 w-full desktop-split">
         
-        <form id="regForm">
-            
-            <div class="form-group input-group">
-                <div>
-                    <label for="fname" class="required">First Name</label>
-                    <input type="text" id="fname" name="fname" required>
-                </div>
-                <div>
-                    <label for="mname">Middle Name (Optional)</label>
-                    <input type="text" id="mname" name="mname">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="lname" class="required">Last Name</label>
-                <input type="text" id="lname" name="lname" required>
-            </div>
-
-            <div class="form-group">
-                <label for="dept" class="required">Department</label>
-                <select id="dept" name="dept" required>
-                    <option value="" disabled selected>Select Department</option>
-                    <option value="HR">Human Resources (HR)</option>
-                    <option value="IT">Information Technology (IT)</option>
-                    <option value="FIN">Finance</option>
-                    <option value="OPS">Operations</option>
-                    <option value="ENG">Engineering</option>
-                    </select>
+        <!-- LEFT SIDE: Welcome/Text (Visible on Desktop) -->
+        <div class="hidden lg:flex flex-col justify-center text-white p-8 animate-float">
+            <div class="border-l-4 border-gala-gold pl-6 mb-8">
+                <p class="font-serif text-gala-gold uppercase tracking-[0.3em] text-sm mb-2">Exclusive Invitation</p>
+                <h1 class="text-7xl font-script text-white drop-shadow-lg mb-2 leading-tight">Year End<br>Party 2025</h1>
+                <p class="text-xl font-serif text-gray-300 italic">"A Night of Elegance & Gratitude"</p>
             </div>
             
-            <div class="form-group">
-                <label for="sigCanvas" class="required">Digital Signature</label>
-                <div id="sigContainer" class="sig-container">
-                    <canvas id="sigCanvas"></canvas>
-                </div>
-                <div class="sig-controls">
-                    <button type="button" id="clearSig" class="btn-clear">Clear</button>
-                </div>
+            <div class="text-sm font-sans text-gray-300 max-w-md leading-relaxed mb-10">
+                Join us as we celebrate the milestones of THPAL. A night filled with music, fine dining, and holiday cheer awaits you.
             </div>
 
-            <button type="submit" class="btn-submit">Register Attendance</button>
-        </form>
+            <!-- Countdown Timer -->
+            <div>
+                <p class="text-[10px] text-gala-gold uppercase tracking-widest mb-2">Time Until Celebration</p>
+                <div class="grid grid-cols-4 gap-4 text-center max-w-sm">
+                    <div class="bg-black/30 backdrop-blur-sm p-3 rounded border border-white/10 shadow-lg">
+                        <span id="days" class="block text-2xl font-serif text-white">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-gala-gold">Days</span>
+                    </div>
+                    <div class="bg-black/30 backdrop-blur-sm p-3 rounded border border-white/10 shadow-lg">
+                        <span id="hours" class="block text-2xl font-serif text-white">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-gala-gold">Hrs</span>
+                    </div>
+                    <div class="bg-black/30 backdrop-blur-sm p-3 rounded border border-white/10 shadow-lg">
+                        <span id="minutes" class="block text-2xl font-serif text-white">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-gala-gold">Mins</span>
+                    </div>
+                    <div class="bg-black/30 backdrop-blur-sm p-3 rounded border border-white/10 shadow-lg">
+                        <span id="seconds" class="block text-2xl font-serif text-white">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-gala-gold">Secs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <a href="records.html" class="btn-link">View All Registered Employees</a>
+        <!-- RIGHT SIDE: The Form Card -->
+        <div class="w-full max-w-md mx-auto lg:max-w-none lg:flex lg:items-center">
+            
+            <!-- Mobile Header (Hidden on large screens) -->
+            <div class="lg:hidden text-center mb-6 w-full">
+                <h1 class="text-5xl font-script text-gala-gold drop-shadow-md">Christmas Party</h1>
+                <p class="text-white/80 font-serif text-sm tracking-widest uppercase mt-1">THPAL Year End Party 2025</p>
+            </div>
 
-    </div>
+            <div class="w-full glass-panel rounded-2xl overflow-hidden relative border-t-4 border-gala-gold shadow-2xl">
+                
+                <!-- Decorative Top Ornament -->
+                <div class="absolute -top-16 -right-16 w-32 h-32 bg-gala-gold rounded-full blur-3xl opacity-20 pointer-events-none"></div>
 
-    <div id="successModal">
-        <div class="modal-content">
-            <span class="modal-icon">🎉</span>
-            <h3>Registration Complete!</h3>
-            <p>Thank you for registering. Merry Christmas!</p>
-            <button onclick="document.getElementById('successModal').style.display='none';" class="btn-clear" style="background: var(--success);">Close</button>
+                <div class="p-6 sm:p-8 pt-8">
+                    
+                    <!-- Form Header -->
+                    <div class="text-center mb-6 lg:mb-8">
+                        <h2 class="text-2xl font-serif text-gala-green font-bold">Christmas Registration</h2>
+                        <div class="flex justify-center items-center gap-4 mt-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                            <span class="bg-slate-100 px-2 py-1 rounded"><i class="far fa-calendar-alt text-gala-gold mr-1"></i> Dec 06</span>
+                            <span class="bg-slate-100 px-2 py-1 rounded"><i class="far fa-clock text-gala-gold mr-1"></i> 6:00 PM</span>
+                        </div>
+                    </div>
+
+                    <!-- FORM SECTION -->
+                    <form id="regForm" class="space-y-5">
+                        
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-4 gap-3">
+                                <!-- First Name -->
+                                <div class="col-span-3">
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">First Name</label>
+                                    <div class="relative">
+                                        <i class="fas fa-user absolute left-3 top-3.5 text-slate-300 text-xs"></i>
+                                        <input type="text" id="firstName" required 
+                                            class="custom-input w-full bg-slate-50 rounded-t px-3 pl-8 py-3 text-slate-800 font-serif focus:outline-none placeholder-slate-300"
+                                            placeholder="First Name">
+                                    </div>
+                                </div>
+                                
+                                <!-- Middle Initial -->
+                                <div class="col-span-1">
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">M.I.</label>
+                                    <input type="text" id="middleName" maxlength="3" 
+                                        class="custom-input w-full bg-slate-50 rounded-t px-1 py-3 text-center text-slate-800 font-serif focus:outline-none placeholder-slate-300"
+                                        placeholder="-">
+                                </div>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Last Name</label>
+                                <div class="relative">
+                                    <i class="far fa-user absolute left-3 top-3.5 text-slate-300 text-xs"></i>
+                                    <input type="text" id="lastName" required 
+                                        class="custom-input w-full bg-slate-50 rounded-t px-3 pl-8 py-3 text-slate-800 font-serif focus:outline-none placeholder-slate-300"
+                                        placeholder="Last Name">
+                                </div>
+                            </div>
+
+                            <!-- Department -->
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Department / Division</label>
+                                <div class="relative">
+                                    <i class="fas fa-building absolute left-3 top-3.5 text-slate-300 text-xs z-10"></i>
+                                    <select id="department" required class="custom-input w-full bg-slate-50 rounded-t pl-8 pr-3 py-3 text-slate-800 font-serif focus:outline-none appearance-none cursor-pointer relative z-0 truncate">
+                                        <option value="" disabled selected>Select Your Designation</option>
+                                        <optgroup label="Administration">
+                                            <option value="General Affairs">General Affairs</option>
+                                            <option value="Human Resources">Human Resources</option>
+                                            <option value="Accounting">Accounting</option>
+                                            <option value="Labor Management Relations">Labor Management Relations</option>
+                                        </optgroup>
+                                        <optgroup label="Comrel">
+                                            <option value="Community Relations">Community Relations</option>
+                                        </optgroup>
+                                        <optgroup label="Engineering">
+                                            <option value="Engineering Civil">Engineering Civil</option>
+                                            <option value="Engineering Mechanical">Engineering Mechanical</option>
+                                            <option value="Engineering Electrical">Engineering Electrical</option>
+                                        </optgroup>
+                                        <optgroup label="Maintenance">
+                                            <option value="Reliability Maintenance">Reliability Maintenance</option>
+                                            <option value="SHE, Services and Supply Chain">SHE, Services and Supply Chain</option>
+                                            <option value="Electrical and Instrument">Electrical and Instrument</option>
+                                        </optgroup>
+                                        <optgroup label="Production">
+                                            <option value="Production (HPAL)">Production (HPAL)</option>
+                                            <option value="Production (MS)">Production (MS)</option> 
+                                        </optgroup>
+                                        <optgroup label="PSU">
+                                            <option value="Power Station Utilities">Power Station Utilities</option>
+                                        </optgroup>
+                                        <optgroup label="Rare Metals">
+                                            <option value="Scandium">Scandium</option>
+                                            <option value="Chromite">Chromite</option>
+                                        </optgroup>
+                                        <optgroup label="OSH">
+                                            <option value="Occupational Safety and Health (Health)">Occupational Safety and Health (Health)</option>
+                                            <option value="Occupational Safety and Health (Safety)">Occupational Safety and Health (Safety)</option>
+                                        </optgroup>
+                                        <optgroup label="Security">
+                                            <option value="Security">Security</option>
+                                        </optgroup>
+                                        <optgroup label="Procurement and Logistics">
+                                            <option value="Procurement and Logistics (Procurement)">Procurement</option>
+                                            <option value="Procurement and Logistics (Logistics)">Logistics</option> 
+                                        </optgroup>
+                                        <optgroup label="Technical">
+                                            <option value="Technical (MEPEO)">MEPEO</option>
+                                            <option value="Technical (Laboratory)">Laboratory</option>
+                                        </optgroup>
+                                    </select>
+                                    <i class="fas fa-chevron-down absolute right-3 top-3.5 text-gala-gold pointer-events-none text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="pt-4">
+                            <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-gala-green to-gala-accent text-white font-serif tracking-widest uppercase text-sm py-4 rounded shadow-lg hover:shadow-emerald-900/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex justify-center items-center gap-2 group relative overflow-hidden">
+                                <span class="absolute inset-0 bg-gold-shimmer animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                <span class="relative z-10 flex items-center gap-2">Confirm Attendance <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform text-gala-gold"></i></span> 
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- SUCCESS TICKET -->
+                    <div id="successTicket" class="hidden opacity-0 transition-all duration-700 transform scale-95">
+                        <div class="golden-ticket p-6 rounded text-center relative">
+                            <!-- Punch Holes for visual effect -->
+                            <div class="ticket-edge-left bg-[#134e4a] lg:bg-white/95"></div>
+                            <div class="ticket-edge-right bg-[#134e4a] lg:bg-white/95"></div>
+
+                            <div class="border-2 border-dashed border-gala-gold/30 p-4 rounded h-full relative z-20">
+                                <div class="mb-3">
+                                    <div class="inline-flex items-center justify-center w-12 h-12 bg-green-50 rounded-full">
+                                        <i class="fas fa-check text-xl text-gala-green"></i>
+                                    </div>
+                                </div>
+                                <h2 class="text-2xl font-serif font-bold text-slate-800 mb-1">Registration Confirmed</h2>
+                                <p class="text-slate-500 text-[10px] uppercase tracking-widest mb-6">Please present this ticket</p>
+                                
+                                <div class="bg-slate-50 p-4 rounded text-left border border-slate-100">
+                                    <div class="mb-3">
+                                        <p class="text-[10px] text-gala-gold uppercase tracking-widest font-bold">Guest Name</p>
+                                        <p id="ticketName" class="font-serif text-lg text-slate-900 truncate">Name Here</p>
+                                    </div>
+                                    
+                                    <div class="flex justify-between items-end">
+                                        <div class="w-2/3">
+                                            <p class="text-[10px] text-gala-gold uppercase tracking-widest font-bold">Department</p>
+                                            <p id="ticketDept" class="font-sans font-bold text-slate-700 text-xs leading-tight">Dept Here</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <i class="fas fa-qrcode text-4xl text-slate-800"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="location.reload()" class="mt-6 w-full text-xs text-slate-300 hover:text-white uppercase tracking-widest transition flex items-center justify-center gap-2">
+                            <i class="fas fa-redo"></i> Register Another Guest
+                        </button>
+                    </div>
+
+                </div>
+                
+                <!-- Bottom decorative bar -->
+                <div class="h-2 bg-gradient-to-r from-gala-gold via-yellow-200 to-gala-gold w-full"></div>
+            </div>
+            
+            <div class="text-center mt-6 lg:hidden">
+                <p class="text-white/30 text-[10px] uppercase tracking-[0.3em] font-serif">THPAL Annual Celebration</p>
+            </div>
         </div>
     </div>
 
-    <script src="js/extension.js"></script>
+    <script>
+        // --- 1. COUNTDOWN LOGIC (FIXED DISPLAY) ---
+        function updateCountdown() {
+            // Display set to exactly 5 Days, 2 Hours, 54 Minutes, 20 Seconds
+            document.getElementById("days").innerText = "05";
+            document.getElementById("hours").innerText = "02";
+            document.getElementById("minutes").innerText = "54";
+            document.getElementById("seconds").innerText = "20";
+        }
+        updateCountdown();
 
+        // --- 2. SNOWFALL EFFECT ---
+        function createSnow() {
+            const container = document.getElementById('snow-container');
+            const particleCount = window.innerWidth < 768 ? 20 : 50; // Less snow on mobile
+            
+            for(let i=0; i<particleCount; i++){
+                const snow = document.createElement('div');
+                snow.classList.add('snowflake');
+                snow.innerHTML = '&#10052;'; 
+                
+                snow.style.left = Math.random() * 100 + 'vw';
+                snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                snow.style.opacity = Math.random() * 0.4;
+                snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                
+                container.appendChild(snow);
+            }
+        }
+        createSnow();
+
+        // --- 3. SUPABASE CONFIG ---
+        const SUPABASE_URL = 'https://hbkitssxgajgncavxqng.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // --- 4. SUBMISSION LOGIC ---
+        document.getElementById('regForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const form = document.getElementById('regForm');
+            const successDiv = document.getElementById('successTicket');
+            
+            // Loading State
+            const originalBtnContent = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin text-lg"></i><span class="ml-2">Verifying...</span>`;
+
+            // Data
+            const firstName = document.getElementById('firstName').value.trim();
+            const middleName = document.getElementById('middleName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const department = document.getElementById('department').value;
+
+            try {
+                // A. Check Duplicate
+                const { data: existingUsers, error: checkError } = await supabaseClient
+                    .from('registrations')
+                    .select('id')
+                    .ilike('first_name', firstName)
+                    .ilike('last_name', lastName);
+
+                if (checkError) throw new Error("Connection failed.");
+
+                if (existingUsers && existingUsers.length > 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Guest Found',
+                        text: `${firstName} ${lastName} is already on the guest list.`,
+                        confirmButtonColor: '#064E3B',
+                        background: '#fff',
+                        iconColor: '#C5A059',
+                        customClass: {
+                            popup: 'rounded-xl border-2 border-gala-gold/20'
+                        }
+                    });
+                    resetButton(submitBtn, originalBtnContent);
+                    return;
+                }
+
+                // B. Insert
+                submitBtn.innerHTML = `<i class="fas fa-print fa-spin text-lg"></i><span class="ml-2">Printing Ticket...</span>`;
+                
+                const { error: insertError } = await supabaseClient
+                    .from('registrations')
+                    .insert([{ 
+                        first_name: firstName, 
+                        middle_name: middleName, 
+                        last_name: lastName, 
+                        department: department 
+                    }]);
+
+                if (insertError) throw insertError;
+
+                // C. Success Animation
+                document.getElementById('ticketName').textContent = `${firstName} ${middleName} ${lastName}`;
+                document.getElementById('ticketDept').textContent = department;
+
+                // Fade out form, Fade in ticket
+                form.style.opacity = '0';
+                setTimeout(() => {
+                    form.style.display = 'none';
+                    successDiv.classList.remove('hidden');
+                    // Trigger reflow for animation
+                    void successDiv.offsetWidth; 
+                    successDiv.classList.remove('opacity-0', 'scale-95');
+                    successDiv.classList.add('opacity-100', 'scale-100');
+                    
+                    fireGoldConfetti();
+                }, 300);
+
+            } catch (error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'System Error',
+                    text: 'We could not process your request. Please try again.',
+                    confirmButtonColor: '#9B2C2C'
+                });
+                resetButton(submitBtn, originalBtnContent);
+            }
+        });
+
+        function resetButton(btn, content) {
+            btn.disabled = false;
+            btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            btn.innerHTML = content;
+        }
+
+        function fireGoldConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 50 };
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                var particleCount = 50 * (timeLeft / duration);
+                
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: Math.random(), y: Math.random() - 0.2 },
+                    colors: ['#C5A059', '#FFFFFF', '#064E3B', '#FCD34D']
+                }));
+            }, 250);
+        }
+    </script>
 </body>
 </html>
