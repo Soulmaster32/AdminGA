@@ -2,7 +2,7 @@
  * Logic for: Registration, Clock, Signature, Validation, Supabase Submission
  */
 
-// ✅ SUPABASE CREDENTIALS UPDATED
+// ✅ SUPABASE CREDENTIALS
 const SUPABASE_URL = 'https://hbkitssxgajgncavxang.supabase.co'; 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE'; 
 
@@ -22,25 +22,32 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(updateTime, 1000);
     updateTime();
 
-    // --- 2. SIGNATURE PAD ENGINE ---
+    // --- 2. SIGNATURE PAD ENGINE (Fixed Initialization) ---
     const canvas = document.getElementById("sigCanvas");
-    const ctx = canvas ? canvas.getContext("2d") : null;
     const container = document.getElementById("sigContainer");
     const clearBtn = document.getElementById("clearSig");
     let isDrawing = false;
+    let ctx = null; // Initialize ctx here
 
+    // Function to set up the canvas, called on load and resize
     function resizeCanvas() {
         if(!canvas || !container) return;
         canvas.width = container.offsetWidth;
         canvas.height = container.offsetHeight;
-        ctx.strokeStyle = "#2d3436";
-        ctx.lineWidth = 2.5;
-        ctx.lineCap = "round";
-        ctx.lineJoin = "round";
+        
+        // Re-get context and set styles after resize
+        if (!ctx) {
+            ctx = canvas.getContext("2d");
+            ctx.strokeStyle = "#2d3436";
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+        }
     }
     
     window.addEventListener("resize", resizeCanvas);
-    setTimeout(resizeCanvas, 100); 
+    // Use a small timeout to ensure the DOM is fully rendered before resizing
+    setTimeout(resizeCanvas, 50); 
 
     function getPos(e) {
         const rect = canvas.getBoundingClientRect();
@@ -53,19 +60,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const start = (e) => {
             isDrawing = true;
             const pos = getPos(e);
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
+            if(ctx) {
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+            }
         };
 
         const draw = (e) => {
-            if (!isDrawing) return;
+            if (!isDrawing || !ctx) return;
             if (e.cancelable) e.preventDefault(); 
             const pos = getPos(e);
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
         };
 
-        const stop = () => { isDrawing = false; ctx.closePath(); };
+        const stop = () => { isDrawing = false; if(ctx) ctx.closePath(); };
 
         canvas.addEventListener("mousedown", start);
         canvas.addEventListener("mousemove", draw);
@@ -100,9 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function isSignatureEmpty() {
         if(!canvas) return true;
+        // Make sure canvas is ready before checking
+        if (canvas.width === 0 || canvas.height === 0) return true; 
+        
         const blank = document.createElement('canvas');
         blank.width = canvas.width;
         blank.height = canvas.height;
+        // Check if the canvas data is identical to a blank canvas
         return canvas.toDataURL() === blank.toDataURL();
     }
     
@@ -149,11 +162,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // C. Duplicate Check against Supabase
-            const uniqueID = `${fname}-${mname}-${lname}`.toLowerCase().replace(/\s/g, '');
+            // Use date_registered as default for now, then check for duplicates
+            const uniqueID = `${fname.toLowerCase()}-${lname.toLowerCase()}-${dept.toLowerCase()}`.replace(/\s/g, '');
             
             const { data: existingData, error: checkError } = await supabase
                 .from('registrations')
-                .select('unique_id')
+                .select('id')
                 .eq('unique_id', uniqueID);
 
             if (checkError) {
@@ -163,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (existingData && existingData.length > 0) {
-                showToast(`${fname} ${lname} is already registered!`, "error");
+                showToast(`${fname} ${lname} from ${dept} is already registered!`, "error");
                 const card = document.querySelector('.card-wrapper');
                 card.animate([
                     { transform: 'translateX(0)' }, 
@@ -173,15 +187,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 ], { duration: 300 });
                 return;
             }
+            
+            // D. Save Data to Supabase (Signature is captured as Base64 Data URL)
+            const signatureDataUrl = canvas ? canvas.toDataURL() : null;
 
-            // D. Save Data to Supabase
             const newRecord = {
                 unique_id: uniqueID, 
                 first_name: fname,
                 middle_name: mname,
                 last_name: lname,
                 dept: dept,
-                signature: canvas.toDataURL() 
+                signature: signatureDataUrl,
+                date_registered: new Date().toISOString() // Save timestamp
             };
 
             const { error: insertError } = await supabase
@@ -207,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 5. CONFETTI EFFECT ---
+    // --- 5. CONFETTI EFFECT (Unchanged) ---
     function triggerConfetti() {
         const colors = ['#4e54c8', '#8f94fb', '#ff6b6b', '#feca57', '#00b894'];
         
