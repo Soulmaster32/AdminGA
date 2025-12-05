@@ -1,31 +1,51 @@
 /* * RECORDS.JS
  * Features: 
- * - Load Data from LocalStorage
- * - Render Responsive Table (Section column removed)
- * - Staggered Animations (Waterfall effect)
+ * - Load Data from Supabase
+ * - Render Responsive Table
  * - Real-time Search
- * - CSV Export (Section column removed)
+ * - CSV Export
  * - Secure Data Handling
  */
+
+// SUPABASE CLIENT INITIALIZATION
+const SUPABASE_URL = 'https://hbkitssxgajgncavxang.supabase.co'; // Your project URL
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE'; // Your anon public key
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Global variable to store data
+let allData = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     loadRecords();
     setupSearch();
 });
 
-// Global variable to store data
-let allData = [];
 
-// --- 1. LOAD & RENDER ---
-function loadRecords() {
+// --- 1. LOAD & RENDER (Supabase Integration) ---
+async function loadRecords() {
     const tableBody = document.getElementById("tableBody");
     const emptyMsg = document.getElementById("emptyMsg");
     
     // Clear current content
     tableBody.innerHTML = "";
 
-    // Fetch from LocalStorage
-    allData = JSON.parse(localStorage.getItem("registrants")) || [];
+    // Fetch from Supabase
+    const { data, error } = await supabase
+        .from('registrations')
+        .select('*')
+        .order('date_registered', { ascending: false }); // Sort newest first
+
+    if (error) {
+        console.error("Error loading records from Supabase:", error);
+        if (emptyMsg) {
+             emptyMsg.innerHTML = "<div>⚠️</div><h3>Error loading data</h3><p>Check the console for details.</p>";
+             emptyMsg.style.display = "block";
+        }
+        return;
+    }
+    
+    allData = data || [];
 
     // Handle Empty State
     if (allData.length === 0) {
@@ -35,34 +55,32 @@ function loadRecords() {
         if(emptyMsg) emptyMsg.style.display = "none";
     }
 
-    // Render Rows (Newest first)
-    // We add a slight delay to each row for a cool visual effect
-    allData.slice().reverse().forEach((person, index) => {
+    // Render Rows 
+    allData.forEach((person, index) => {
         const row = createRow(person, index);
         tableBody.appendChild(row);
     });
 }
 
-// --- 2. ROW CREATOR (With Animation) ---
+// --- 2. ROW CREATOR (Updated property names) ---
 function createRow(person, index) {
     const row = document.createElement("tr");
     
-    // Staggered Animation: Slide in rows one by one
+    // Staggered Animation
     row.style.animation = `slideInRow 0.4s ease forwards`;
-    row.style.animationDelay = `${index * 0.05}s`; // 50ms delay per row
-    row.style.opacity = "0"; // Start hidden for animation
+    row.style.animationDelay = `${index * 0.05}s`; 
+    row.style.opacity = "0"; 
     
-    // Format Date
-    const dateObj = new Date(person.date);
+    // Format Date (Using date_registered from SQL)
+    const dateObj = new Date(person.date_registered);
     const dateStr = dateObj.toLocaleDateString(undefined, { 
         year: 'numeric', month: 'short', day: 'numeric' 
     }) + ' <small style="color:#999">' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + '</small>';
     
-    // Full Name
-    const fullName = `${person.firstName} ${person.middleName ? person.middleName + ' ' : ''}${person.lastName}`;
+    // Full Name (Using SQL property names)
+    const fullName = `${person.first_name} ${person.middle_name ? person.middle_name + ' ' : ''}${person.last_name}`;
 
-    // Construct HTML (Safe innerHTML)
-    // UPDATED: Removed the <td> element for 'Section'
+    // Construct HTML 
     row.innerHTML = `
         <td data-label="Full Name">
             <strong style="color:var(--primary)">${escapeHtml(fullName)}</strong>
@@ -86,7 +104,7 @@ function createRow(person, index) {
     return row;
 }
 
-// --- 3. SECURITY HELPER (XSS Protection) ---
+// --- 3. SECURITY HELPER (No changes) ---
 function escapeHtml(text) {
     if (!text) return "";
     return text
@@ -97,7 +115,7 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-// --- 4. SEARCH FUNCTIONALITY ---
+// --- 4. SEARCH FUNCTIONALITY (No changes needed) ---
 function setupSearch() {
     const searchInput = document.getElementById("searchInput");
     if(!searchInput) return;
@@ -108,8 +126,6 @@ function setupSearch() {
         let hasVisible = false;
 
         rows.forEach(row => {
-            // Get text from the row (Name, Dept, Date)
-            // Note: InnerText implicitly handles visible text only, so no change needed here
             const text = row.innerText.toLowerCase(); 
             
             if(text.includes(term)) {
@@ -120,7 +136,6 @@ function setupSearch() {
             }
         });
 
-        // Toggle empty message if search hides everything
         const emptyMsg = document.getElementById("emptyMsg");
         if(emptyMsg) {
              emptyMsg.style.display = hasVisible ? "none" : "block";
@@ -129,27 +144,23 @@ function setupSearch() {
     });
 }
 
-// --- 5. EXPORT TO CSV ---
+// --- 5. EXPORT TO CSV (Updated property names) ---
 function exportCSV() {
     if (allData.length === 0) {
         alert("No records to export.");
         return;
     }
 
-    // CSV Header
-    // UPDATED: Removed "Section" from the header
+    // CSV Header 
     let csvContent = "First Name,Middle Name,Last Name,Department,Date Registered,Signature Status\n";
 
     allData.forEach(p => {
-        // Wrap fields in quotes to handle commas within names
-        const f = `"${p.firstName}"`;
-        const m = `"${p.middleName}"`;
-        const l = `"${p.lastName}"`;
+        const f = `"${p.first_name}"`;
+        const m = `"${p.middle_name || ''}"`; // Use || '' to handle null/undefined
+        const l = `"${p.last_name}"`;
         const d = `"${p.dept}"`;
-        // REMOVED: const s = `"${p.section}"`; 
-        const date = `"${new Date(p.date).toLocaleString()}"`;
+        const date = `"${new Date(p.date_registered).toLocaleString()}"`;
 
-        // UPDATED: Removed 's' (section) from the content line
         csvContent += `${f},${m},${l},${d},${date},"Signed"\n`;
     });
 
@@ -165,27 +176,44 @@ function exportCSV() {
     document.body.removeChild(link);
 }
 
-// --- 6. DELETE LOGIC ---
-function deleteRecord(id) {
+// --- 6. DELETE LOGIC (Supabase Integration) ---
+async function deleteRecord(id) {
     // Confirmation
     if(!confirm("Are you sure you want to permanently delete this record?")) return;
 
-    // Filter out the ID
-    allData = allData.filter(person => person.id !== id);
-    
-    // Update Storage
-    localStorage.setItem("registrants", JSON.stringify(allData));
+    // Delete from Supabase using the database-generated ID
+    const { error } = await supabase
+        .from('registrations')
+        .delete()
+        .eq('id', id); // Use 'id' which is the primary key in the SQL table
+
+    if (error) {
+        console.error("Error deleting record:", error);
+        alert("Deletion failed due to a database error.");
+        return;
+    }
     
     // Re-render Table
     loadRecords();
 }
 
-function deleteAll() {
+async function deleteAll() {
     if(allData.length === 0) return;
     
     if(!confirm("⚠️ WARNING: This will wipe ALL data. This cannot be undone.\n\nAre you sure?")) return;
     
-    localStorage.removeItem("registrants");
+    // Delete ALL rows (safe way: delete where id is not 0, since BIGINT starts at 1)
+    const { error } = await supabase
+        .from('registrations')
+        .delete()
+        .neq('id', 0); 
+    
+    if (error) {
+        console.error("Error deleting all records:", error);
+        alert("Failed to clear all data due to a database error.");
+        return;
+    }
+
     allData = [];
     loadRecords();
 }
@@ -199,3 +227,8 @@ style.innerHTML = `
     }
 `;
 document.head.appendChild(style);
+
+// Expose functions globally for HTML onclick to work
+window.exportCSV = exportCSV;
+window.deleteRecord = deleteRecord;
+window.deleteAll = deleteAll;
