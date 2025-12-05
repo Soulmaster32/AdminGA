@@ -1,5 +1,4 @@
-/* 
- * EXTENSION.JS 
+/* * EXTENSION.JS 
  * Logic for: Registration, Clock, Signature, Validation, Storage, Redirection
  */
 
@@ -121,13 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return canvas.toDataURL() === blank.toDataURL();
     }
     
-    // *** NEW HELPER FUNCTION: Reset the form ***
+    // *** UPDATED HELPER FUNCTION: Reset the form ***
     function resetRegistrationForm() {
         // Reset text inputs
         document.getElementById("fname").value = "";
         document.getElementById("mname").value = "";
         document.getElementById("lname").value = "";
-        document.getElementById("section").value = "";
+        // REMOVED: document.getElementById("section").value = "";
         
         // Reset department select (to the first disabled option)
         const deptSelect = document.getElementById("dept");
@@ -160,10 +159,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const mname = document.getElementById("mname").value.trim();
             const lname = document.getElementById("lname").value.trim();
             const dept = document.getElementById("dept").value;
-            const section = document.getElementById("section").value.trim();
+            // REMOVED: const section = document.getElementById("section").value.trim();
 
             // B. Validation
-            if (!fname || !lname || !dept || !section) {
+            // UPDATED: Removed 'section' from validation check
+            if (!fname || !lname || !dept) {
                 showToast("Please fill in all required fields.", "error");
                 return;
             }
@@ -197,13 +197,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // D. Save Data Object
+            // UPDATED: Removed 'section' property from the newRecord object
             const newRecord = {
                 id: uniqueID,
                 firstName: fname,
                 middleName: mname,
                 lastName: lname,
                 dept: dept,
-                section: section,
                 date: new Date().toISOString(),
                 signature: canvas.toDataURL() // Save signature image
             };
