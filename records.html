@@ -4,718 +4,751 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THPAL - Christmas Party 2025</title>
-    
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Supabase Client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Lato"', 'sans-serif'],
-                    },
-                    colors: {
-                        theme: {
-                            gold: '#C5A059',
-                            goldDark: '#b08d4b',
-                            dark: '#0F172A',
-                            emerald: '#047857',
-                            emeraldDark: '#065f46',
-                            red: '#be123c'
-                        }
-                    },
-                    animation: {
-                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                fontFamily: {
+                    serif: ['"Playfair Display"', 'serif'],
+                    sans: ['"Lato"', 'sans-serif'],
+                },
+                colors: {
+                    theme: {
+                        gold: '#C5A059',
+                        goldDark: '#b08d4b',
+                        dark: '#0F172A',
+                        emerald: '#047857',
+                        emeraldDark: '#065f46',
+                        red: '#be123c'
+                    }
+                },
+                animation: {
+                    'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                },
+                keyframes: {
+                    fadeInUp: {
+                        '0%': { opacity: '0', transform: 'translateY(10px)' },
+                        '100%': { opacity: '1', transform: 'translateY(0)' },
                     }
                 }
             }
         }
-    </script>
+    }
+</script>
 
-    <style>
-        body {
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+<style>
+    body {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-        /* --- Snowfall Animation --- */
-        .snowflake {
-            position: fixed;
-            top: -10px;
-            color: #cbd5e1;
-            font-size: 1em;
-            text-shadow: 0 0 1px #000;
-            z-index: 0;
-            user-select: none;
-            pointer-events: none;
-            animation: snowflakes-fall 10s linear infinite, snowflakes-shake 3s ease-in-out infinite;
-        }
-        
-        .dark .snowflake {
-            color: #475569; /* Darker snow in dark mode */
-            text-shadow: none;
-            opacity: 0.3;
-        }
+    /* --- Snowfall Animation --- */
+    .snowflake {
+        position: fixed;
+        top: -10px;
+        color: #cbd5e1;
+        font-size: 1em;
+        text-shadow: 0 0 1px #000;
+        z-index: 0;
+        user-select: none;
+        pointer-events: none;
+        animation: snowflakes-fall 10s linear infinite, snowflakes-shake 3s ease-in-out infinite;
+    }
+    
+    .dark .snowflake {
+        color: #475569; /* Darker snow in dark mode */
+        text-shadow: none;
+        opacity: 0.3;
+    }
 
-        @keyframes snowflakes-fall { 0% { top: -10%; } 100% { top: 100%; } }
-        @keyframes snowflakes-shake { 0% { transform: translateX(0px); } 50% { transform: translateX(80px); } 100% { transform: translateX(0px); } }
+    @keyframes snowflakes-fall { 0% { top: -10%; } 100% { top: 100%; } }
+    @keyframes snowflakes-shake { 0% { transform: translateX(0px); } 50% { transform: translateX(80px); } 100% { transform: translateX(0px); } }
 
-        /* --- Custom Scrollbar --- */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* --- Custom Scrollbar --- */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* --- Glassmorphism --- */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .dark .glass-panel {
-            background: rgba(30, 41, 59, 0.7); /* Darker glass */
-            border-color: rgba(255,255,255,0.05);
-        }
+    /* --- Glassmorphism --- */
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+    .dark .glass-panel {
+        background: rgba(30, 41, 59, 0.7); /* Darker glass */
+        border-color: rgba(255,255,255,0.05);
+    }
 
-        /* --- Tab Animations --- */
-        .tab-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        /* --- Avatar Gradients --- */
-        .avatar-gradient-1 { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%); }
-        .avatar-gradient-2 { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
-        .avatar-gradient-3 { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
-        .avatar-gradient-4 { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
-    </style>
+    /* --- Tab Animations --- */
+    .tab-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    
+    /* --- Avatar Gradients --- */
+    .avatar-gradient-1 { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%); }
+    .avatar-gradient-2 { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+    .avatar-gradient-3 { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+    .avatar-gradient-4 { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
+</style>
+
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 min-h-screen relative transition-colors duration-300">
 
     <!-- Snow Container -->
-    <div id="snow-container" aria-hidden="true"></div>
+<div id="snow-container" aria-hidden="true"></div>
 
-    <div class="max-w-7xl mx-auto p-4 lg:p-8 relative z-10">
-        
-        <!-- Header Section -->
-        <div class="glass-panel rounded-3xl shadow-lg dark:shadow-slate-900/50 border border-white/50 dark:border-slate-700 p-6 mb-8 relative overflow-hidden transition-all duration-300">
-            <!-- Background Decoration -->
-            <div class="absolute -top-10 -right-10 w-64 h-64 bg-theme-gold/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none dark:opacity-10">
-                <i class="fas fa-holly-berry text-9xl text-theme-red"></i>
+<div class="max-w-7xl mx-auto p-4 lg:p-8 relative z-10">
+    
+    <!-- Header Section -->
+    <div class="glass-panel rounded-3xl shadow-lg dark:shadow-slate-900/50 border border-white/50 dark:border-slate-700 p-6 mb-8 relative overflow-hidden transition-all duration-300">
+        <!-- Background Decoration -->
+        <div class="absolute -top-10 -right-10 w-64 h-64 bg-theme-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none dark:opacity-10">
+            <i class="fas fa-holly-berry text-9xl text-theme-red"></i>
+        </div>
+
+        <div class="flex flex-col md:flex-row justify-between items-end md:items-center relative z-10">
+            <div class="mb-4 md:mb-0 w-full md:w-auto">
+                <div class="flex items-center justify-between md:justify-start gap-4 mb-2">
+                    <span class="bg-theme-gold/20 text-theme-goldDark dark:text-theme-gold px-3 py-1 rounded-full text-xs font-bold border border-theme-gold/20 backdrop-blur-sm">
+                        <i class="fas fa-star mr-1"></i> TAGANITO HPAL NICKEL CORPORATION
+                    </span>
+                    <!-- Dark Mode Toggle (Mobile) -->
+                    <button onclick="toggleDarkMode()" class="md:hidden p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:inline text-amber-400"></i>
+                    </button>
+                </div>
+                <h1 class="text-3xl md:text-5xl font-serif text-slate-800 dark:text-white font-bold tracking-tight drop-shadow-sm">
+                   THPAL Year End<span class="text-theme-emerald dark:text-emerald-400">Party 2025</span>
+                </h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1 font-medium">Guest List Registrations</p>
             </div>
 
-            <div class="flex flex-col md:flex-row justify-between items-end md:items-center relative z-10">
-                <div class="mb-4 md:mb-0 w-full md:w-auto">
-                    <div class="flex items-center justify-between md:justify-start gap-4 mb-2">
-                        <span class="bg-theme-gold/20 text-theme-goldDark dark:text-theme-gold px-3 py-1 rounded-full text-xs font-bold border border-theme-gold/20 backdrop-blur-sm">
-                            <i class="fas fa-star mr-1"></i> TAGANITO HPAL NICKEL CORPORATION
-                        </span>
-                        <!-- Dark Mode Toggle (Mobile) -->
-                        <button onclick="toggleDarkMode()" class="md:hidden p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-                            <i class="fas fa-moon dark:hidden"></i>
-                            <i class="fas fa-sun hidden dark:inline text-amber-400"></i>
+            <div class="flex gap-3 items-center w-full md:w-auto mt-4 md:mt-0">
+                <!-- Stat Box -->
+                <div class="bg-white/50 dark:bg-slate-800/50 px-5 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-right mr-2 hidden lg:block backdrop-blur-sm group hover:border-theme-emerald transition cursor-default">
+                    <span class="block text-[10px] text-slate-400 uppercase tracking-widest font-bold group-hover:text-theme-emerald transition">Total Guests</span>
+                    <span id="totalCount" class="text-2xl font-serif text-slate-800 dark:text-white font-bold">0</span>
+                </div>
+                
+                <a href="Home.html" class="flex-1 md:flex-none justify-center bg-slate-800 hover:bg-slate-900 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white px-6 py-3.5 rounded-2xl text-sm font-bold shadow-lg shadow-slate-300/50 dark:shadow-emerald-900/50 transition flex items-center gap-2 transform active:scale-95 group">
+                    <span class="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center group-hover:rotate-90 transition"><i class="fas fa-plus text-[10px]"></i></span>
+                    <span>New Guest</span>
+                </a>
+                
+                <button onclick="fetchRecords()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-theme-emerald dark:hover:text-emerald-400 text-slate-500 px-4 py-3.5 rounded-2xl shadow-sm transition active:rotate-180" title="Refresh List">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+
+                <!-- Dark Mode Toggle (Desktop) -->
+                <button onclick="toggleDarkMode()" class="hidden md:flex bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-amber-400 px-4 py-3.5 rounded-2xl shadow-sm transition hover:bg-slate-50 dark:hover:bg-slate-700" title="Toggle Theme">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:inline"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        
+        <!-- Sidebar / Controls (Left) -->
+        <div class="xl:col-span-1 space-y-6">
+            <!-- Search Box -->
+            <div class="bg-white dark:bg-slate-800 p-1 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-slate-300 dark:text-slate-500"></i>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Search by name..." 
+                           class="block w-full pl-11 pr-4 py-3.5 bg-transparent border-none rounded-xl text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-theme-emerald/20 dark:focus:ring-emerald-500/30 font-medium transition">
+                </div>
+            </div>
+
+            <!-- Vertical Tabs for Desktop / Horizontal for Mobile -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 overflow-hidden">
+                <div class="p-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/80">
+                    <h3 class="text-xs font-bold uppercase text-slate-400 tracking-wider">Departments</h3>
+                </div>
+                <div class="p-2 flex flex-row xl:flex-col gap-1 overflow-x-auto xl:overflow-visible no-scrollbar" id="categoryTabs">
+                    <!-- Tabs injected via JS -->
+                </div>
+            </div>
+            
+            <!-- Quick Stat Mini Card -->
+            <div class="bg-gradient-to-br from-theme-gold to-yellow-600 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden hidden xl:block">
+                <div class="absolute top-0 right-0 p-3 opacity-20"><i class="fas fa-glass-cheers text-6xl"></i></div>
+                <div class="relative z-10">
+                    <p class="text-yellow-100 text-sm font-medium mb-1">Time Remaining</p>
+                    <h2 class="text-2xl font-serif font-bold">Party Time!</h2>
+                    <div class="mt-4 pt-4 border-t border-white/20 flex items-center gap-2 text-xs text-yellow-50">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Main Hall, THPAL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Table Section (Right) -->
+        <div class="xl:col-span-3">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700 overflow-hidden flex flex-col min-h-[600px] relative">
+                
+                <!-- Table Header -->
+                <div class="overflow-x-auto flex-grow">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-20 backdrop-blur-md">
+                            <tr>
+                                <th class="p-5 pl-6 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/3">Guest Profile</th>
+                                <th class="p-5 text-xs font-bold text-slate-400 uppercase tracking-wider">Department</th>
+                                <th class="p-5 text-xs font-bold text-slate-400 uppercase tracking-wider hidden md:table-cell">Registration</th>
+                                <th class="p-5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="divide-y divide-slate-100 dark:divide-slate-700 text-sm">
+                            <!-- Rows injected via JS -->
+                        </tbody>
+                    </table>
+
+                    <!-- Loading State -->
+                    <div id="loadingState" class="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex flex-col items-center justify-center z-30 hidden">
+                        <div class="relative">
+                            <div class="w-16 h-16 border-4 border-slate-200 dark:border-slate-700 border-t-theme-emerald rounded-full animate-spin"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fas fa-snowflake text-theme-emerald animate-pulse"></i>
+                            </div>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium mt-4 animate-pulse">Retrieving guest list...</p>
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="emptyMessage" class="hidden flex flex-col items-center justify-center py-24 text-center px-4">
+                        <div class="bg-slate-50 dark:bg-slate-800 rounded-full h-24 w-24 flex items-center justify-center mb-4 border border-slate-100 dark:border-slate-700">
+                            <i class="fas fa-ghost text-4xl text-slate-300 dark:text-slate-600"></i>
+                        </div>
+                        <h3 class="text-lg font-serif text-slate-700 dark:text-slate-200 font-bold">No records found</h3>
+                        <p class="text-slate-400 dark:text-slate-500 text-sm mt-1 max-w-xs mx-auto">We couldn't find any guests matching your current filters.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 dark:bg-slate-900 px-6 py-3 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center text-[10px] uppercase tracking-wider text-slate-400 font-bold">
+                    <span><i class="fas fa-database mr-1 text-theme-emerald"></i> Live Data</span>
+                    <span class="opacity-50">Secure Connection</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODALS ================= -->
+
+<!-- VIEW DETAILS MODAL -->
+<div id="viewModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeViewModal()"></div>
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all relative border border-white/20 dark:border-slate-600">
+            
+            <!-- Ticket Top -->
+            <div class="h-3 bg-gradient-to-r from-theme-gold via-yellow-400 to-theme-gold"></div>
+            
+            <div class="p-8 text-center relative">
+                <button onclick="closeViewModal()" class="absolute top-2 right-4 text-slate-300 hover:text-slate-600 dark:hover:text-white transition text-2xl">
+                    &times;
+                </button>
+
+                <div class="mx-auto h-24 w-24 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg ring-4 ring-emerald-50 dark:ring-emerald-900/30 mb-6">
+                    <i class="fas fa-user-check text-4xl text-white"></i>
+                </div>
+
+                <h2 class="text-xs font-bold text-theme-gold uppercase tracking-[0.25em] mb-2">Access Granted</h2>
+                <h1 id="view_fullname" class="text-2xl font-serif font-bold text-slate-800 dark:text-white mb-2">Guest Name</h1>
+                
+                <div class="inline-block px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold text-sm mb-8 border border-slate-200 dark:border-slate-600 shadow-inner" id="view_dept">
+                    Department
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-left">
+                    <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg border border-slate-100 dark:border-slate-600">
+                        <span class="block text-[10px] text-slate-400 uppercase font-bold">Pass ID</span>
+                        <span id="view_id" class="font-mono text-slate-700 dark:text-slate-200 font-bold">#000</span>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg border border-slate-100 dark:border-slate-600">
+                        <span class="block text-[10px] text-slate-400 uppercase font-bold">Timestamp</span>
+                        <span id="view_date" class="text-slate-700 dark:text-slate-200 font-bold text-xs">Dec 25</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeEditModal()"></div>
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden transform transition-all border dark:border-slate-700">
+            
+            <div class="bg-slate-900 dark:bg-slate-950 px-6 py-4 flex justify-between items-center border-b border-slate-800">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-pen-fancy text-theme-gold"></i> Edit Guest
+                </h3>
+                <button onclick="closeEditModal()" class="text-slate-500 hover:text-white transition">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="p-8 space-y-6">
+                <input type="hidden" id="edit_id">
+                
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 md:col-span-5">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase">First Name</label>
+                        <input type="text" id="edit_first" class="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none transition bg-slate-50 dark:bg-slate-900 dark:text-white">
+                    </div>
+                    <div class="col-span-12 md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase text-center">M.I.</label>
+                        <input type="text" id="edit_middle" class="w-full px-2 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none transition bg-slate-50 dark:bg-slate-900 dark:text-white text-center">
+                    </div>
+                    <div class="col-span-12 md:col-span-5">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase">Last Name</label>
+                        <input type="text" id="edit_last" class="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none transition bg-slate-50 dark:bg-slate-900 dark:text-white">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase">Department Assignment</label>
+                    <div class="relative">
+                        <i class="fas fa-briefcase absolute left-3 top-3 text-slate-400"></i>
+                        <select id="edit_dept" class="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none bg-slate-50 dark:bg-slate-900 dark:text-white cursor-pointer appearance-none">
+                            <optgroup label="Administration" class="dark:bg-slate-800">
+                                <option value="G.A">General Affairs (G.A)</option>
+                                <option value="HR">Human Resources (HR)</option>
+                                <option value="Accounting">Accounting</option>
+                                <option value="LMR">Labor Management (LMR)</option>
+                                <option value="ComRel">Community Relations</option>
+                            </optgroup>
+                            <optgroup label="Engineering" class="dark:bg-slate-800">
+                                <option value="Civil">Civil Engineering</option>
+                                <option value="Mechanical">Mechanical Engineering</option>
+                                <option value="Electrical">Electrical Engineering</option>
+                            </optgroup>
+                            <optgroup label="Maintenance" class="dark:bg-slate-800">
+                                <option value="RM">Reliability Maintenance (RM)</option>
+                                <option value="SS&SC">SHE, Services & Supply Chain</option>
+                                <option value="E&I">Electrical & Instrument</option>
+                            </optgroup>
+                            <optgroup label="Production" class="dark:bg-slate-800">
+                                <option value="PSU">Power Station & Utilities (PSU)</option>
+                                <option value="HPAL">Production (HPAL)</option>
+                                <option value="MS">Production (MS)</option>
+                            </optgroup>
+                            <optgroup label="Rare Metal" class="dark:bg-slate-800">
+                                <option value="Scandium">Scandium</option>
+                                <option value="Chromite">Chromite</option>
+                            </optgroup>
+                            <optgroup label="Others" class="dark:bg-slate-800">
+                                <option value="Health">Health</option>
+                                <option value="Safety">Safety</option>
+                                <option value="Security">Security</option>
+                                <option value="Procurement">Procurement</option>
+                                <option value="Logistics">Logistics</option>
+                                <option value="MEPEO">Technical (MEPEO)</option>
+                                <option value="Laboratory">Laboratory</option>
+                            </optgroup>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 dark:bg-slate-900/50 px-8 py-5 flex flex-row-reverse gap-3 border-t border-slate-100 dark:border-slate-700">
+                <button type="button" onclick="saveEdit()" class="w-full sm:w-auto inline-flex justify-center rounded-lg border border-transparent shadow-md px-6 py-2.5 bg-theme-emerald hover:bg-emerald-800 text-sm font-bold text-white focus:outline-none transition">
+                    Save Changes
+                </button>
+                <button type="button" onclick="closeEditModal()" class="w-full sm:w-auto inline-flex justify-center rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm px-6 py-2.5 bg-white dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none transition">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- SUPABASE CONFIGURATION ---
+    const SUPABASE_URL = 'https://hbkitssxgajgncavxqng.supabase.co'; 
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // --- GLOBAL STATE ---
+    let allRecords = [];
+    let currentCategory = 'All';
+
+    // --- DARK MODE LOGIC ---
+    function toggleDarkMode() {
+        const html = document.documentElement;
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            localStorage.theme = 'light';
+        } else {
+            html.classList.add('dark');
+            localStorage.theme = 'dark';
+        }
+    }
+    
+    // Initialize Theme
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+
+    // --- DATA MAPPING ---
+    const categories = [
+        { id: 'All', label: 'All Guests', icon: 'fa-users', color: 'text-slate-500' },
+        { id: 'Administration', label: 'Administration', icon: 'fa-user-tie', color: 'text-purple-500' },
+        { id: 'Engineering', label: 'Engineering', icon: 'fa-hard-hat', color: 'text-blue-500' },
+        { id: 'Maintenance', label: 'Maintenance', icon: 'fa-tools', color: 'text-amber-500' },
+        { id: 'Production', label: 'Production', icon: 'fa-industry', color: 'text-orange-500' },
+        { id: 'Rare Metal', label: 'Rare Metals', icon: 'fa-gem', color: 'text-emerald-500' },
+        { id: 'Others', label: 'Other Depts', icon: 'fa-layer-group', color: 'text-pink-500' }
+    ];
+
+    const deptMap = {
+        'G.A': 'Administration', 'HR': 'Administration', 'Accounting': 'Administration', 'LMR': 'Administration', 'ComRel': 'Administration',
+        'Civil': 'Engineering', 'Mechanical': 'Engineering', 'Electrical': 'Engineering',
+        'RM': 'Maintenance', 'SS&SC': 'Maintenance', 'E&I': 'Maintenance',
+        'HPAL': 'Production', 'MS': 'Production', 'PSU': 'Production', 
+        'Scandium': 'Rare Metal', 'Chromite': 'Rare Metal',
+        'Health': 'Others', 'Safety': 'Others', 'Security': 'Others', 'MEPEO': 'Others', 'Laboratory': 'Others', 'Procurement': 'Others', 'Logistics': 'Others'
+    };
+
+    // --- SNOWFALL ---
+    function createSnowflakes() {
+        const container = document.getElementById('snow-container');
+        const numberOfSnowflakes = 40; 
+        for (let i = 0; i < numberOfSnowflakes; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.innerHTML = '&#10052;'; 
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's, ' + (Math.random() * 3 + 2) + 's';
+            snowflake.style.animationDelay = (Math.random() * 5) + 's, ' + (Math.random() * 2) + 's';
+            snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            container.appendChild(snowflake);
+        }
+    }
+
+    // --- TABS LOGIC ---
+    function initTabs() {
+        const container = document.getElementById('categoryTabs');
+        container.innerHTML = categories.map(cat => `
+            <button onclick="filterCategory('${cat.id}')" id="tab-${cat.id}" 
+                class="tab-btn w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between group transition-all duration-200 border border-transparent">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-700 group-hover:bg-white dark:group-hover:bg-slate-600 transition shadow-sm">
+                        <i class="fas ${cat.icon} ${cat.color} opacity-80"></i>
+                    </div>
+                    <span class="whitespace-nowrap">${cat.label}</span>
+                </div>
+                <span id="count-${cat.id}" class="text-[10px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-500 px-2 py-0.5 rounded-full group-hover:bg-white transition">0</span>
+            </button>
+        `).join('');
+        
+        updateTabStyles();
+    }
+
+    function updateTabStyles() {
+        categories.forEach(cat => {
+            const btn = document.getElementById(`tab-${cat.id}`);
+            const countBadge = document.getElementById(`count-${cat.id}`);
+            const iconBox = btn.querySelector('div.w-8');
+            
+            if (cat.id === currentCategory) {
+                btn.className = "tab-btn w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between shadow-md bg-gradient-to-r from-slate-800 to-slate-700 dark:from-emerald-600 dark:to-emerald-700 text-white transform scale-[1.02]";
+                countBadge.className = "text-[10px] font-bold bg-white/20 text-white px-2 py-0.5 rounded-full";
+                iconBox.className = "w-8 h-8 rounded-lg flex items-center justify-center bg-white/10 text-white";
+                iconBox.querySelector('i').className = `fas ${cat.icon} text-white`;
+            } else {
+                btn.className = "tab-btn w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between text-slate-600 dark:text-slate-400 hover:bg-white hover:shadow-md dark:hover:bg-slate-700/50 border border-transparent hover:border-slate-100 dark:hover:border-slate-600";
+                countBadge.className = "text-[10px] font-bold bg-slate-100 dark:bg-slate-900 text-slate-400 px-2 py-0.5 rounded-full";
+                iconBox.className = "w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-900 transition shadow-sm";
+                iconBox.querySelector('i').className = `fas ${cat.icon} ${cat.color}`;
+            }
+        });
+    }
+
+    function filterCategory(catId) {
+        currentCategory = catId;
+        updateTabStyles();
+        applyFilters();
+    }
+
+    function updateCategoryCounts() {
+        // Count logic
+        const counts = {};
+        categories.forEach(c => counts[c.id] = 0);
+        counts['All'] = allRecords.length;
+
+        allRecords.forEach(record => {
+            const dept = deptMap[record.department];
+            if (dept && counts[dept] !== undefined) {
+                counts[dept]++;
+            } else {
+                counts['Others']++;
+            }
+        });
+
+        categories.forEach(cat => {
+            const el = document.getElementById(`count-${cat.id}`);
+            if (el) el.textContent = counts[cat.id];
+        });
+        
+        // Animate total count
+        document.getElementById('totalCount').textContent = allRecords.length;
+    }
+
+    // --- DATA FETCHING ---
+    async function fetchRecords() {
+        const tbody = document.getElementById('tableBody');
+        const loading = document.getElementById('loadingState');
+        
+        tbody.innerHTML = '';
+        loading.classList.remove('hidden');
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('registrations')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+            allRecords = data;
+            updateCategoryCounts();
+            applyFilters();
+
+        } catch (err) {
+            console.error(err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Connection Issue',
+                text: 'Unable to retrieve data. Using cached view if available.',
+            });
+        } finally {
+            loading.classList.add('hidden');
+        }
+    }
+
+    function applyFilters() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        
+        const filtered = allRecords.filter(record => {
+            // Category Filter
+            let catMatch = false;
+            const recordCat = deptMap[record.department];
+
+            if (currentCategory === 'All') catMatch = true;
+            else if (currentCategory === 'Others') catMatch = (recordCat === 'Others' || !recordCat);
+            else catMatch = (recordCat === currentCategory);
+
+            // Search Filter
+            const nameFull = `${record.first_name} ${record.last_name}`.toLowerCase();
+            const nameMatch = nameFull.includes(searchTerm) || (record.department && record.department.toLowerCase().includes(searchTerm));
+
+            return catMatch && nameMatch;
+        });
+
+        renderTable(filtered);
+    }
+
+    // --- RENDER TABLE ---
+    function renderTable(data) {
+        const tbody = document.getElementById('tableBody');
+        const emptyMsg = document.getElementById('emptyMessage');
+
+        tbody.innerHTML = '';
+
+        if (data.length === 0) {
+            emptyMsg.classList.remove('hidden');
+            return;
+        } else {
+            emptyMsg.classList.add('hidden');
+        }
+
+        data.forEach((row, index) => {
+            const date = new Date(row.created_at).toLocaleDateString("en-US", { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' });
+            const initial = row.first_name.charAt(0).toUpperCase();
+
+            // Dynamic Avatar Gradient
+            const gradients = ['avatar-gradient-1', 'avatar-gradient-2', 'avatar-gradient-3', 'avatar-gradient-4'];
+            const gradClass = gradients[index % gradients.length];
+
+            // Badge Styles
+            const cat = deptMap[row.department] || 'Others';
+            let badgeClass = "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300";
+            if(cat === 'Administration') badgeClass = "bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800";
+            if(cat === 'Engineering') badgeClass = "bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800";
+            if(cat === 'Maintenance') badgeClass = "bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-800";
+            if(cat === 'Production') badgeClass = "bg-orange-50 text-orange-700 border border-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-800";
+            if(cat === 'Rare Metal') badgeClass = "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-800";
+
+            const tr = document.createElement('tr');
+            tr.className = "group border-b border-slate-50 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors animate-fade-in-up";
+            tr.style.animationDelay = `${index * 30}ms`;
+            tr.innerHTML = `
+                <td class="p-5 pl-6">
+                    <div class="flex items-center gap-4">
+                        <div class="h-10 w-10 rounded-full ${gradClass} flex items-center justify-center text-white font-bold shadow-sm ring-2 ring-white dark:ring-slate-700">
+                            ${initial}
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-800 dark:text-slate-100 text-sm font-sans">${row.first_name} ${row.last_name}</div>
+                            <div class="text-[11px] text-slate-400 dark:text-slate-500 uppercase font-bold tracking-wide">${row.middle_name ? row.middle_name : '-'}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="p-5">
+                    <span class="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider ${badgeClass} shadow-sm">
+                        ${row.department}
+                    </span>
+                </td>
+                <td class="p-5 hidden md:table-cell">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center">
+                        <i class="far fa-clock mr-2 opacity-70"></i> ${date}
+                    </div>
+                </td>
+                <td class="p-5 pr-6 text-right">
+                    <div class="flex justify-end items-center gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
+                         <button onclick="openViewModal(${row.id})" class="h-8 w-8 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-blue-500 hover:text-white transition flex items-center justify-center shadow-sm" title="View Details">
+                            <i class="fas fa-eye text-xs"></i>
+                        </button>
+                        <button onclick="openEditModal(${row.id})" class="h-8 w-8 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-amber-500 hover:text-white transition flex items-center justify-center shadow-sm" title="Edit">
+                            <i class="fas fa-pen text-xs"></i>
+                        </button>
+                        <button onclick="deleteRecord(${row.id})" class="h-8 w-8 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center shadow-sm" title="Delete">
+                            <i class="fas fa-trash-alt text-xs"></i>
                         </button>
                     </div>
-                    <h1 class="text-3xl md:text-5xl font-serif text-slate-800 dark:text-white font-bold tracking-tight drop-shadow-sm">
-                       THPAL Year End<span class="text-theme-emerald dark:text-emerald-400">Party 2025</span>
-                    </h1>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1 font-medium">Guest List Registrations</p>
-                </div>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
 
-                <div class="flex gap-3 items-center w-full md:w-auto mt-4 md:mt-0">
-                    <!-- Stat Box -->
-                    <div class="bg-white/50 dark:bg-slate-800/50 px-5 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-right mr-2 hidden lg:block backdrop-blur-sm group hover:border-theme-emerald transition cursor-default">
-                        <span class="block text-[10px] text-slate-400 uppercase tracking-widest font-bold group-hover:text-theme-emerald transition">Total Guests</span>
-                        <span id="totalCount" class="text-2xl font-serif text-slate-800 dark:text-white font-bold">0</span>
-                    </div>
-                    
-                    <a href="Home.html" class="flex-1 md:flex-none justify-center bg-slate-800 hover:bg-slate-900 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white px-6 py-3.5 rounded-2xl text-sm font-bold shadow-lg shadow-slate-300/50 dark:shadow-emerald-900/50 transition flex items-center gap-2 transform active:scale-95 group">
-                        <span class="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center group-hover:rotate-90 transition"><i class="fas fa-plus text-[10px]"></i></span>
-                        <span>New Guest</span>
-                    </a>
-                    
-                    <button onclick="fetchRecords()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-theme-emerald dark:hover:text-emerald-400 text-slate-500 px-4 py-3.5 rounded-2xl shadow-sm transition active:rotate-180" title="Refresh List">
-                        <i class="fas fa-sync-alt"></i>
-                    </button>
+    // --- ACTIONS (MODALS & CRUD) ---
+    
+    function openViewModal(id) {
+        const record = allRecords.find(r => r.id === id);
+        if(!record) return;
 
-                    <!-- Dark Mode Toggle (Desktop) -->
-                    <button onclick="toggleDarkMode()" class="hidden md:flex bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-amber-400 px-4 py-3.5 rounded-2xl shadow-sm transition hover:bg-slate-50 dark:hover:bg-slate-700" title="Toggle Theme">
-                        <i class="fas fa-moon dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:inline"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+        document.getElementById('view_fullname').textContent = `${record.first_name} ${record.middle_name ? record.middle_name + ' ' : ''}${record.last_name}`;
+        document.getElementById('view_dept').textContent = record.department;
+        document.getElementById('view_id').textContent = '#' + String(record.id).padStart(4, '0');
+        document.getElementById('view_date').textContent = new Date(record.created_at).toLocaleDateString();
 
-        <!-- Dashboard Content -->
-        <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
-            
-            <!-- Sidebar / Controls (Left) -->
-            <div class="xl:col-span-1 space-y-6">
-                <!-- Search Box -->
-                <div class="bg-white dark:bg-slate-800 p-1 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fas fa-search text-slate-300 dark:text-slate-500"></i>
-                        </div>
-                        <input type="text" id="searchInput" placeholder="Search by name..." 
-                               class="block w-full pl-11 pr-4 py-3.5 bg-transparent border-none rounded-xl text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-theme-emerald/20 dark:focus:ring-emerald-500/30 font-medium transition">
-                    </div>
-                </div>
+        const modal = document.getElementById('viewModal');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.querySelector('div.transform').classList.remove('scale-95', 'opacity-0');
+            modal.querySelector('div.transform').classList.add('scale-100', 'opacity-100');
+        }, 10);
+    }
 
-                <!-- Vertical Tabs for Desktop / Horizontal for Mobile -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 overflow-hidden">
-                    <div class="p-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/80">
-                        <h3 class="text-xs font-bold uppercase text-slate-400 tracking-wider">Departments</h3>
-                    </div>
-                    <div class="p-2 flex flex-row xl:flex-col gap-1 overflow-x-auto xl:overflow-visible no-scrollbar" id="categoryTabs">
-                        <!-- Tabs injected via JS -->
-                    </div>
-                </div>
-                
-                <!-- Quick Stat Mini Card -->
-                <div class="bg-gradient-to-br from-theme-gold to-yellow-600 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden hidden xl:block">
-                    <div class="absolute top-0 right-0 p-3 opacity-20"><i class="fas fa-glass-cheers text-6xl"></i></div>
-                    <div class="relative z-10">
-                        <p class="text-yellow-100 text-sm font-medium mb-1">Time Remaining</p>
-                        <h2 class="text-2xl font-serif font-bold">Party Time!</h2>
-                        <div class="mt-4 pt-4 border-t border-white/20 flex items-center gap-2 text-xs text-yellow-50">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Main Hall, THPAL</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    function closeViewModal() {
+        const modal = document.getElementById('viewModal');
+        modal.querySelector('div.transform').classList.remove('scale-100', 'opacity-100');
+        modal.querySelector('div.transform').classList.add('scale-95', 'opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 200);
+    }
 
-            <!-- Main Table Section (Right) -->
-            <div class="xl:col-span-3">
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700 overflow-hidden flex flex-col min-h-[600px] relative">
-                    
-                    <!-- Table Header -->
-                    <div class="overflow-x-auto flex-grow">
-                        <table class="w-full text-left border-collapse">
-                            <thead class="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-20 backdrop-blur-md">
-                                <tr>
-                                    <th class="p-5 pl-6 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/3">Guest Profile</th>
-                                    <th class="p-5 text-xs font-bold text-slate-400 uppercase tracking-wider">Department</th>
-                                    <th class="p-5 text-xs font-bold text-slate-400 uppercase tracking-wider hidden md:table-cell">Registration</th>
-                                    <th class="p-5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody" class="divide-y divide-slate-100 dark:divide-slate-700 text-sm">
-                                <!-- Rows injected via JS -->
-                            </tbody>
-                        </table>
+    function openEditModal(id) {
+        const record = allRecords.find(r => r.id === id);
+        if(!record) return;
 
-                        <!-- Loading State -->
-                        <div id="loadingState" class="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex flex-col items-center justify-center z-30 hidden">
-                            <div class="relative">
-                                <div class="w-16 h-16 border-4 border-slate-200 dark:border-slate-700 border-t-theme-emerald rounded-full animate-spin"></div>
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <i class="fas fa-snowflake text-theme-emerald animate-pulse"></i>
-                                </div>
-                            </div>
-                            <p class="text-slate-500 dark:text-slate-400 font-medium mt-4 animate-pulse">Retrieving guest list...</p>
-                        </div>
-                        
-                        <!-- Empty State -->
-                        <div id="emptyMessage" class="hidden flex flex-col items-center justify-center py-24 text-center px-4">
-                            <div class="bg-slate-50 dark:bg-slate-800 rounded-full h-24 w-24 flex items-center justify-center mb-4 border border-slate-100 dark:border-slate-700">
-                                <i class="fas fa-ghost text-4xl text-slate-300 dark:text-slate-600"></i>
-                            </div>
-                            <h3 class="text-lg font-serif text-slate-700 dark:text-slate-200 font-bold">No records found</h3>
-                            <p class="text-slate-400 dark:text-slate-500 text-sm mt-1 max-w-xs mx-auto">We couldn't find any guests matching your current filters.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-slate-50 dark:bg-slate-900 px-6 py-3 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center text-[10px] uppercase tracking-wider text-slate-400 font-bold">
-                        <span><i class="fas fa-database mr-1 text-theme-emerald"></i> Live Data</span>
-                        <span class="opacity-50">Secure Connection</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        document.getElementById('edit_id').value = record.id;
+        document.getElementById('edit_first').value = record.first_name;
+        document.getElementById('edit_middle').value = record.middle_name || '';
+        document.getElementById('edit_last').value = record.last_name;
+        document.getElementById('edit_dept').value = record.department;
 
-    <!-- ================= MODALS ================= -->
+        const modal = document.getElementById('editModal');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.querySelector('div.transform').classList.remove('translate-y-4', 'opacity-0');
+            modal.querySelector('div.transform').classList.add('translate-y-0', 'opacity-100');
+        }, 10);
+    }
 
-    <!-- VIEW DETAILS MODAL -->
-    <div id="viewModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeViewModal()"></div>
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all relative border border-white/20 dark:border-slate-600">
-                
-                <!-- Ticket Top -->
-                <div class="h-3 bg-gradient-to-r from-theme-gold via-yellow-400 to-theme-gold"></div>
-                
-                <div class="p-8 text-center relative">
-                    <button onclick="closeViewModal()" class="absolute top-2 right-4 text-slate-300 hover:text-slate-600 dark:hover:text-white transition text-2xl">
-                        &times;
-                    </button>
+    function closeEditModal() {
+        const modal = document.getElementById('editModal');
+        modal.querySelector('div.transform').classList.remove('translate-y-0', 'opacity-100');
+        modal.querySelector('div.transform').classList.add('translate-y-4', 'opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 200);
+    }
 
-                    <div class="mx-auto h-24 w-24 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg ring-4 ring-emerald-50 dark:ring-emerald-900/30 mb-6">
-                        <i class="fas fa-user-check text-4xl text-white"></i>
-                    </div>
-
-                    <h2 class="text-xs font-bold text-theme-gold uppercase tracking-[0.25em] mb-2">Access Granted</h2>
-                    <h1 id="view_fullname" class="text-2xl font-serif font-bold text-slate-800 dark:text-white mb-2">Guest Name</h1>
-                    
-                    <div class="inline-block px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold text-sm mb-8 border border-slate-200 dark:border-slate-600 shadow-inner" id="view_dept">
-                        Department
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3 text-left">
-                        <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg border border-slate-100 dark:border-slate-600">
-                            <span class="block text-[10px] text-slate-400 uppercase font-bold">Pass ID</span>
-                            <span id="view_id" class="font-mono text-slate-700 dark:text-slate-200 font-bold">#000</span>
-                        </div>
-                        <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg border border-slate-100 dark:border-slate-600">
-                            <span class="block text-[10px] text-slate-400 uppercase font-bold">Timestamp</span>
-                            <span id="view_date" class="text-slate-700 dark:text-slate-200 font-bold text-xs">Dec 25</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- EDIT MODAL -->
-    <div id="editModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeEditModal()"></div>
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden transform transition-all border dark:border-slate-700">
-                
-                <div class="bg-slate-900 dark:bg-slate-950 px-6 py-4 flex justify-between items-center border-b border-slate-800">
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fas fa-pen-fancy text-theme-gold"></i> Edit Guest
-                    </h3>
-                    <button onclick="closeEditModal()" class="text-slate-500 hover:text-white transition">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                <div class="p-8 space-y-6">
-                    <input type="hidden" id="edit_id">
-                    
-                    <div class="grid grid-cols-12 gap-4">
-                        <div class="col-span-12 md:col-span-5">
-                            <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase">First Name</label>
-                            <input type="text" id="edit_first" class="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none transition bg-slate-50 dark:bg-slate-900 dark:text-white">
-                        </div>
-                        <div class="col-span-12 md:col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase text-center">M.I.</label>
-                            <input type="text" id="edit_middle" class="w-full px-2 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none transition bg-slate-50 dark:bg-slate-900 dark:text-white text-center">
-                        </div>
-                        <div class="col-span-12 md:col-span-5">
-                            <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase">Last Name</label>
-                            <input type="text" id="edit_last" class="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none transition bg-slate-50 dark:bg-slate-900 dark:text-white">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase">Department Assignment</label>
-                        <div class="relative">
-                            <i class="fas fa-briefcase absolute left-3 top-3 text-slate-400"></i>
-                            <select id="edit_dept" class="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-theme-emerald focus:border-transparent outline-none bg-slate-50 dark:bg-slate-900 dark:text-white cursor-pointer appearance-none">
-                                <optgroup label="Administration" class="dark:bg-slate-800">
-                                    <option value="G.A">General Affairs (G.A)</option>
-                                    <option value="HR">Human Resources (HR)</option>
-                                    <option value="Accounting">Accounting</option>
-                                    <option value="LMR">Labor Management (LMR)</option>
-                                    <option value="ComRel">Community Relations</option>
-                                </optgroup>
-                                <optgroup label="Engineering" class="dark:bg-slate-800">
-                                    <option value="Civil">Civil Engineering</option>
-                                    <option value="Mechanical">Mechanical Engineering</option>
-                                    <option value="Electrical">Electrical Engineering</option>
-                                </optgroup>
-                                <optgroup label="Maintenance" class="dark:bg-slate-800">
-                                    <option value="RM">Reliability Maintenance (RM)</option>
-                                    <option value="SS&SC">SHE, Services & Supply Chain</option>
-                                    <option value="E&I">Electrical & Instrument</option>
-                                </optgroup>
-                                <optgroup label="Production" class="dark:bg-slate-800">
-                                    <option value="PSU">Power Station & Utilities (PSU)</option>
-                                    <option value="HPAL">Production (HPAL)</option>
-                                    <option value="MS">Production (MS)</option>
-                                </optgroup>
-                                <optgroup label="Rare Metal" class="dark:bg-slate-800">
-                                    <option value="Scandium">Scandium</option>
-                                    <option value="Chromite">Chromite</option>
-                                </optgroup>
-                                <optgroup label="Others" class="dark:bg-slate-800">
-                                    <option value="Health">Health</option>
-                                    <option value="Safety">Safety</option>
-                                    <option value="Security">Security</option>
-                                    <option value="Procurement">Procurement</option>
-                                    <option value="Logistics">Logistics</option>
-                                    <option value="MEPEO">Technical (MEPEO)</option>
-                                    <option value="Laboratory">Laboratory</option>
-                                </optgroup>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
-                                <i class="fas fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 dark:bg-slate-900/50 px-8 py-5 flex flex-row-reverse gap-3 border-t border-slate-100 dark:border-slate-700">
-                    <button type="button" onclick="saveEdit()" class="w-full sm:w-auto inline-flex justify-center rounded-lg border border-transparent shadow-md px-6 py-2.5 bg-theme-emerald hover:bg-emerald-800 text-sm font-bold text-white focus:outline-none transition">
-                        Save Changes
-                    </button>
-                    <button type="button" onclick="closeEditModal()" class="w-full sm:w-auto inline-flex justify-center rounded-lg border border-slate-300 dark:border-slate-600 shadow-sm px-6 py-2.5 bg-white dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none transition">
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // --- SUPABASE CONFIGURATION ---
-        const SUPABASE_URL = 'https://hbkitssxgajgncavxqng.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhia2l0c3N4Z2FqZ25jYXZ4cW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NjE0OTksImV4cCI6MjA4MDQzNzQ5OX0.qLoTUj8nqQuE0W-6g5DBdEiRhjDb1KfzBd2zEHPaJbE';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // --- GLOBAL STATE ---
-        let allRecords = [];
-        let currentCategory = 'All';
-
-        // --- DARK MODE LOGIC ---
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                html.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
-        }
-        
-        // Initialize Theme
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-
-        // --- DATA MAPPING ---
-        const categories = [
-            { id: 'All', label: 'All Guests', icon: 'fa-users', color: 'text-slate-500' },
-            { id: 'Administration', label: 'Administration', icon: 'fa-user-tie', color: 'text-purple-500' },
-            { id: 'Engineering', label: 'Engineering', icon: 'fa-hard-hat', color: 'text-blue-500' },
-            { id: 'Maintenance', label: 'Maintenance', icon: 'fa-tools', color: 'text-amber-500' },
-            { id: 'Production', label: 'Production', icon: 'fa-industry', color: 'text-orange-500' },
-            { id: 'Rare Metal', label: 'Rare Metals', icon: 'fa-gem', color: 'text-emerald-500' },
-            { id: 'Others', label: 'Other Depts', icon: 'fa-layer-group', color: 'text-pink-500' }
-        ];
-
-        const deptMap = {
-            'G.A': 'Administration', 'HR': 'Administration', 'Accounting': 'Administration', 'LMR': 'Administration', 'ComRel': 'Administration',
-            'Civil': 'Engineering', 'Mechanical': 'Engineering', 'Electrical': 'Engineering',
-            'RM': 'Maintenance', 'SS&SC': 'Maintenance', 'E&I': 'Maintenance',
-            'HPAL': 'Production', 'MS': 'Production', 'PSU': 'Production', 
-            'Scandium': 'Rare Metal', 'Chromite': 'Rare Metal',
-            'Health': 'Others', 'Safety': 'Others', 'Security': 'Others', 'MEPEO': 'Others', 'Laboratory': 'Others', 'Procurement': 'Others', 'Logistics': 'Others'
+    async function saveEdit() {
+        const id = document.getElementById('edit_id').value;
+        const updates = {
+            first_name: document.getElementById('edit_first').value,
+            middle_name: document.getElementById('edit_middle').value,
+            last_name: document.getElementById('edit_last').value,
+            department: document.getElementById('edit_dept').value
         };
 
-        // --- SNOWFALL ---
-        function createSnowflakes() {
-            const container = document.getElementById('snow-container');
-            const numberOfSnowflakes = 40; 
-            for (let i = 0; i < numberOfSnowflakes; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                snowflake.innerHTML = '&#10052;'; 
-                snowflake.style.left = Math.random() * 100 + 'vw';
-                snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's, ' + (Math.random() * 3 + 2) + 's';
-                snowflake.style.animationDelay = (Math.random() * 5) + 's, ' + (Math.random() * 2) + 's';
-                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
-                container.appendChild(snowflake);
-            }
-        }
-
-        // --- TABS LOGIC ---
-        function initTabs() {
-            const container = document.getElementById('categoryTabs');
-            container.innerHTML = categories.map(cat => `
-                <button onclick="filterCategory('${cat.id}')" id="tab-${cat.id}" 
-                    class="tab-btn w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between group transition-all duration-200 border border-transparent">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-700 group-hover:bg-white dark:group-hover:bg-slate-600 transition shadow-sm">
-                            <i class="fas ${cat.icon} ${cat.color} opacity-80"></i>
-                        </div>
-                        <span class="whitespace-nowrap">${cat.label}</span>
-                    </div>
-                    <span id="count-${cat.id}" class="text-[10px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-500 px-2 py-0.5 rounded-full group-hover:bg-white transition">0</span>
-                </button>
-            `).join('');
-            
-            updateTabStyles();
-        }
-
-        function updateTabStyles() {
-            categories.forEach(cat => {
-                const btn = document.getElementById(`tab-${cat.id}`);
-                const countBadge = document.getElementById(`count-${cat.id}`);
-                const iconBox = btn.querySelector('div.w-8');
-                
-                if (cat.id === currentCategory) {
-                    btn.className = "tab-btn w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between shadow-md bg-gradient-to-r from-slate-800 to-slate-700 dark:from-emerald-600 dark:to-emerald-700 text-white transform scale-[1.02]";
-                    countBadge.className = "text-[10px] font-bold bg-white/20 text-white px-2 py-0.5 rounded-full";
-                    iconBox.className = "w-8 h-8 rounded-lg flex items-center justify-center bg-white/10 text-white";
-                    iconBox.querySelector('i').className = `fas ${cat.icon} text-white`;
-                } else {
-                    btn.className = "tab-btn w-full text-left px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between text-slate-600 dark:text-slate-400 hover:bg-white hover:shadow-md dark:hover:bg-slate-700/50 border border-transparent hover:border-slate-100 dark:hover:border-slate-600";
-                    countBadge.className = "text-[10px] font-bold bg-slate-100 dark:bg-slate-900 text-slate-400 px-2 py-0.5 rounded-full";
-                    iconBox.className = "w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-900 transition shadow-sm";
-                    iconBox.querySelector('i').className = `fas ${cat.icon} ${cat.color}`;
-                }
-            });
-        }
-
-        function filterCategory(catId) {
-            currentCategory = catId;
-            updateTabStyles();
-            applyFilters();
-        }
-
-        function updateCategoryCounts() {
-            // Count logic
-            const counts = {};
-            categories.forEach(c => counts[c.id] = 0);
-            counts['All'] = allRecords.length;
-
-            allRecords.forEach(record => {
-                const dept = deptMap[record.department];
-                if (dept && counts[dept] !== undefined) {
-                    counts[dept]++;
-                } else {
-                    counts['Others']++;
-                }
-            });
-
-            categories.forEach(cat => {
-                const el = document.getElementById(`count-${cat.id}`);
-                if (el) el.textContent = counts[cat.id];
-            });
-            
-            // Animate total count
-            document.getElementById('totalCount').textContent = allRecords.length;
-        }
-
-        // --- DATA FETCHING ---
-        async function fetchRecords() {
-            const tbody = document.getElementById('tableBody');
-            const loading = document.getElementById('loadingState');
-            
-            tbody.innerHTML = '';
-            loading.classList.remove('hidden');
-
-            try {
-                const { data, error } = await supabaseClient
-                    .from('registrations')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-                allRecords = data;
-                updateCategoryCounts();
-                applyFilters();
-
-            } catch (err) {
-                console.error(err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Connection Issue',
-                    text: 'Unable to retrieve data. Using cached view if available.',
-                });
-            } finally {
-                loading.classList.add('hidden');
-            }
-        }
-
-        function applyFilters() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            const filtered = allRecords.filter(record => {
-                // Category Filter
-                let catMatch = false;
-                const recordCat = deptMap[record.department];
-
-                if (currentCategory === 'All') catMatch = true;
-                else if (currentCategory === 'Others') catMatch = (recordCat === 'Others' || !recordCat);
-                else catMatch = (recordCat === currentCategory);
-
-                // Search Filter
-                const nameFull = `${record.first_name} ${record.last_name}`.toLowerCase();
-                const nameMatch = nameFull.includes(searchTerm) || (record.department && record.department.toLowerCase().includes(searchTerm));
-
-                return catMatch && nameMatch;
-            });
-
-            renderTable(filtered);
-        }
-
-        // --- RENDER TABLE ---
-        function renderTable(data) {
-            const tbody = document.getElementById('tableBody');
-            const emptyMsg = document.getElementById('emptyMessage');
-
-            tbody.innerHTML = '';
-
-            if (data.length === 0) {
-                emptyMsg.classList.remove('hidden');
-                return;
-            } else {
-                emptyMsg.classList.add('hidden');
-            }
-
-            data.forEach((row, index) => {
-                const date = new Date(row.created_at).toLocaleDateString("en-US", { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' });
-                const initial = row.first_name.charAt(0).toUpperCase();
-
-                // Dynamic Avatar Gradient
-                const gradients = ['avatar-gradient-1', 'avatar-gradient-2', 'avatar-gradient-3', 'avatar-gradient-4'];
-                const gradClass = gradients[index % gradients.length];
-
-                // Badge Styles
-                const cat = deptMap[row.department] || 'Others';
-                let badgeClass = "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300";
-                if(cat === 'Administration') badgeClass = "bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800";
-                if(cat === 'Engineering') badgeClass = "bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800";
-                if(cat === 'Maintenance') badgeClass = "bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-800";
-                if(cat === 'Production') badgeClass = "bg-orange-50 text-orange-700 border border-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-800";
-                if(cat === 'Rare Metal') badgeClass = "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-800";
-
-                const tr = document.createElement('tr');
-                tr.className = "group border-b border-slate-50 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors animate-fade-in-up";
-                tr.style.animationDelay = `${index * 30}ms`;
-                tr.innerHTML = `
-                    <td class="p-5 pl-6">
-                        <div class="flex items-center gap-4">
-                            <div class="h-10 w-10 rounded-full ${gradClass} flex items-center justify-center text-white font-bold shadow-sm ring-2 ring-white dark:ring-slate-700">
-                                ${initial}
-                            </div>
-                            <div>
-                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm font-sans">${row.first_name} ${row.last_name}</div>
-                                <div class="text-[11px] text-slate-400 dark:text-slate-500 uppercase font-bold tracking-wide">${row.middle_name ? row.middle_name : '-'}</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="p-5">
-                        <span class="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider ${badgeClass} shadow-sm">
-                            ${row.department}
-                        </span>
-                    </td>
-                    <td class="p-5 hidden md:table-cell">
-                        <div class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center">
-                            <i class="far fa-clock mr-2 opacity-70"></i> ${date}
-                        </div>
-                    </td>
-                    <td class="p-5 pr-6 text-right">
-                        <div class="flex justify-end items-center gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
-                             <button onclick="openViewModal(${row.id})" class="h-8 w-8 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-blue-500 hover:text-white transition flex items-center justify-center shadow-sm" title="View Details">
-                                <i class="fas fa-eye text-xs"></i>
-                            </button>
-                            <button onclick="openEditModal(${row.id})" class="h-8 w-8 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-amber-500 hover:text-white transition flex items-center justify-center shadow-sm" title="Edit">
-                                <i class="fas fa-pen text-xs"></i>
-                            </button>
-                            <button onclick="deleteRecord(${row.id})" class="h-8 w-8 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center shadow-sm" title="Delete">
-                                <i class="fas fa-trash-alt text-xs"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // --- ACTIONS (MODALS & CRUD) ---
+        const { error } = await supabaseClient.from('registrations').update(updates).eq('id', id);
         
-        function openViewModal(id) {
-            const record = allRecords.find(r => r.id === id);
-            if(!record) return;
-
-            document.getElementById('view_fullname').textContent = `${record.first_name} ${record.middle_name ? record.middle_name + ' ' : ''}${record.last_name}`;
-            document.getElementById('view_dept').textContent = record.department;
-            document.getElementById('view_id').textContent = '#' + String(record.id).padStart(4, '0');
-            document.getElementById('view_date').textContent = new Date(record.created_at).toLocaleDateString();
-
-            const modal = document.getElementById('viewModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.querySelector('div.transform').classList.remove('scale-95', 'opacity-0');
-                modal.querySelector('div.transform').classList.add('scale-100', 'opacity-100');
-            }, 10);
+        if(!error) {
+            closeEditModal();
+            Swal.fire({
+                icon: 'success',
+                title: 'Updated',
+                text: 'Record saved successfully.',
+                timer: 1500,
+                showConfirmButton: false,
+                backdrop: false,
+                toast: true,
+                position: 'top-end',
+                background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+                color: document.documentElement.classList.contains('dark') ? '#fff' : '#1e293b'
+            });
+            fetchRecords();
+        } else {
+            Swal.fire('Error', 'Could not update record.', 'error');
         }
+    }
 
-        function closeViewModal() {
-            const modal = document.getElementById('viewModal');
-            modal.querySelector('div.transform').classList.remove('scale-100', 'opacity-100');
-            modal.querySelector('div.transform').classList.add('scale-95', 'opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 200);
-        }
+    async function deleteRecord(id) {
+        const result = await Swal.fire({
+            title: 'Delete Guest?',
+            text: "This action cannot be undone.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#be123c',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Yes, remove',
+            background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+            color: document.documentElement.classList.contains('dark') ? '#fff' : '#1e293b',
+            customClass: { popup: 'rounded-xl' }
+        });
 
-        function openEditModal(id) {
-            const record = allRecords.find(r => r.id === id);
-            if(!record) return;
-
-            document.getElementById('edit_id').value = record.id;
-            document.getElementById('edit_first').value = record.first_name;
-            document.getElementById('edit_middle').value = record.middle_name || '';
-            document.getElementById('edit_last').value = record.last_name;
-            document.getElementById('edit_dept').value = record.department;
-
-            const modal = document.getElementById('editModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.querySelector('div.transform').classList.remove('translate-y-4', 'opacity-0');
-                modal.querySelector('div.transform').classList.add('translate-y-0', 'opacity-100');
-            }, 10);
-        }
-
-        function closeEditModal() {
-            const modal = document.getElementById('editModal');
-            modal.querySelector('div.transform').classList.remove('translate-y-0', 'opacity-100');
-            modal.querySelector('div.transform').classList.add('translate-y-4', 'opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 200);
-        }
-
-        async function saveEdit() {
-            const id = document.getElementById('edit_id').value;
-            const updates = {
-                first_name: document.getElementById('edit_first').value,
-                middle_name: document.getElementById('edit_middle').value,
-                last_name: document.getElementById('edit_last').value,
-                department: document.getElementById('edit_dept').value
-            };
-
-            const { error } = await supabaseClient.from('registrations').update(updates).eq('id', id);
-            
-            if(!error) {
-                closeEditModal();
+        if (result.isConfirmed) {
+            const { error } = await supabaseClient.from('registrations').delete().eq('id', id);
+            if (!error) {
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Updated',
-                    text: 'Record saved successfully.',
-                    timer: 1500,
+                    icon: 'success', 
+                    title: 'Deleted',
+                    timer: 1500, 
                     showConfirmButton: false,
-                    backdrop: false,
                     toast: true,
                     position: 'top-end',
                     background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
@@ -723,49 +756,26 @@
                 });
                 fetchRecords();
             } else {
-                Swal.fire('Error', 'Could not update record.', 'error');
+                Swal.fire('Error', 'Could not delete record.', 'error');
             }
         }
+    }
 
-        async function deleteRecord(id) {
-            const result = await Swal.fire({
-                title: 'Delete Guest?',
-                text: "This action cannot be undone.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#be123c',
-                cancelButtonColor: '#64748b',
-                confirmButtonText: 'Yes, remove',
-                background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
-                color: document.documentElement.classList.contains('dark') ? '#fff' : '#1e293b',
-                customClass: { popup: 'rounded-xl' }
-            });
+    // Init
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    createSnowflakes();
+    initTabs();
+    fetchRecords();
+</script>
 
-            if (result.isConfirmed) {
-                const { error } = await supabaseClient.from('registrations').delete().eq('id', id);
-                if (!error) {
-                    Swal.fire({
-                        icon: 'success', 
-                        title: 'Deleted',
-                        timer: 1500, 
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-end',
-                        background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
-                        color: document.documentElement.classList.contains('dark') ? '#fff' : '#1e293b'
-                    });
-                    fetchRecords();
-                } else {
-                    Swal.fire('Error', 'Could not delete record.', 'error');
-                }
-            }
-        }
-
-        // Init
-        document.getElementById('searchInput').addEventListener('input', applyFilters);
-        createSnowflakes();
-        initTabs();
-        fetchRecords();
-    </script>
 </body>
 </html>
+    
+
+
+
+
+
+
+
+    
