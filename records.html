@@ -11,7 +11,7 @@
 <!-- FontAwesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght{300;400;700;900&display=swap" rel="stylesheet">
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -146,6 +146,11 @@
                     <span>New Guest</span>
                 </a>
                 
+                <!-- NEW: Export Button -->
+                <button onclick="exportDataToCSV()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-theme-gold dark:hover:text-amber-400 text-slate-500 px-4 py-3.5 rounded-2xl shadow-sm transition active:scale-95" title="Export to CSV">
+                    <i class="fas fa-file-csv"></i>
+                </button>
+
                 <button onclick="fetchRecords()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-theme-emerald dark:hover:text-emerald-400 text-slate-500 px-4 py-3.5 rounded-2xl shadow-sm transition active:rotate-180" title="Refresh List">
                     <i class="fas fa-sync-alt"></i>
                 </button>
@@ -392,6 +397,7 @@
 
     // --- GLOBAL STATE ---
     let allRecords = [];
+    let filteredRecords = []; // NEW: Stores the currently visible records for export
     let currentCategory = 'All';
 
     // --- DARK MODE LOGIC ---
@@ -568,7 +574,8 @@
             return catMatch && nameMatch;
         });
 
-        renderTable(filtered);
+        filteredRecords = filtered; // Store the currently filtered results for export
+        renderTable(filteredRecords);
     }
 
     // --- RENDER TABLE ---
@@ -644,6 +651,93 @@
             tbody.appendChild(tr);
         });
     }
+
+    // --- EXPORT FUNCTION ---
+    function convertToCSV(objArray) {
+        const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
+        let str = '';
+
+        // Define Headers and mapping
+        const headers = [
+            { key: 'id', label: 'ID' },
+            { key: 'first_name', label: 'First Name' },
+            { key: 'middle_name', label: 'Middle Initial' },
+            { key: 'last_name', label: 'Last Name' },
+            { key: 'department', label: 'Department' },
+            { key: 'created_at', label: 'Registration Timestamp' }
+        ];
+
+        // Header Row
+        str += headers.map(h => `"${h.label}"`).join(',') + '\r\n';
+
+        // Data Rows
+        for (let i = 0; i < array.length; i++) {
+            let line = '';
+            for (let j = 0; j < headers.length; j++) {
+                let value = array[i][headers[j].key];
+                if (value === null || value === undefined) {
+                    value = '';
+                } else if (typeof value === 'string') {
+                    // Escape double quotes and wrap in double quotes (standard CSV formatting)
+                    value = value.replace(/"/g, '""'); 
+                }
+                if (line !== '') line += ',';
+                line += `"${value}"`;
+            }
+            str += line + '\r\n';
+        }
+
+        return str;
+    }
+
+    function exportDataToCSV() {
+        if (filteredRecords.length === 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'No Data to Export',
+                text: 'The current list is empty. Please check your filters.',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+                color: document.documentElement.classList.contains('dark') ? '#fff' : '#1e293b'
+            });
+            return;
+        }
+
+        const csv = convertToCSV(filteredRecords);
+        const filename = `THPAL_GuestList_Export_${new Date().toISOString().slice(0, 10)}.csv`;
+        
+        // Create a Blob and URL for the download
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+
+        if (link.download !== undefined) { 
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Export Complete',
+                text: `${filteredRecords.length} records exported to ${filename}`,
+                timer: 2000,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end',
+                background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+                color: document.documentElement.classList.contains('dark') ? '#fff' : '#1e293b'
+            });
+        } else {
+            Swal.fire('Error', 'Your browser does not fully support the automatic download function.', 'error');
+        }
+    }
+
 
     // --- ACTIONS (MODALS & CRUD) ---
     
@@ -770,12 +864,3 @@
 
 </body>
 </html>
-    
-
-
-
-
-
-
-
-    
