@@ -238,6 +238,122 @@
             color: var(--text-muted);
         }
 
+        /* ==================== MODAL STYLES ==================== */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #2a2a2d;
+            width: 90%;
+            max-width: 900px;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: var(--text-muted);
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+
+        .modal-body {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .modal-body img {
+            width: 55%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-info {
+            width: 45%;
+            text-align: left;
+        }
+
+        .modal-info h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        .modal-info .price {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .modal-info h4 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #2a2a2d;
+            padding-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .modal-info ul {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .modal-info ul li {
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #2a2a2d;
+            padding-bottom: 5px;
+        }
+
+        .modal-info ul li span {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -258,6 +374,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         /* Responsive UI */
         @media (max-width: 768px) {
             .nav-links {
@@ -271,6 +392,18 @@
             }
             .filter-btn {
                 margin: 5px;
+            }
+            .modal-body {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .modal-body img, .modal-info {
+                width: 100%;
+            }
+            .modal-content {
+                padding: 20px;
+                max-height: 90vh;
+                overflow-y: auto;
             }
         }
     </style>
@@ -319,7 +452,7 @@
                 <div class="car-info">
                     <h3>Porsche 911 Carrera</h3>
                     <p class="price">$106,100</p>
-                    <button class="btn secondary-btn">View Details</button>
+                    <button class="btn secondary-btn view-details-btn">View Details</button>
                 </div>
             </div>
             <!-- Car 2 -->
@@ -328,7 +461,7 @@
                 <div class="car-info">
                     <h3>BMW M5 Competition</h3>
                     <p class="price">$135,000</p>
-                    <button class="btn secondary-btn">View Details</button>
+                    <button class="btn secondary-btn view-details-btn">View Details</button>
                 </div>
             </div>
             <!-- Car 3 -->
@@ -337,7 +470,7 @@
                 <div class="car-info">
                     <h3>Range Rover Velar</h3>
                     <p class="price">$60,300</p>
-                    <button class="btn secondary-btn">View Details</button>
+                    <button class="btn secondary-btn view-details-btn">View Details</button>
                 </div>
             </div>
             <!-- Car 4 -->
@@ -346,7 +479,7 @@
                 <div class="car-info">
                     <h3>Ferrari F8 Tributo</h3>
                     <p class="price">$276,550</p>
-                    <button class="btn secondary-btn">View Details</button>
+                    <button class="btn secondary-btn view-details-btn">View Details</button>
                 </div>
             </div>
             <!-- Car 5 -->
@@ -355,7 +488,7 @@
                 <div class="car-info">
                     <h3>Mercedes-Benz S-Class</h3>
                     <p class="price">$111,100</p>
-                    <button class="btn secondary-btn">View Details</button>
+                    <button class="btn secondary-btn view-details-btn">View Details</button>
                 </div>
             </div>
             <!-- Car 6 -->
@@ -364,11 +497,30 @@
                 <div class="car-info">
                     <h3>Mercedes-Benz G-Wagon</h3>
                     <p class="price">$139,900</p>
-                    <button class="btn secondary-btn">View Details</button>
+                    <button class="btn secondary-btn view-details-btn">View Details</button>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Modal Section -->
+    <div id="carModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <img id="modalImg" src="" alt="Car Image">
+                <div class="modal-info">
+                    <h3 id="modalTitle">Car Title</h3>
+                    <p id="modalPrice" class="price">$0</p>
+                    <h4>Specifications</h4>
+                    <ul id="modalSpecs">
+                        <!-- Specs injected via JS -->
+                    </ul>
+                    <button class="btn primary-btn" style="width: 100%;">Book a Test Drive</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <p>&copy; 2026 Apex Motors. Designed for Performance.</p>
@@ -376,7 +528,7 @@
 
     <!-- ==================== JAVASCRIPT FOR UI INTERACTIVITY ==================== -->
     <script>
-        // 1. Sticky Navbar Effect on Scroll (Improves UX by keeping navigation accessible)
+        // 1. Sticky Navbar Effect on Scroll
         const navbar = document.getElementById('navbar');
 
         window.addEventListener('scroll', () => {
@@ -393,21 +545,13 @@
 
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
-                
-                // Remove active class from all buttons
                 filterButtons.forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to clicked button
                 button.classList.add('active');
-
-                // Get filter category from the clicked button
                 const filterValue = button.getAttribute('data-filter');
 
-                // Loop through all cars and filter them based on category
                 carCards.forEach(card => {
                     if (filterValue === 'all') {
                         card.style.display = 'block';
-                        // Small animation reset
                         card.style.animation = 'fadeInUp 0.5s ease forwards';
                     } else {
                         if (card.classList.contains(filterValue)) {
@@ -419,6 +563,101 @@
                     }
                 });
             });
+        });
+
+        // 3. Modal Functionality and Car Specs Data
+        const carSpecsData = {
+            "Porsche 911 Carrera":[
+                { label: "Engine", value: "3.0L Twin-Turbo Flat-6" },
+                { label: "Horsepower", value: "379 hp" },
+                { label: "0-60 mph", value: "4.0 sec" },
+                { label: "Top Speed", value: "182 mph" },
+                { label: "Transmission", value: "8-speed PDK" }
+            ],
+            "BMW M5 Competition":[
+                { label: "Engine", value: "4.4L Twin-Turbo V8" },
+                { label: "Horsepower", value: "617 hp" },
+                { label: "0-60 mph", value: "3.1 sec" },
+                { label: "Top Speed", value: "190 mph" },
+                { label: "Drivetrain", value: "M xDrive AWD" }
+            ],
+            "Range Rover Velar":[
+                { label: "Engine", value: "2.0L Turbo Inline-4" },
+                { label: "Horsepower", value: "247 hp" },
+                { label: "0-60 mph", value: "7.1 sec" },
+                { label: "Top Speed", value: "135 mph" },
+                { label: "Towing Capacity", value: "5,291 lbs" }
+            ],
+            "Ferrari F8 Tributo":[
+                { label: "Engine", value: "3.9L Twin-Turbo V8" },
+                { label: "Horsepower", value: "710 hp" },
+                { label: "0-60 mph", value: "2.9 sec" },
+                { label: "Top Speed", value: "211 mph" },
+                { label: "Weight", value: "3,164 lbs" }
+            ],
+            "Mercedes-Benz S-Class":[
+                { label: "Engine", value: "3.0L Turbo Inline-6" },
+                { label: "Horsepower", value: "429 hp" },
+                { label: "0-60 mph", value: "4.8 sec" },
+                { label: "Top Speed", value: "130 mph" },
+                { label: "Interior", value: "Nappa Leather" }
+            ],
+            "Mercedes-Benz G-Wagon":[
+                { label: "Engine", value: "4.0L Twin-Turbo V8" },
+                { label: "Horsepower", value: "416 hp" },
+                { label: "0-60 mph", value: "5.6 sec" },
+                { label: "Top Speed", value: "130 mph" },
+                { label: "Ground Clearance", value: "9.5 inches" }
+            ]
+        };
+
+        const modal = document.getElementById('carModal');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const detailButtons = document.querySelectorAll('.view-details-btn');
+        
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalSpecs = document.getElementById('modalSpecs');
+
+        // Open Modal Event
+        detailButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const card = e.target.closest('.car-card');
+                const title = card.querySelector('h3').innerText;
+                const price = card.querySelector('.price').innerText;
+                const imgSrc = card.querySelector('img').src;
+
+                // Populate Modal Header & Image
+                modalTitle.innerText = title;
+                modalPrice.innerText = price;
+                modalImg.src = imgSrc;
+
+                // Populate Specifications
+                modalSpecs.innerHTML = ''; // Clear previous specs
+                const specs = carSpecsData[title] || [{label: "Info", value: "Specs coming soon"}];
+                
+                specs.forEach(spec => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `${spec.label} <span>${spec.value}</span>`;
+                    modalSpecs.appendChild(li);
+                });
+
+                // Show Modal
+                modal.classList.add('active');
+            });
+        });
+
+        // Close Modal via X button
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // Close Modal by clicking outside of the modal content
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
         });
     </script>
 </body>
