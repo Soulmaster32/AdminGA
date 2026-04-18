@@ -853,6 +853,132 @@
         @media (min-width: 900px) {
             .burger-btn { display: flex; }
         }
+
+        /* ==================== DREAM SLIDE ==================== */
+        .dream-slide {
+            position: relative;
+            height: 100vh;
+            display: flex !important;
+            align-items: center;
+            overflow: hidden;
+        }
+        .dream-canvas-wrap {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        #dreamCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .dream-ov {
+            position: absolute; inset: 0; z-index: 1;
+            background: linear-gradient(110deg,
+                rgba(10,10,12,0.97) 0%,
+                rgba(10,10,12,0.80) 40%,
+                rgba(10,10,12,0.30) 70%,
+                rgba(10,10,12,0.10) 100%);
+        }
+        .dream-grid-lines {
+            position: absolute; inset: 0; z-index: 2;
+            background:
+                repeating-linear-gradient(90deg, transparent 0, transparent 59px, rgba(255,59,48,.025) 59px, rgba(255,59,48,.025) 60px),
+                repeating-linear-gradient(0deg,  transparent 0, transparent 59px, rgba(255,59,48,.025) 59px, rgba(255,59,48,.025) 60px);
+        }
+        .dream-content {
+            position: relative; z-index: 10;
+            max-width: 720px;
+            margin-left: 7%;
+            color: #fff;
+            opacity: 0;
+            transform: translateX(-34px);
+            transition: opacity 1.1s ease .3s, transform 1.1s ease .3s;
+        }
+        .dream-slide.slick-active .dream-content {
+            opacity: 1;
+            transform: none;
+        }
+        .dream-pill {
+            display: inline-flex; align-items: center; gap: 9px;
+            background: rgba(255,59,48,.08); border: 1px solid rgba(255,59,48,.35);
+            padding: 6px 16px; border-radius: 2px; margin-bottom: 22px;
+            font-size: .68rem; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--primary-color);
+            animation: pillPulse 3s ease-in-out infinite;
+        }
+        @keyframes pillPulse {
+            0%,100% { box-shadow: 0 0 0 0 rgba(255,59,48,0); }
+            50%      { box-shadow: 0 0 0 6px rgba(255,59,48,.12); }
+        }
+        .dream-content h1 {
+            font-size: 5.2rem;
+            font-weight: 700;
+            line-height: .88;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .dream-content h1 em { color: var(--primary-color); font-style: normal; }
+        .dream-tagline {
+            font-size: .78rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,.42);
+            margin-bottom: 22px;
+            border-left: 2px solid var(--primary-color);
+            padding-left: 14px;
+        }
+        .dream-sub {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,.70);
+            line-height: 1.75;
+            max-width: 500px;
+            margin-bottom: 36px;
+        }
+        .dream-sub strong { color: #fff; }
+        .dream-wm {
+            position: absolute; bottom: 0; right: 0; z-index: 5;
+            padding: 14px 30px 14px 50px;
+            background: linear-gradient(90deg, transparent, rgba(10,10,12,.65));
+            font-size: 3rem; font-weight: 700;
+            color: rgba(255,255,255,.03); letter-spacing: 6px;
+            pointer-events: none; user-select: none;
+        }
+        .dream-scroll-hint {
+            position: absolute; bottom: 90px; left: 7%; z-index: 12;
+            display: flex; align-items: center; gap: 10px;
+            font-size: .63rem; letter-spacing: 3px; color: rgba(255,255,255,.35);
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInHint 1s ease 1.8s forwards;
+        }
+        @keyframes fadeInHint {
+            to { opacity: 1; }
+        }
+        .dream-scroll-hint .sh-line {
+            width: 32px; height: 1px; background: rgba(255,59,48,.5);
+            position: relative; overflow: hidden;
+        }
+        .dream-scroll-hint .sh-line::after {
+            content: '';
+            position: absolute; left: -100%; top: 0;
+            width: 100%; height: 100%;
+            background: var(--primary-color);
+            animation: lineSlide 2s ease-in-out 2s infinite;
+        }
+        @keyframes lineSlide {
+            0%   { left: -100%; }
+            50%  { left: 0; }
+            100% { left: 100%; }
+        }
+        @media (max-width: 768px) {
+            .dream-content h1 { font-size: 3.2rem; }
+            .dream-content { margin-left: 5%; max-width: 92%; }
+        }
+        @media (max-width: 480px) {
+            .dream-content h1 { font-size: 2.6rem; }
+        }
     </style>
 </head>
 <body>
@@ -919,6 +1045,31 @@
     <!-- HERO SECTION -->
     <header id="home" class="hero">
         <div class="hero-slider" id="heroSlider">
+
+            <!-- Slide 0: Drive Your Dream -->
+            <div class="dream-slide">
+                <div class="dream-canvas-wrap">
+                    <canvas id="dreamCanvas"></canvas>
+                </div>
+                <div class="dream-ov"></div>
+                <div class="dream-grid-lines"></div>
+                <div class="dream-content">
+                    <div class="dream-pill"><i class="fas fa-star"></i>&nbsp;Premium Automotive Collection</div>
+                    <h1>Drive Your<br><em>Dream</em></h1>
+                    <p class="dream-tagline">Elite Route &mdash; Automobile Trading For Export</p>
+                    <p class="dream-sub">Experience the thrill of luxury and performance.<br>
+                    Discover an <strong>exclusive collection</strong> of premium vehicles<br>tailored for you.</p>
+                    <div class="h-btns">
+                        <a href="#showroom" class="btn primary-btn"><i class="fas fa-car"></i>Explore Collection</a>
+                        <button class="btn secondary-btn" onclick="openQuoteModal()"><i class="fas fa-file-alt"></i>Get Quote</button>
+                    </div>
+                </div>
+                <div class="dream-scroll-hint">
+                    <div class="sh-line"></div>
+                    Scroll to discover
+                </div>
+                <div class="dream-wm">ELITE ROUTE</div>
+            </div>
 
             <!-- Slide 1 -->
             <div class="hero-slide">
@@ -1531,6 +1682,140 @@
             });
         });
     });
+    /* ==================== DREAM CANVAS ANIMATION ==================== */
+    (function() {
+        const canvas = document.getElementById('dreamCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let W, H, rafId;
+        let particles = [], streaks = [], glows = [];
+
+        function resize() {
+            W = canvas.width  = canvas.offsetWidth;
+            H = canvas.height = canvas.offsetHeight;
+        }
+
+        // Floating particle
+        function makeParticle() {
+            return {
+                x: Math.random() * W,
+                y: Math.random() * H,
+                r: Math.random() * 1.8 + .3,
+                vx: (Math.random() - .5) * .35,
+                vy: -(Math.random() * .6 + .15),
+                alpha: Math.random() * .6 + .1,
+                color: Math.random() > .5 ? '#ff3b30' : '#fff'
+            };
+        }
+        // Horizontal speed streak (light trail effect)
+        function makeStreak() {
+            return {
+                x: -220,
+                y: Math.random() * H,
+                len: Math.random() * 180 + 80,
+                speed: Math.random() * 4 + 3,
+                alpha: Math.random() * .18 + .04,
+                thick: Math.random() * 1.2 + .3,
+                color: Math.random() > .6 ? '#ff3b30' : 'rgba(255,255,255,0.9)'
+            };
+        }
+        // Ambient glow orb
+        function makeGlow() {
+            return {
+                x: Math.random() * W,
+                y: Math.random() * H,
+                r: Math.random() * 220 + 80,
+                alpha: Math.random() * .06 + .02,
+                vx: (Math.random() - .5) * .2,
+                vy: (Math.random() - .5) * .12,
+                color: Math.random() > .5 ? '#ff3b30' : '#1a0808'
+            };
+        }
+
+        function init() {
+            particles = Array.from({length: 90},  makeParticle);
+            streaks   = Array.from({length: 14},  makeStreak);
+            glows     = Array.from({length: 5},   makeGlow);
+            // Stagger streak start positions
+            streaks.forEach((s, i) => { s.x = (W / streaks.length) * i - 200; });
+        }
+
+        function drawBg() {
+            // Deep dark gradient base
+            const grad = ctx.createLinearGradient(0, 0, W, H);
+            grad.addColorStop(0,   '#060608');
+            grad.addColorStop(.5,  '#0c0a0e');
+            grad.addColorStop(1,   '#080608');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, W, H);
+
+            // Subtle red vignette bottom right
+            const vg = ctx.createRadialGradient(W, H, 0, W, H, W * .8);
+            vg.addColorStop(0,   'rgba(255,59,48,.07)');
+            vg.addColorStop(1,   'rgba(0,0,0,0)');
+            ctx.fillStyle = vg;
+            ctx.fillRect(0, 0, W, H);
+        }
+
+        function tick() {
+            ctx.clearRect(0, 0, W, H);
+            drawBg();
+
+            // Glows
+            glows.forEach(g => {
+                const grd = ctx.createRadialGradient(g.x, g.y, 0, g.x, g.y, g.r);
+                grd.addColorStop(0,   g.color === '#ff3b30' ? `rgba(255,59,48,${g.alpha})` : `rgba(80,20,20,${g.alpha})`);
+                grd.addColorStop(1,   'rgba(0,0,0,0)');
+                ctx.fillStyle = grd;
+                ctx.beginPath();
+                ctx.arc(g.x, g.y, g.r, 0, Math.PI * 2);
+                ctx.fill();
+                g.x += g.vx; g.y += g.vy;
+                if (g.x < -g.r) g.x = W + g.r;
+                if (g.x > W + g.r) g.x = -g.r;
+                if (g.y < -g.r) g.y = H + g.r;
+                if (g.y > H + g.r) g.y = -g.r;
+            });
+
+            // Speed streaks
+            streaks.forEach((s, i) => {
+                ctx.save();
+                const lg = ctx.createLinearGradient(s.x, s.y, s.x + s.len, s.y);
+                lg.addColorStop(0, 'rgba(0,0,0,0)');
+                lg.addColorStop(.5, s.color.replace(')', `,${s.alpha})`).replace('rgb','rgba'));
+                lg.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.strokeStyle = lg;
+                ctx.lineWidth = s.thick;
+                ctx.beginPath();
+                ctx.moveTo(s.x, s.y);
+                ctx.lineTo(s.x + s.len, s.y);
+                ctx.stroke();
+                ctx.restore();
+                s.x += s.speed;
+                if (s.x > W + s.len) { Object.assign(s, makeStreak()); s.x = -s.len; }
+            });
+
+            // Particles
+            particles.forEach(p => {
+                ctx.save();
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+                p.x += p.vx; p.y += p.vy;
+                if (p.y < -4) { Object.assign(p, makeParticle()); p.y = H + 4; }
+                if (p.x < -4 || p.x > W + 4) { Object.assign(p, makeParticle()); }
+            });
+
+            rafId = requestAnimationFrame(tick);
+        }
+
+        window.addEventListener('resize', () => { resize(); init(); });
+        resize(); init(); tick();
+    })();
+
     </script>
 </body>
 </html>
