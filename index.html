@@ -1,984 +1,834 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELITE ROUTE | Automobile Trading For Export L.L.C.</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Slick Slider CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ELITE ROUTE | Automobile Trading For Export L.L.C.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 <style>
-/* ============================================================
-   ROOT & RESET
-   ============================================================ */
-:root {
-    --bg: #07080d;
-    --bg2: #0e1018;
-    --bg3: #13151e;
-    --gold: #c9a84c;
-    --gold2: #e8c96b;
-    --red: #e63030;
-    --red2: #ff4444;
-    --text: #f0f2f8;
-    --muted: #6b728a;
-    --border: rgba(201,168,76,0.18);
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-head: 'Rajdhani', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --ease: cubic-bezier(0.25,0.8,0.25,1);
-    --transition: 0.35s var(--ease);
+:root{--bg:#07080d;--bg2:#0e1018;--bg3:#13151e;--gold:#c9a84c;--gold2:#e8c96b;--gold-dim:rgba(201,168,76,.12);--red:#e63030;--text:#f0f2f8;--muted:#6b728a;--border:rgba(201,168,76,.18);--border2:rgba(255,255,255,.06);--fd:'Bebas Neue',sans-serif;--fh:'Rajdhani',sans-serif;--fb:'Inter',sans-serif;--ease:cubic-bezier(.25,.8,.25,1);--tr:.35s var(--ease)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}ul{list-style:none}img{display:block;max-width:100%}
+button{cursor:pointer;font-family:inherit}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* ---- SIDEBAR ---- */
+.side-ov{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:3000;opacity:0;pointer-events:none;transition:opacity .4s}
+.side-ov.on{opacity:1;pointer-events:all}
+.sidebar{position:fixed;top:0;left:-310px;width:290px;height:100%;background:linear-gradient(160deg,#0c0e18,#090b12);border-right:1px solid var(--border);z-index:3100;transition:left .45s var(--ease);display:flex;flex-direction:column;overflow:hidden}
+.sidebar.on{left:0}
+.sb-head{padding:26px 24px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.sb-logo{font-family:var(--fd);font-size:1.5rem;letter-spacing:3px;line-height:1}
+.sb-logo small{display:block;font-family:var(--fh);font-size:.5rem;color:var(--gold);letter-spacing:2.5px;font-weight:600;margin-top:4px}
+.sb-x{background:none;border:1px solid var(--border);color:var(--text);width:34px;height:34px;border-radius:50%;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.sb-x:hover{background:var(--red);border-color:var(--red)}
+.sb-nav{padding:20px 0;flex:1;overflow-y:auto}
+.sb-nav li{border-bottom:1px solid rgba(255,255,255,.03)}
+.sb-nav li a{display:flex;align-items:center;gap:14px;padding:15px 24px;font-family:var(--fh);font-size:1rem;font-weight:600;letter-spacing:1px;color:var(--muted);transition:var(--tr);text-transform:uppercase;position:relative}
+.sb-nav li a::before{content:'';position:absolute;left:0;top:0;height:100%;width:3px;background:var(--gold);transform:scaleY(0);transition:var(--tr)}
+.sb-nav li a:hover{color:var(--text);background:var(--gold-dim);padding-left:32px}
+.sb-nav li a:hover::before{transform:scaleY(1)}
+.sb-nav li a i{width:18px;text-align:center;color:var(--gold);font-size:.9rem;flex-shrink:0}
+.sb-sub{font-size:.65rem;color:var(--muted);letter-spacing:.5px;font-family:var(--fb);text-transform:none;margin-top:1px;display:block;font-weight:400}
+.sb-foot{padding:20px 24px;border-top:1px solid var(--border)}
+.sb-foot p{font-size:.75rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.sb-soc{display:flex;gap:8px}
+.sb-soc a{width:32px;height:32px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--muted);transition:var(--tr)}
+.sb-soc a:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ---- MOBILE BOTTOM NAV ---- */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(9,10,17,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:8px 0;padding-bottom:max(8px,env(safe-area-inset-bottom,0px))}
+.mob-nav-inner{display:flex;justify-content:space-around;align-items:center}
+.mni{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 8px;color:var(--muted);transition:var(--tr);font-size:.58rem;font-family:var(--fh);letter-spacing:1px;text-transform:uppercase;background:none;border:none;font-weight:600}
+.mni i{font-size:1.1rem}
+.mni.act,.mni:hover{color:var(--gold)}
+
+/* ---- HEADER ---- */
+header{position:fixed;top:0;width:100%;z-index:1000;height:68px;padding:0 4%;display:flex;justify-content:space-between;align-items:center;background:rgba(7,8,13,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:var(--tr)}
+header.scrolled{height:60px;background:rgba(7,8,13,.99);box-shadow:0 4px 30px rgba(0,0,0,.6)}
+.h-left{display:flex;align-items:center;gap:14px}
+.burger{background:none;border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:var(--tr)}
+.burger:hover{border-color:var(--gold)}
+.burger span{display:block;width:17px;height:1.5px;background:var(--text);transition:var(--tr)}
+.logo-wrap{line-height:1}
+.logo-main{font-family:var(--fd);font-size:1.55rem;letter-spacing:4px;display:block}
+.logo-sub{font-family:var(--fh);font-size:.46rem;color:var(--gold);letter-spacing:2px;font-weight:600;text-transform:uppercase;display:block}
+.h-div{height:28px;width:1px;background:var(--border);display:none}
+.h-tag{font-family:var(--fh);font-size:.65rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;display:none}
+nav.desk{display:flex;gap:24px}
+nav.desk a{font-family:var(--fh);font-size:.88rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);transition:var(--tr);position:relative}
+nav.desk a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:var(--tr)}
+nav.desk a:hover{color:var(--text)}
+nav.desk a:hover::after{width:100%}
+.h-right{display:flex;align-items:center;gap:10px}
+.btn-qte{padding:8px 20px;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:var(--fh);font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;transition:var(--tr);border-radius:3px}
+.btn-qte:hover{background:var(--gold);color:#07080d}
+
+/* ---- HERO ---- */
+#hero{position:relative;width:100%;height:100vh;overflow:hidden}
+.hero-slider,.slick-list,.slick-track,.slick-slide{height:100%}
+.hero-slide{position:relative;height:100vh;display:flex!important;align-items:center;overflow:hidden}
+.slide-bg{position:absolute;inset:-6%;background-size:cover;background-position:center;will-change:transform}
+.hero-slide.slick-active .slide-bg{animation:kb 8s ease forwards}
+@keyframes kb{0%{transform:scale(1.09) translateX(1%)}100%{transform:scale(1) translateX(0)}}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(100deg,rgba(7,8,13,.95) 0%,rgba(7,8,13,.55) 55%,rgba(7,8,13,.1) 100%);z-index:2}
+.hero-slide::before{content:'';position:absolute;inset:0;z-index:1;background:repeating-linear-gradient(90deg,transparent 0,transparent 3px,rgba(201,168,76,.012) 3px,rgba(201,168,76,.012) 4px)}
+.hero-content{position:relative;z-index:10;max-width:640px;margin-left:7%;color:#fff;opacity:0;transform:translateX(-28px);transition:opacity .9s .25s,transform .9s .25s}
+.hero-slide.slick-active .hero-content{opacity:1;transform:none}
+.h-tag-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.28);padding:5px 13px;border-radius:2px;margin-bottom:16px;font-family:var(--fh);font-size:.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
+.hero-content h1{font-family:var(--fd);font-size:5rem;line-height:.95;margin-bottom:18px;letter-spacing:2px;text-transform:uppercase}
+.hero-content h1 em{color:var(--gold);font-style:normal}
+.hero-content p{font-size:1rem;margin-bottom:28px;color:rgba(255,255,255,.72);max-width:480px;line-height:1.7}
+.h-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-pri{padding:12px 28px;background:var(--gold);color:#07080d;font-family:var(--fh);font-weight:700;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;border:none;transition:var(--tr);border-radius:2px;display:inline-flex;align-items:center;gap:8px}
+.btn-pri:hover{background:var(--gold2);box-shadow:0 8px 24px rgba(201,168,76,.35);transform:translateY(-2px)}
+.btn-sec{padding:11px 24px;background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;font-family:var(--fh);font-weight:600;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;transition:var(--tr);border-radius:2px}
+.btn-sec:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.hero-arr{position:absolute;bottom:36px;right:5%;z-index:20;display:flex;gap:8px}
+.arr-btn{width:42px;height:42px;background:rgba(201,168,76,.08);border:1px solid var(--border);color:var(--gold);font-size:.88rem;display:flex;align-items:center;justify-content:center;transition:var(--tr);border-radius:2px}
+.arr-btn:hover{background:var(--gold);color:#07080d}
+.slick-dots{bottom:46px;left:7%;text-align:left;width:auto}
+.slick-dots li{margin:0 3px}
+.slick-dots li button:before{content:'';width:22px;height:2px;background:rgba(255,255,255,.25);border-radius:1px;display:block;opacity:1}
+.slick-dots li.slick-active button:before{background:var(--gold);width:34px}
+.slide-wm{position:absolute;bottom:0;right:0;z-index:5;padding:14px 30px 14px 50px;background:linear-gradient(90deg,transparent,rgba(7,8,13,.7));font-family:var(--fd);font-size:2.8rem;color:rgba(255,255,255,.04);letter-spacing:4px}
+
+/* ---- STATS ---- */
+.stats-bar{background:linear-gradient(90deg,#0d0f16,#111320,#0d0f16);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 4%;display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:16px}
+.stat-item{text-align:center}
+.stat-num{font-family:var(--fd);font-size:2rem;color:var(--gold);letter-spacing:2px;line-height:1}
+.stat-lbl{font-family:var(--fh);font-size:.65rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.stat-dv{width:1px;height:36px;background:var(--border)}
+
+/* ---- SECTION SHARED ---- */
+.sec{padding:80px 4%}
+.eyebrow{font-family:var(--fh);font-size:.7rem;letter-spacing:4px;color:var(--gold);text-transform:uppercase;text-align:center;margin-bottom:8px}
+.sec-title{font-family:var(--fd);font-size:2.8rem;text-align:center;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.sec-title em{color:var(--gold);font-style:normal}
+.sec-sub{text-align:center;color:var(--muted);font-size:.9rem;line-height:1.65;margin-bottom:44px;max-width:540px;margin-left:auto;margin-right:auto}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s,transform .65s}
+.reveal.vis{opacity:1;transform:none}
+
+/* ---- CATALOG ---- */
+#catalog{background:var(--bg)}
+.cat-tools{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:14px;flex-wrap:wrap}
+.srch{display:flex;align-items:center;gap:9px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:0 16px;max-width:340px;width:100%}
+.srch i{color:var(--gold);font-size:.82rem}
+.srch input{background:transparent;border:none;outline:none;color:var(--text);padding:12px 0;width:100%;font-size:.88rem}
+.srch input::placeholder{color:var(--muted)}
+.ftabs{display:flex;gap:7px;flex-wrap:wrap}
+.ftab{padding:8px 16px;background:var(--bg3);border:1px solid var(--border2);color:var(--muted);font-family:var(--fh);font-size:.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;transition:var(--tr);border-radius:3px}
+.ftab.on,.ftab:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
+.car-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:20px}
+.product-card{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;overflow:hidden;position:relative;cursor:pointer;transition:transform .4s var(--ease),border-color .4s,box-shadow .4s;display:none}
+.product-card:hover{transform:translateY(-6px);border-color:rgba(201,168,76,.4);box-shadow:0 16px 40px rgba(0,0,0,.55)}
+.card-badge{position:absolute;top:12px;left:12px;z-index:5;font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;background:var(--gold);color:#07080d}
+.card-badge.hot{background:var(--red);color:#fff}
+.card-badge.fleet{background:#1a4f62;color:#7dcfef}
+.card-badge.luxury{background:rgba(90,40,160,.5);border:1px solid rgba(160,100,255,.3);color:#c4a8ff}
+.card-img{position:relative;height:205px;overflow:hidden;background:#000}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease),filter .4s;filter:brightness(.92) saturate(1.1)}
+.product-card:hover .card-img img{transform:scale(1.1);filter:brightness(1) saturate(1.2)}
+.card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.05) 50%,transparent 100%);transform:translateX(-100%);transition:transform .6s}
+.product-card:hover .card-img::after{transform:translateX(100%)}
+.card-body{padding:16px}
+.card-make{font-family:var(--fh);font-size:.65rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.card-title{font-family:var(--fh);font-size:1rem;font-weight:700;line-height:1.3;margin-bottom:10px}
+.card-specs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px}
+.spec-pill{background:rgba(255,255,255,.04);border:1px solid var(--border2);padding:3px 8px;font-size:.65rem;border-radius:2px;color:rgba(255,255,255,.58);font-family:var(--fh);letter-spacing:.5px}
+.card-bot{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:13px}
+.card-price{font-family:var(--fd);font-size:1.55rem;color:var(--gold);letter-spacing:1px;line-height:1}
+.card-oldp{font-size:.75rem;color:var(--muted);text-decoration:line-through}
+.card-sold{font-size:.68rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+.card-sold i{color:var(--gold);font-size:.6rem}
+.card-actions{display:flex;gap:8px}
+.btn-inq{flex:1;padding:10px;text-align:center;background:var(--gold-dim);border:1px solid rgba(201,168,76,.22);color:var(--gold);font-family:var(--fh);font-size:.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:var(--tr);border-radius:3px}
+.btn-inq:hover{background:var(--gold);color:#07080d}
+.btn-view-card{width:38px;height:38px;background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--muted);font-size:.82rem;display:flex;align-items:center;justify-content:center;transition:var(--tr);border-radius:3px;flex-shrink:0}
+.btn-view-card:hover{border-color:var(--gold);color:var(--gold)}
+.load-wrap{text-align:center;margin-top:40px}
+.btn-more{padding:12px 36px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:var(--fh);font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;transition:var(--tr);border-radius:3px}
+.btn-more:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ---- SERVICES ---- */
+#services{background:var(--bg2)}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+.svc-card{background:var(--bg);padding:34px 26px;border-radius:6px;border:1px solid var(--border2);position:relative;overflow:hidden;transition:var(--tr)}
+.svc-card::before{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s}
+.svc-card:hover{transform:translateY(-7px);border-color:rgba(201,168,76,.15)}
+.svc-card:hover::before{width:100%}
+.svc-icon{width:52px;height:52px;background:var(--gold-dim);border:1px solid rgba(201,168,76,.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:var(--gold);margin-bottom:20px}
+.svc-card h3{font-family:var(--fh);font-size:1.1rem;font-weight:700;margin-bottom:10px}
+.svc-card p{font-size:.85rem;color:var(--muted);line-height:1.7}
+
+/* ---- CONTACT ---- */
+#contact{background:var(--bg)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.c-left{padding:44px 40px;background:var(--bg2)}
+.c-left h3{font-family:var(--fd);font-size:2rem;letter-spacing:2px;margin-bottom:6px}
+.c-left>p{color:var(--muted);font-size:.88rem;margin-bottom:24px}
+.frow{margin-bottom:16px}
+.frow label{display:block;font-family:var(--fh);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.frow input,.frow textarea,.frow select{width:100%;padding:11px 14px;background:rgba(0,0,0,.3);border:1px solid var(--border2);color:var(--text);border-radius:3px;outline:none;transition:var(--tr);font-family:var(--fb);font-size:.88rem}
+.frow select option{background:#0e1018;color:var(--text)}
+.frow input:focus,.frow textarea:focus,.frow select:focus{border-color:var(--gold)}
+.frow textarea{resize:vertical;min-height:100px}
+.btn-sub{width:100%;padding:13px;background:var(--gold);border:none;color:#07080d;font-family:var(--fh);font-weight:700;font-size:.88rem;letter-spacing:2px;text-transform:uppercase;transition:var(--tr);border-radius:3px}
+.btn-sub:hover{background:var(--gold2);box-shadow:0 6px 20px rgba(201,168,76,.3)}
+.c-right{position:relative;min-height:460px}
+.c-right iframe{width:100%;height:100%;border:none;filter:invert(90%) hue-rotate(180deg) brightness(.85)}
+.map-card{position:absolute;bottom:24px;left:20px;right:20px;background:rgba(7,8,13,.92);backdrop-filter:blur(10px);padding:18px 20px;border-radius:6px;border:1px solid var(--border)}
+.mrow{display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:.85rem}
+.mrow:last-child{margin-bottom:0}
+.mrow i{color:var(--gold);width:14px;text-align:center}
+
+/* ---- FOOTER ---- */
+footer{background:linear-gradient(180deg,#07080d,#040509);border-top:1px solid var(--border)}
+.foot-top{padding:54px 4% 36px;display:grid;grid-template-columns:1.8fr 1fr 1fr 1.1fr;gap:36px;border-bottom:1px solid var(--border2)}
+.foot-brand .fl{font-family:var(--fd);font-size:1.85rem;letter-spacing:4px;margin-bottom:4px}
+.foot-brand .fls{font-family:var(--fh);font-size:.58rem;color:var(--gold);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:16px}
+.foot-brand p{font-size:.83rem;color:var(--muted);line-height:1.75;max-width:270px;margin-bottom:20px}
+.fsoc{display:flex;gap:9px}
+.fsoc a{width:34px;height:34px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;color:var(--muted);transition:var(--tr)}
+.fsoc a:hover{color:var(--gold);border-color:var(--gold);background:var(--gold-dim)}
+.fcol h4{font-family:var(--fh);font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.fcol ul li{margin-bottom:9px}
+.fcol ul li a{font-size:.83rem;color:var(--muted);transition:var(--tr);display:flex;align-items:center;gap:6px}
+.fcol ul li a:hover{color:var(--text)}
+.fcol ul li a i{font-size:.65rem}
+.sister-cards{display:flex;flex-direction:column;gap:9px}
+.sister-card{display:block;padding:12px 14px;border:1px solid var(--border2);border-radius:4px;background:rgba(255,255,255,.02);transition:var(--tr)}
+.sister-card:hover{border-color:var(--gold);background:var(--gold-dim)}
+.sn{font-family:var(--fh);font-size:.82rem;font-weight:700;letter-spacing:1px;margin-bottom:2px}
+.sn em{color:var(--gold);font-style:normal}
+.sd{font-size:.68rem;color:var(--muted);letter-spacing:.5px}
+.foot-bot{padding:20px 4%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.fcopy{font-size:.75rem;color:var(--muted)}
+.fcopy a{color:var(--gold)}
+.flinks{display:flex;gap:18px}
+.flinks a{font-size:.73rem;color:var(--muted);transition:var(--tr)}
+.flinks a:hover{color:var(--text)}
+
+/* ---- MODAL BASE ---- */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,0);backdrop-filter:blur(0px);z-index:5000;display:flex;align-items:center;justify-content:center;padding:16px;pointer-events:none;opacity:0;transition:opacity .35s,backdrop-filter .35s}
+.modal-ov.open{opacity:1;pointer-events:all;backdrop-filter:blur(12px);background:rgba(0,0,0,.8)}
+.modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;width:100%;max-width:900px;max-height:90vh;overflow-y:auto;transform:translateY(30px) scale(.97);transition:transform .4s var(--ease);position:relative;scrollbar-width:thin;scrollbar-color:var(--gold) var(--bg2)}
+.modal-ov.open .modal-box{transform:none}
+.modal-close-btn{position:absolute;top:14px;right:14px;z-index:10;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:var(--tr)}
+.modal-close-btn:hover{background:var(--red);border-color:var(--red)}
+
+/* ---- CAR DETAIL MODAL ---- */
+.modal-hero-img{width:100%;height:300px;object-fit:cover;border-radius:10px 10px 0 0;display:block}
+.modal-gallery{display:flex;gap:8px;padding:10px 18px;overflow-x:auto;background:rgba(0,0,0,.35);scrollbar-height:thin}
+.modal-gallery::-webkit-scrollbar{height:3px}
+.modal-gallery img{width:84px;height:58px;object-fit:cover;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:var(--tr);flex-shrink:0;opacity:.65}
+.modal-gallery img.gal-active,.modal-gallery img:hover{border-color:var(--gold);opacity:1}
+.modal-body{padding:24px 26px 28px}
+.m-badge-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.m-badge{font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:2px;background:var(--gold);color:#07080d}
+.m-badge.hot{background:var(--red);color:#fff}
+.m-badge.luxury{background:rgba(90,40,160,.6);border:1px solid rgba(160,100,255,.3);color:#c4a8ff}
+.m-make{font-family:var(--fh);font-size:.68rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.m-title{font-family:var(--fd);font-size:2rem;letter-spacing:1px;line-height:1;margin-bottom:6px}
+.m-sold{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:5px;margin-bottom:18px}
+.m-sold i{color:var(--gold)}
+.m-spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.m-spec-block{background:rgba(0,0,0,.28);border:1px solid var(--border2);border-radius:6px;padding:16px}
+.m-spec-block h5{font-family:var(--fh);font-size:.63rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:11px;display:flex;align-items:center;gap:6px}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border2);font-size:.8rem}
+.spec-row:last-child{border-bottom:none}
+.spec-row .sk{color:var(--muted)}
+.spec-row .sv{color:var(--text);font-weight:500;text-align:right;max-width:58%}
+.m-price-row{display:flex;align-items:flex-end;gap:12px;margin-bottom:4px}
+.m-price{font-family:var(--fd);font-size:2.3rem;color:var(--gold);letter-spacing:1px;line-height:1}
+.m-oldp{font-size:.88rem;color:var(--muted);text-decoration:line-through;margin-bottom:4px}
+.m-ship{font-size:.76rem;color:#5dbf6e;display:flex;align-items:center;gap:5px;margin-bottom:18px}
+.m-ctas{display:flex;gap:10px;flex-wrap:wrap}
+.btn-m-inq{flex:1;min-width:150px;padding:13px 18px;background:var(--gold);border:none;color:#07080d;font-family:var(--fh);font-weight:700;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;transition:var(--tr);border-radius:3px;text-align:center;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-m-inq:hover{background:var(--gold2);box-shadow:0 6px 20px rgba(201,168,76,.3)}
+.btn-m-wa{flex:1;min-width:150px;padding:13px 18px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.28);color:#25d366;font-family:var(--fh);font-weight:700;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;transition:var(--tr);border-radius:3px;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-m-wa:hover{background:rgba(37,211,102,.2)}
+.btn-m-pdf{padding:13px 18px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);font-family:var(--fh);font-weight:700;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;transition:var(--tr);border-radius:3px;display:flex;align-items:center;gap:7px}
+.btn-m-pdf:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ---- INQUIRY MODAL ---- */
+.inq-modal .modal-box{max-width:560px}
+.inq-head{padding:28px 28px 0;display:flex;align-items:flex-start;gap:14px}
+.inq-head-img{width:90px;height:64px;object-fit:cover;border-radius:5px;border:1px solid var(--border);flex-shrink:0}
+.inq-head-txt h4{font-family:var(--fd);font-size:1.4rem;letter-spacing:1px;margin-bottom:3px}
+.inq-head-txt p{font-size:.78rem;color:var(--muted)}
+.inq-body{padding:18px 28px 28px}
+.inq-pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.inq-pill{background:var(--gold-dim);border:1px solid rgba(201,168,76,.25);padding:4px 10px;font-size:.68rem;font-family:var(--fh);letter-spacing:1px;color:var(--gold);border-radius:2px}
+.inq-pstrip{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.28);border:1px solid var(--border);border-radius:6px;padding:13px 16px;margin-bottom:18px}
+.ips-lbl{font-family:var(--fh);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.ips-val{font-family:var(--fd);font-size:1.7rem;color:var(--gold);letter-spacing:1px}
+.ips-ship{font-size:.72rem;color:#5dbf6e;display:flex;align-items:center;gap:4px}
+
+/* ---- QUOTE MODAL ---- */
+.quote-modal .modal-box{max-width:540px}
+.qm-head{padding:28px 28px 0}
+.qm-head h3{font-family:var(--fd);font-size:1.8rem;letter-spacing:2px;margin-bottom:5px}
+.qm-head p{font-size:.85rem;color:var(--muted);margin-bottom:18px}
+.qm-body{padding:6px 28px 28px}
+
+/* ---- TOAST ---- */
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(16px);background:#1a2e1e;border:1px solid #3a7a4a;border-radius:6px;padding:13px 22px;display:flex;align-items:center;gap:9px;font-size:.86rem;color:#7de095;z-index:9999;opacity:0;transition:all .4s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast i{font-size:1rem;color:#4dbb6a}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:900px){
+  nav.desk{display:none}
+  .contact-grid{grid-template-columns:1fr}
+  .c-right{min-height:280px}
+  .foot-top{grid-template-columns:1fr 1fr}
+  .foot-brand{grid-column:1/-1}
+  .m-spec-grid{grid-template-columns:1fr}
 }
-
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
-html { font-size:16px; }
-body { font-family:var(--font-body); background:var(--bg); color:var(--text); overflow-x:hidden; }
-a { text-decoration:none; color:inherit; }
-ul { list-style:none; }
-img { display:block; }
-
-/* ============================================================
-   SIDEBAR MENU
-   ============================================================ */
-.sidebar-overlay {
-    position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px);
-    z-index:2000; opacity:0; pointer-events:none; transition:opacity 0.4s;
+@media(max-width:768px){
+  body{padding-bottom:68px}
+  .mob-nav{display:block}
+  .h-div,.h-tag,.btn-qte{display:none}
+  .hero-content h1{font-size:3rem}
+  .hero-content p{font-size:.9rem}
+  .foot-bot{flex-direction:column;text-align:center}
+  .modal-hero-img{height:200px}
+  .modal-body{padding:16px 16px 22px}
+  .m-ctas{flex-direction:column}
+  .inq-head{flex-direction:column}
+  .inq-body{padding:16px 16px 22px}
+  .qm-head,.qm-body{padding-left:16px;padding-right:16px}
+  .stats-bar .stat-dv{display:none}
+  .sec-title{font-size:2.2rem}
+  .hero-arr{display:none}
 }
-.sidebar-overlay.active { opacity:1; pointer-events:all; }
-
-.sidebar {
-    position:fixed; top:0; left:-320px; width:300px; height:100vh;
-    background:linear-gradient(160deg, #0e1018 0%, #0a0c14 100%);
-    border-right:1px solid var(--border);
-    z-index:2100; transition:left 0.45s var(--ease);
-    display:flex; flex-direction:column; overflow:hidden;
+@media(max-width:480px){
+  .hero-content{margin-left:5%;max-width:92%}
+  .hero-content h1{font-size:2.4rem}
+  .h-btns .btn-sec{display:none}
+  .ftabs{gap:5px}
+  .ftab{padding:7px 11px;font-size:.68rem}
+  .foot-top{grid-template-columns:1fr}
+  .m-price{font-size:1.8rem}
+  .m-title{font-size:1.6rem}
+  .car-grid{grid-template-columns:1fr 1fr}
 }
-.sidebar.open { left:0; }
-
-.sidebar-header {
-    padding:30px 28px 20px;
-    border-bottom:1px solid var(--border);
-    display:flex; align-items:center; justify-content:space-between;
+@media(max-width:360px){
+  .car-grid{grid-template-columns:1fr}
 }
-.sidebar-logo { font-family:var(--font-display); font-size:1.7rem; letter-spacing:3px; line-height:1; }
-.sidebar-logo small { display:block; font-family:var(--font-head); font-size:0.55rem; color:var(--gold); letter-spacing:3px; font-weight:600; margin-top:3px; }
-
-.sidebar-close {
-    background:none; border:1px solid var(--border); color:var(--text); width:36px; height:36px;
-    border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;
-    transition:var(--transition);
-}
-.sidebar-close:hover { background:var(--red); border-color:var(--red); }
-
-.sidebar-nav { padding:28px 0; flex:1; }
-.sidebar-nav ul li {
-    border-bottom:1px solid rgba(255,255,255,0.04);
-}
-.sidebar-nav ul li a {
-    display:flex; align-items:center; gap:16px;
-    padding:16px 28px; font-family:var(--font-head); font-size:1.05rem; font-weight:600;
-    letter-spacing:1px; color:var(--muted); transition:var(--transition); text-transform:uppercase;
-    position:relative;
-}
-.sidebar-nav ul li a::before {
-    content:''; position:absolute; left:0; top:0; height:100%; width:3px;
-    background:var(--gold); transform:scaleY(0); transition:var(--transition);
-}
-.sidebar-nav ul li a:hover { color:var(--text); background:rgba(201,168,76,0.06); padding-left:36px; }
-.sidebar-nav ul li a:hover::before { transform:scaleY(1); }
-.sidebar-nav ul li a i { width:20px; text-align:center; color:var(--gold); font-size:0.95rem; }
-
-.sidebar-footer {
-    padding:24px 28px;
-    border-top:1px solid var(--border);
-}
-.sidebar-footer p { font-size:0.78rem; color:var(--muted); line-height:1.6; }
-.sidebar-footer .social-row { display:flex; gap:10px; margin-top:14px; }
-.sidebar-footer .social-row a {
-    width:34px; height:34px; border:1px solid var(--border); border-radius:50%;
-    display:flex; align-items:center; justify-content:center; font-size:0.85rem; color:var(--muted);
-    transition:var(--transition);
-}
-.sidebar-footer .social-row a:hover { color:var(--gold); border-color:var(--gold); }
-
-/* ============================================================
-   HEADER
-   ============================================================ */
-header {
-    position:fixed; top:0; width:100%; z-index:1000;
-    padding:0 5%; height:72px;
-    display:flex; justify-content:space-between; align-items:center;
-    background:rgba(7,8,13,0.92); backdrop-filter:blur(16px);
-    border-bottom:1px solid var(--border);
-    transition:var(--transition);
-}
-header.scrolled {
-    height:64px;
-    background:rgba(7,8,13,0.99);
-    box-shadow:0 4px 30px rgba(0,0,0,0.5);
-}
-
-.header-left { display:flex; align-items:center; gap:18px; }
-
-.hamburger-btn {
-    background:none; border:1px solid var(--border); color:var(--text);
-    width:40px; height:40px; border-radius:6px; cursor:pointer;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
-    transition:var(--transition);
-}
-.hamburger-btn:hover { border-color:var(--gold); }
-.hamburger-btn span { display:block; width:18px; height:1.5px; background:var(--text); transition:var(--transition); }
-
-.logo-wrap { display:flex; flex-direction:column; line-height:1; }
-.logo-main { font-family:var(--font-display); font-size:1.65rem; letter-spacing:4px; }
-.logo-sub { font-family:var(--font-head); font-size:0.5rem; color:var(--gold); letter-spacing:3px; font-weight:600; text-transform:uppercase; }
-
-.header-divider {
-    height:32px; width:1px; background:var(--border); margin:0 6px;
-}
-.header-tagline { font-family:var(--font-head); font-size:0.7rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; display:none; }
-
-nav { display:flex; align-items:center; gap:28px; }
-nav a { font-family:var(--font-head); font-size:0.9rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); transition:var(--transition); position:relative; }
-nav a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--gold); transition:var(--transition); }
-nav a:hover { color:var(--text); }
-nav a:hover::after { width:100%; }
-
-.header-right { display:flex; align-items:center; gap:12px; }
-.btn-quote {
-    padding:9px 22px; background:transparent;
-    border:1px solid var(--gold); color:var(--gold);
-    font-family:var(--font-head); font-weight:700; font-size:0.82rem; letter-spacing:2px;
-    text-transform:uppercase; cursor:pointer; transition:var(--transition); border-radius:3px;
-}
-.btn-quote:hover { background:var(--gold); color:#07080d; }
-
-/* ============================================================
-   HERO SLIDER — Animated cinematic feel
-   ============================================================ */
-#hero { position:relative; width:100%; height:100vh; overflow:hidden; }
-.hero-slider, .slick-list, .slick-track, .slick-slide { height:100%; }
-
-.hero-slide {
-    position:relative; height:100vh;
-    display:flex !important; align-items:center;
-    background-size:cover; background-position:center;
-    overflow:hidden;
-}
-
-/* Ken Burns animation classes */
-.hero-slide.slick-active .slide-bg { animation:kenBurns 8s ease forwards; }
-.slide-bg {
-    position:absolute; inset:-5%; background-size:cover; background-position:center;
-    will-change:transform;
-}
-
-@keyframes kenBurns {
-    0% { transform:scale(1.08) translateX(0); }
-    100% { transform:scale(1.0) translateX(-1%); }
-}
-
-.hero-overlay {
-    position:absolute; inset:0;
-    background:linear-gradient(100deg, rgba(7,8,13,0.95) 0%, rgba(7,8,13,0.6) 50%, rgba(7,8,13,0.1) 100%);
-    z-index:2;
-}
-
-/* Animated stripe overlay */
-.hero-slide::before {
-    content:''; position:absolute; inset:0; z-index:1;
-    background:repeating-linear-gradient(90deg, transparent 0, transparent 3px, rgba(201,168,76,0.015) 3px, rgba(201,168,76,0.015) 4px);
-}
-
-.hero-content {
-    position:relative; z-index:10; max-width:700px; margin-left:8%; color:#fff;
-    opacity:0; transform:translateX(-30px); transition:opacity 0.8s 0.3s, transform 0.8s 0.3s;
-}
-.hero-slide.slick-active .hero-content { opacity:1; transform:translateX(0); }
-
-.hero-tag {
-    display:inline-flex; align-items:center; gap:8px;
-    background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.3);
-    padding:5px 14px; border-radius:2px; margin-bottom:18px;
-    font-family:var(--font-head); font-size:0.72rem; letter-spacing:3px; text-transform:uppercase; color:var(--gold);
-}
-
-.hero-content h1 {
-    font-family:var(--font-display); font-size:5.5rem; line-height:0.95; margin-bottom:22px;
-    letter-spacing:2px; text-transform:uppercase;
-}
-.hero-content h1 em { color:var(--gold); font-style:normal; }
-.hero-content p { font-size:1.05rem; margin-bottom:32px; color:rgba(255,255,255,0.75); max-width:500px; line-height:1.7; }
-
-.hero-cta-row { display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
-.btn-primary {
-    padding:13px 32px; background:var(--gold); color:#07080d;
-    font-family:var(--font-head); font-weight:700; font-size:0.88rem; letter-spacing:2px;
-    text-transform:uppercase; border:none; cursor:pointer; transition:var(--transition);
-    border-radius:2px; display:inline-flex; align-items:center; gap:9px;
-}
-.btn-primary:hover { background:var(--gold2); box-shadow:0 8px 25px rgba(201,168,76,0.35); transform:translateY(-2px); }
-.btn-outline {
-    padding:12px 28px; background:transparent;
-    border:1px solid rgba(255,255,255,0.25); color:#fff;
-    font-family:var(--font-head); font-weight:600; font-size:0.88rem; letter-spacing:2px;
-    text-transform:uppercase; cursor:pointer; transition:var(--transition); border-radius:2px;
-}
-.btn-outline:hover { border-color:#fff; background:rgba(255,255,255,0.08); }
-
-/* Slider arrows */
-.hero-arrows { position:absolute; bottom:40px; right:6%; z-index:20; display:flex; gap:10px; }
-.hero-arrow-btn {
-    width:46px; height:46px; background:rgba(201,168,76,0.1);
-    border:1px solid var(--border); color:var(--gold); font-size:0.9rem;
-    display:flex; align-items:center; justify-content:center; cursor:pointer; transition:var(--transition);
-    border-radius:2px;
-}
-.hero-arrow-btn:hover { background:var(--gold); color:#07080d; }
-
-/* Slider dots */
-.slick-dots { bottom:50px; left:8%; text-align:left; width:auto; }
-.slick-dots li { margin:0 4px; }
-.slick-dots li button:before { content:''; width:24px; height:2px; background:rgba(255,255,255,0.3); border-radius:1px; display:block; opacity:1; }
-.slick-dots li.slick-active button:before { background:var(--gold); width:36px; }
-
-/* Car label strip */
-.slide-label {
-    position:absolute; bottom:0; right:0; z-index:15;
-    background:linear-gradient(90deg, transparent, rgba(7,8,13,0.85));
-    padding:18px 36px 18px 60px; text-align:right;
-}
-.slide-label span { font-family:var(--font-display); font-size:3rem; color:rgba(255,255,255,0.06); letter-spacing:4px; }
-
-/* ============================================================
-   SECTION SHARED
-   ============================================================ */
-.section-wrap { padding:90px 5%; }
-.section-eyebrow { font-family:var(--font-head); font-size:0.72rem; letter-spacing:4px; color:var(--gold); text-transform:uppercase; text-align:center; margin-bottom:10px; }
-.section-title { font-family:var(--font-display); font-size:3rem; text-align:center; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; }
-.section-title em { color:var(--gold); font-style:normal; }
-.section-sub { text-align:center; color:var(--muted); font-size:0.95rem; line-height:1.6; margin-bottom:50px; max-width:580px; margin-left:auto; margin-right:auto; }
-
-/* ============================================================
-   STATS BAR
-   ============================================================ */
-.stats-bar {
-    background:linear-gradient(90deg, #0d0e14, #11121a, #0d0e14);
-    border-top:1px solid var(--border); border-bottom:1px solid var(--border);
-    padding:28px 5%; display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap; gap:20px;
-}
-.stat-item { text-align:center; }
-.stat-num { font-family:var(--font-display); font-size:2.2rem; color:var(--gold); letter-spacing:2px; line-height:1; }
-.stat-label { font-family:var(--font-head); font-size:0.68rem; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-top:4px; }
-.stat-divider { width:1px; height:40px; background:var(--border); }
-
-/* ============================================================
-   CATALOG / SHOP
-   ============================================================ */
-#catalog { background:var(--bg); }
-
-.catalog-tools-row {
-    display:flex; justify-content:space-between; align-items:center;
-    margin-bottom:32px; gap:16px; flex-wrap:wrap;
-}
-
-.search-wrap {
-    display:flex; align-items:center; gap:10px;
-    background:var(--bg3); border:1px solid var(--border); border-radius:4px;
-    padding:0 18px; max-width:380px; width:100%;
-}
-.search-wrap i { color:var(--gold); font-size:0.85rem; }
-.search-wrap input { background:transparent; border:none; outline:none; color:var(--text); padding:13px 0; width:100%; font-family:var(--font-body); font-size:0.9rem; }
-.search-wrap input::placeholder { color:var(--muted); }
-
-.filter-tabs { display:flex; gap:8px; flex-wrap:wrap; }
-.filter-tab {
-    padding:8px 18px; background:var(--bg3); border:1px solid rgba(255,255,255,0.07);
-    color:var(--muted); font-family:var(--font-head); font-size:0.78rem; font-weight:600;
-    letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:var(--transition); border-radius:3px;
-}
-.filter-tab.active, .filter-tab:hover { background:rgba(201,168,76,0.1); border-color:var(--gold); color:var(--gold); }
-
-.car-grid {
-    display:grid; grid-template-columns:repeat(auto-fill, minmax(285px, 1fr)); gap:22px;
-}
-
-/* Product Card */
-.product-card {
-    background:var(--bg3); border:1px solid rgba(255,255,255,0.06);
-    border-radius:6px; overflow:hidden; position:relative; cursor:pointer;
-    transition:transform 0.4s var(--ease), border-color 0.4s, box-shadow 0.4s;
-    display:none;
-}
-.product-card:hover { transform:translateY(-6px); border-color:rgba(201,168,76,0.4); box-shadow:0 16px 40px rgba(0,0,0,0.5); }
-
-.card-badge {
-    position:absolute; top:14px; left:14px; z-index:5;
-    font-family:var(--font-head); font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
-    padding:4px 10px; border-radius:2px; background:var(--gold); color:#07080d;
-}
-.card-badge.hot { background:var(--red); color:#fff; }
-.card-badge.fleet { background:#1e5f74; color:#fff; }
-.card-badge.luxury { background:#2d1b4e; border:1px solid #7c4dbe; color:#c9b3ef; }
-
-.card-img {
-    position:relative; height:210px; overflow:hidden; background:#000;
-}
-.card-img img {
-    width:100%; height:100%; object-fit:cover;
-    transition:transform 0.7s var(--ease), filter 0.4s;
-    filter:brightness(0.92) saturate(1.1);
-}
-.product-card:hover .card-img img { transform:scale(1.1); filter:brightness(1) saturate(1.15); }
-
-/* Shine sweep on hover */
-.card-img::after {
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
-    transform:translateX(-100%); transition:transform 0.6s;
-}
-.product-card:hover .card-img::after { transform:translateX(100%); }
-
-.card-body { padding:18px; }
-.card-make { font-family:var(--font-head); font-size:0.68rem; letter-spacing:2px; color:var(--gold); text-transform:uppercase; margin-bottom:5px; }
-.card-title { font-family:var(--font-head); font-size:1.05rem; font-weight:700; line-height:1.35; margin-bottom:10px; }
-.card-specs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
-.spec-pill { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:3px 9px; font-size:0.68rem; border-radius:2px; color:rgba(255,255,255,0.6); font-family:var(--font-head); letter-spacing:0.5px; }
-
-.card-footer-row { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:14px; }
-.card-price { font-family:var(--font-display); font-size:1.6rem; color:var(--gold); letter-spacing:1px; line-height:1; }
-.card-old-price { font-size:0.78rem; color:var(--muted); text-decoration:line-through; }
-.card-sold { font-size:0.72rem; color:var(--muted); display:flex; align-items:center; gap:4px; }
-.card-sold i { color:var(--gold); font-size:0.65rem; }
-
-.btn-inquire {
-    width:100%; padding:11px; text-align:center; background:rgba(201,168,76,0.08);
-    border:1px solid rgba(201,168,76,0.2); color:var(--gold);
-    font-family:var(--font-head); font-size:0.82rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
-    cursor:pointer; transition:var(--transition); border-radius:3px;
-}
-.btn-inquire:hover { background:var(--gold); color:#07080d; }
-
-.load-more-wrap { text-align:center; margin-top:44px; }
-.btn-loadmore {
-    padding:13px 40px; background:transparent; border:1px solid var(--border);
-    color:var(--muted); font-family:var(--font-head); font-weight:700; font-size:0.82rem;
-    letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:var(--transition); border-radius:3px;
-}
-.btn-loadmore:hover { border-color:var(--gold); color:var(--gold); }
-
-/* ============================================================
-   SERVICES
-   ============================================================ */
-#services { background:var(--bg2); }
-.services-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:24px; }
-.service-card {
-    background:var(--bg); padding:38px 30px; border-radius:6px;
-    border:1px solid rgba(255,255,255,0.05); position:relative; overflow:hidden;
-    transition:var(--transition);
-}
-.service-card::before {
-    content:''; position:absolute; bottom:0; left:0; width:0; height:2px;
-    background:linear-gradient(90deg, var(--gold), var(--gold2)); transition:width 0.5s;
-}
-.service-card:hover { transform:translateY(-8px); border-color:rgba(201,168,76,0.15); }
-.service-card:hover::before { width:100%; }
-.service-icon-wrap {
-    width:56px; height:56px; background:rgba(201,168,76,0.08);
-    border:1px solid rgba(201,168,76,0.2); border-radius:6px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:1.4rem; color:var(--gold); margin-bottom:22px;
-}
-.service-card h3 { font-family:var(--font-head); font-size:1.15rem; font-weight:700; margin-bottom:12px; }
-.service-card p { font-size:0.88rem; color:var(--muted); line-height:1.7; }
-
-/* ============================================================
-   CONTACT
-   ============================================================ */
-#contact { background:var(--bg); }
-.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
-.contact-left { padding:50px 44px; background:var(--bg2); }
-.contact-left h3 { font-family:var(--font-display); font-size:2.2rem; letter-spacing:2px; margin-bottom:6px; }
-.contact-left p { color:var(--muted); font-size:0.9rem; margin-bottom:28px; }
-.form-row { margin-bottom:18px; }
-.form-row label { display:block; font-family:var(--font-head); font-size:0.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:7px; }
-.form-row input, .form-row textarea {
-    width:100%; padding:12px 16px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08);
-    color:var(--text); border-radius:3px; outline:none; transition:var(--transition); font-family:var(--font-body); font-size:0.9rem;
-}
-.form-row input:focus, .form-row textarea:focus { border-color:var(--gold); }
-.form-row textarea { resize:vertical; min-height:110px; }
-.btn-submit {
-    width:100%; padding:14px; background:var(--gold); border:none;
-    color:#07080d; font-family:var(--font-head); font-weight:700; font-size:0.9rem;
-    letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:var(--transition); border-radius:3px;
-}
-.btn-submit:hover { background:var(--gold2); box-shadow:0 6px 20px rgba(201,168,76,0.3); }
-
-.contact-right { position:relative; min-height:500px; }
-.contact-right iframe { width:100%; height:100%; border:none; filter:invert(90%) hue-rotate(180deg) brightness(0.85); }
-.map-card {
-    position:absolute; bottom:28px; left:24px; right:24px;
-    background:rgba(7,8,13,0.92); backdrop-filter:blur(10px);
-    padding:20px 22px; border-radius:6px; border:1px solid var(--border);
-}
-.map-card-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; font-size:0.88rem; }
-.map-card-row:last-child { margin-bottom:0; }
-.map-card-row i { color:var(--gold); width:16px; text-align:center; }
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-footer {
-    background:linear-gradient(180deg, #07080d 0%, #04050a 100%);
-    border-top:1px solid var(--border);
-}
-
-.footer-top {
-    padding:60px 5% 40px;
-    display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px;
-    border-bottom:1px solid rgba(255,255,255,0.05);
-}
-
-.footer-brand .footer-logo { font-family:var(--font-display); font-size:2rem; letter-spacing:4px; margin-bottom:6px; }
-.footer-brand .footer-logo-sub { font-family:var(--font-head); font-size:0.62rem; color:var(--gold); letter-spacing:3px; text-transform:uppercase; margin-bottom:18px; }
-.footer-brand p { font-size:0.85rem; color:var(--muted); line-height:1.75; max-width:280px; margin-bottom:22px; }
-.footer-socials { display:flex; gap:10px; }
-.footer-socials a {
-    width:36px; height:36px; border:1px solid var(--border); border-radius:50%;
-    display:flex; align-items:center; justify-content:center; font-size:0.85rem; color:var(--muted);
-    transition:var(--transition);
-}
-.footer-socials a:hover { color:var(--gold); border-color:var(--gold); background:rgba(201,168,76,0.08); }
-
-.footer-col h4 { font-family:var(--font-head); font-size:0.72rem; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
-.footer-col ul li { margin-bottom:10px; }
-.footer-col ul li a { font-size:0.85rem; color:var(--muted); transition:var(--transition); display:flex; align-items:center; gap:7px; }
-.footer-col ul li a:hover { color:var(--text); }
-.footer-col ul li a i { font-size:0.7rem; }
-
-/* Sister Companies */
-.sister-cards { display:flex; flex-direction:column; gap:10px; }
-.sister-card {
-    display:block; padding:13px 16px; border:1px solid rgba(255,255,255,0.06);
-    border-radius:4px; background:rgba(255,255,255,0.02); transition:var(--transition); cursor:pointer;
-}
-.sister-card:hover { border-color:var(--gold); background:rgba(201,168,76,0.05); }
-.sister-name { font-family:var(--font-head); font-size:0.85rem; font-weight:700; letter-spacing:1px; margin-bottom:2px; }
-.sister-name em { color:var(--gold); font-style:normal; }
-.sister-desc { font-size:0.7rem; color:var(--muted); letter-spacing:0.5px; }
-
-.footer-bottom {
-    padding:22px 5%; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
-}
-.footer-copy { font-size:0.78rem; color:var(--muted); }
-.footer-copy a { color:var(--gold); }
-.footer-links { display:flex; gap:20px; }
-.footer-links a { font-size:0.75rem; color:var(--muted); transition:var(--transition); }
-.footer-links a:hover { color:var(--text); }
-
-/* ============================================================
-   SCROLL REVEAL
-   ============================================================ */
-.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.7s, transform 0.7s; }
-.reveal.visible { opacity:1; transform:none; }
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media(min-width:1000px) { .header-tagline { display:block; } }
-@media(max-width:900px) {
-    nav { display:none; }
-    .hero-content h1 { font-size:3.5rem; }
-    .contact-grid { grid-template-columns:1fr; }
-    .footer-top { grid-template-columns:1fr 1fr; }
-    .footer-brand { grid-column:1 / -1; }
-}
-@media(max-width:600px) {
-    .hero-content h1 { font-size:2.6rem; }
-    .footer-top { grid-template-columns:1fr; }
-    .footer-bottom { flex-direction:column; text-align:center; }
+@media(min-width:900px){
+  .h-div,.h-tag{display:block}
 }
 </style>
 </head>
 <body>
 
-<!-- ===== SIDEBAR ===== -->
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="side-ov" id="sideOv"></div>
+
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <div class="sidebar-logo">
-            ELITE ROUTE
-            <small>Automobile Trading For Export L.L.C.</small>
-        </div>
-        <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+  <div class="sb-head">
+    <div class="sb-logo">ELITE ROUTE<small>Automobile Trading For Export L.L.C.</small></div>
+    <button class="sb-x" id="sbClose"><i class="fas fa-times"></i></button>
+  </div>
+  <nav class="sb-nav"><ul>
+    <li><a href="#hero"><i class="fas fa-home"></i><span>Home<span class="sb-sub">Main landing page</span></span></a></li>
+    <li><a href="#catalog"><i class="fas fa-car"></i><span>Showroom<span class="sb-sub">Browse our vehicles</span></span></a></li>
+    <li><a href="#services"><i class="fas fa-ship"></i><span>Services<span class="sb-sub">Logistics & export</span></span></a></li>
+    <li><a href="#contact"><i class="fas fa-envelope"></i><span>Contact<span class="sb-sub">Get a quote</span></span></a></li>
+    <li><a href="#footer-connect"><i class="fas fa-building"></i><span>Sister Companies<span class="sb-sub">Our business network</span></span></a></li>
+  </ul></nav>
+  <div class="sb-foot">
+    <p>Dubai, UAE — Global Automotive Export Hub. Licensed &amp; Trusted since 2008.</p>
+    <div class="sb-soc">
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-telegram"></i></a>
     </div>
-    <nav class="sidebar-nav">
-        <ul>
-            <li><a href="#hero"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="#catalog"><i class="fas fa-car"></i> Showroom / Shop</a></li>
-            <li><a href="#services"><i class="fas fa-ship"></i> Services</a></li>
-            <li><a href="#contact"><i class="fas fa-envelope"></i> Contact & Location</a></li>
-            <li><a href="#footer-connect"><i class="fas fa-building"></i> Sister Companies</a></li>
-        </ul>
-    </nav>
-    <div class="sidebar-footer">
-        <p>Dubai, UAE — Global Automotive Export Hub. Licensed & Trusted since 2008.</p>
-        <div class="social-row">
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-            <a href="#"><i class="fab fa-telegram"></i></a>
-        </div>
-    </div>
+  </div>
 </aside>
 
-<!-- ===== HEADER ===== -->
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mob-nav">
+  <div class="mob-nav-inner">
+    <a href="#hero" class="mni act"><i class="fas fa-home"></i>Home</a>
+    <a href="#catalog" class="mni"><i class="fas fa-car"></i>Shop</a>
+    <a href="#services" class="mni"><i class="fas fa-ship"></i>Services</a>
+    <button class="mni" id="mobQuoteBtn"><i class="fas fa-file-alt"></i>Quote</button>
+    <a href="#contact" class="mni"><i class="fas fa-map-marker-alt"></i>Contact</a>
+  </div>
+</nav>
+
+<!-- HEADER -->
 <header id="header">
-    <div class="header-left">
-        <button class="hamburger-btn" id="hamburgerBtn">
-            <span></span><span></span><span></span>
-        </button>
-        <div class="logo-wrap">
-            <span class="logo-main">ELITE ROUTE</span>
-            <span class="logo-sub">Automobile Trading For Export L.L.C.</span>
-        </div>
-        <div class="header-divider"></div>
-        <span class="header-tagline">Dubai · Global Export</span>
-    </div>
-    <nav>
-        <a href="#hero">Home</a>
-        <a href="#catalog">Showroom</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-    </nav>
-    <div class="header-right">
-        <a href="#contact" class="btn-quote">Get Quote</a>
-    </div>
+  <div class="h-left">
+    <button class="burger" id="burgerBtn"><span></span><span></span><span></span></button>
+    <div class="logo-wrap"><span class="logo-main">ELITE ROUTE</span><span class="logo-sub">Automobile Trading For Export L.L.C.</span></div>
+    <div class="h-div"></div><span class="h-tag">Dubai · Global Export</span>
+  </div>
+  <nav class="desk"><a href="#hero">Home</a><a href="#catalog">Showroom</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
+  <div class="h-right"><button class="btn-qte" id="hdrQuoteBtn">Get Quote</button></div>
 </header>
 
-<!-- ===== HERO SLIDER ===== -->
+<!-- HERO SLIDER -->
 <section id="hero">
-    <div class="hero-slider">
-
-        <!-- Slide 1: Rolls Royce Ghost -->
-        <div class="hero-slide">
-            <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=1920&auto=format&fit=crop');"></div>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <div class="hero-tag"><i class="fas fa-gem"></i>&nbsp; Ultra Luxury Export</div>
-                <h1>Rolls&#8209;Royce<br><em>Ghost</em></h1>
-                <p>The pinnacle of British automotive craftsmanship. Bespoke export allocations handled with white-glove logistics to any port worldwide.</p>
-                <div class="hero-cta-row">
-                    <a href="#catalog" class="btn-primary"><i class="fas fa-eye"></i> View Inventory</a>
-                    <a href="#contact" class="btn-outline">Request Allocation</a>
-                </div>
-            </div>
-            <div class="slide-label"><span>ROLLS ROYCE</span></div>
-        </div>
-
-        <!-- Slide 2: Bentley Continental -->
-        <div class="hero-slide">
-            <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1920&auto=format&fit=crop');"></div>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <div class="hero-tag"><i class="fas fa-crown"></i>&nbsp; Grand Touring</div>
-                <h1>Bentley<br><em>Continental</em></h1>
-                <p>W12 twin-turbocharged elegance. Sourced directly for export with full factory provenance documentation and worldwide delivery.</p>
-                <div class="hero-cta-row">
-                    <a href="#catalog" class="btn-primary"><i class="fas fa-eye"></i> Explore Now</a>
-                    <a href="#contact" class="btn-outline">Inquire Today</a>
-                </div>
-            </div>
-            <div class="slide-label"><span>BENTLEY</span></div>
-        </div>
-
-        <!-- Slide 3: Bugatti -->
-        <div class="hero-slide">
-            <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=1920&auto=format&fit=crop');"></div>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <div class="hero-tag"><i class="fas fa-bolt"></i>&nbsp; Hyper Car Division</div>
-                <h1>Hyper<br><em>Exotics</em></h1>
-                <p>Limited edition hypercar allocations. We bypass waitlists and handle full export compliance for the world's most exclusive machines.</p>
-                <div class="hero-cta-row">
-                    <a href="#catalog" class="btn-primary"><i class="fas fa-eye"></i> View Exotics</a>
-                    <a href="#contact" class="btn-outline">Enquire Privately</a>
-                </div>
-            </div>
-            <div class="slide-label"><span>HYPERCARS</span></div>
-        </div>
-
-        <!-- Slide 4: Mercedes G-Wagon -->
-        <div class="hero-slide">
-            <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?q=80&w=1920&auto=format&fit=crop');"></div>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <div class="hero-tag"><i class="fas fa-shield-halved"></i>&nbsp; Armored Division</div>
-                <h1>Mercedes<br><em>G63 AMG</em></h1>
-                <p>B6/VR7 armored variants available. Purpose-built for heads of state, security details, and high-risk environments globally.</p>
-                <div class="hero-cta-row">
-                    <a href="#catalog" class="btn-primary"><i class="fas fa-eye"></i> View Armored</a>
-                    <a href="#contact" class="btn-outline">Confidential Quote</a>
-                </div>
-            </div>
-            <div class="slide-label"><span>G63 AMG</span></div>
-        </div>
-
+  <div class="hero-slider">
+    <div class="hero-slide">
+      <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=1920&auto=format&fit=crop')"></div>
+      <div class="hero-ov"></div>
+      <div class="hero-content">
+        <div class="h-tag-pill"><i class="fas fa-gem"></i>&nbsp;Ultra Luxury Export</div>
+        <h1>Rolls&#8209;Royce<br><em>Ghost</em></h1>
+        <p>The pinnacle of British craftsmanship. Bespoke export allocations with white-glove logistics to any port worldwide.</p>
+        <div class="h-btns"><a href="#catalog" class="btn-pri"><i class="fas fa-eye"></i>View Inventory</a><button class="btn-sec" onclick="openQuoteModal()">Request Allocation</button></div>
+      </div>
+      <div class="slide-wm">ROLLS ROYCE</div>
     </div>
-    <div class="hero-arrows">
-        <button class="hero-arrow-btn" id="heroPrev"><i class="fas fa-chevron-left"></i></button>
-        <button class="hero-arrow-btn" id="heroNext"><i class="fas fa-chevron-right"></i></button>
+    <div class="hero-slide">
+      <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1920&auto=format&fit=crop')"></div>
+      <div class="hero-ov"></div>
+      <div class="hero-content">
+        <div class="h-tag-pill"><i class="fas fa-crown"></i>&nbsp;Grand Touring</div>
+        <h1>Bentley<br><em>Continental</em></h1>
+        <p>W12 twin-turbocharged elegance. Sourced directly for export with full factory provenance and worldwide delivery.</p>
+        <div class="h-btns"><a href="#catalog" class="btn-pri"><i class="fas fa-eye"></i>Explore Now</a><button class="btn-sec" onclick="openQuoteModal()">Inquire Today</button></div>
+      </div>
+      <div class="slide-wm">BENTLEY</div>
     </div>
+    <div class="hero-slide">
+      <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=1920&auto=format&fit=crop')"></div>
+      <div class="hero-ov"></div>
+      <div class="hero-content">
+        <div class="h-tag-pill"><i class="fas fa-bolt"></i>&nbsp;Hyper Car Division</div>
+        <h1>Hyper<br><em>Exotics</em></h1>
+        <p>Limited edition hypercar allocations. We bypass waitlists and handle full export compliance for the world's rarest machines.</p>
+        <div class="h-btns"><a href="#catalog" class="btn-pri"><i class="fas fa-eye"></i>View Exotics</a><button class="btn-sec" onclick="openQuoteModal()">Enquire Privately</button></div>
+      </div>
+      <div class="slide-wm">HYPERCARS</div>
+    </div>
+    <div class="hero-slide">
+      <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?q=80&w=1920&auto=format&fit=crop')"></div>
+      <div class="hero-ov"></div>
+      <div class="hero-content">
+        <div class="h-tag-pill"><i class="fas fa-shield-halved"></i>&nbsp;Armored Division</div>
+        <h1>Mercedes<br><em>G63 AMG</em></h1>
+        <p>B6/VR7 armored variants available. Purpose-built for heads of state, security details, and high-risk environments globally.</p>
+        <div class="h-btns"><a href="#catalog" class="btn-pri"><i class="fas fa-eye"></i>View Armored</a><button class="btn-sec" onclick="openQuoteModal()">Confidential Quote</button></div>
+      </div>
+      <div class="slide-wm">G63 AMG</div>
+    </div>
+  </div>
+  <div class="hero-arr">
+    <button class="arr-btn" id="heroPrev"><i class="fas fa-chevron-left"></i></button>
+    <button class="arr-btn" id="heroNext"><i class="fas fa-chevron-right"></i></button>
+  </div>
 </section>
 
-<!-- ===== STATS BAR ===== -->
+<!-- STATS BAR -->
 <div class="stats-bar">
-    <div class="stat-item">
-        <div class="stat-num">1,200+</div>
-        <div class="stat-label">Units Exported</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-        <div class="stat-num">48</div>
-        <div class="stat-label">Countries Served</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-        <div class="stat-num">16+</div>
-        <div class="stat-label">Years Experience</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-        <div class="stat-num">98%</div>
-        <div class="stat-label">Client Satisfaction</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-        <div class="stat-num">24/7</div>
-        <div class="stat-label">Export Support</div>
-    </div>
+  <div class="stat-item"><div class="stat-num">1,200+</div><div class="stat-lbl">Units Exported</div></div>
+  <div class="stat-dv"></div>
+  <div class="stat-item"><div class="stat-num">48</div><div class="stat-lbl">Countries Served</div></div>
+  <div class="stat-dv"></div>
+  <div class="stat-item"><div class="stat-num">16+</div><div class="stat-lbl">Years Experience</div></div>
+  <div class="stat-dv"></div>
+  <div class="stat-item"><div class="stat-num">98%</div><div class="stat-lbl">Client Satisfaction</div></div>
+  <div class="stat-dv"></div>
+  <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-lbl">Export Support</div></div>
 </div>
 
-<!-- ===== CATALOG / SHOP ===== -->
-<section id="catalog" class="section-wrap">
-    <div class="section-eyebrow">Live Inventory</div>
-    <h2 class="section-title">Global <em>Showroom</em></h2>
-    <p class="section-sub">Direct pricing, live inventory, and seamless export checkout. Every vehicle ships with full documentation.</p>
-
-    <div class="catalog-tools-row reveal">
-        <div class="search-wrap">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search make, model, type…">
-        </div>
-        <div class="filter-tabs">
-            <button class="filter-tab active" data-filter="all">All Vehicles</button>
-            <button class="filter-tab" data-filter="luxury">Luxury</button>
-            <button class="filter-tab" data-filter="suv">SUV</button>
-            <button class="filter-tab" data-filter="exotic">Exotic</button>
-            <button class="filter-tab" data-filter="fleet">Fleet</button>
-        </div>
+<!-- CATALOG -->
+<section id="catalog" class="sec">
+  <div class="eyebrow">Live Inventory</div>
+  <h2 class="sec-title">Global <em>Showroom</em></h2>
+  <p class="sec-sub">Direct pricing, live inventory, and seamless export checkout. Every vehicle ships with full documentation.</p>
+  <div class="cat-tools reveal">
+    <div class="srch"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search make, model, type…"></div>
+    <div class="ftabs">
+      <button class="ftab on" data-filter="all">All</button>
+      <button class="ftab" data-filter="luxury">Luxury</button>
+      <button class="ftab" data-filter="suv">SUV</button>
+      <button class="ftab" data-filter="exotic">Exotic</button>
+      <button class="ftab" data-filter="fleet">Fleet</button>
     </div>
-
-    <div class="car-grid" id="productGrid"></div>
-
-    <div class="load-more-wrap">
-        <button id="viewMoreBtn" class="btn-loadmore">
-            <i class="fas fa-spinner fa-spin" style="display:none; margin-right:8px;"></i>
-            Load More Vehicles
-        </button>
-    </div>
+  </div>
+  <div class="car-grid" id="productGrid"></div>
+  <div class="load-wrap"><button id="viewMoreBtn" class="btn-more"><i class="fas fa-spinner fa-spin" style="display:none;margin-right:8px"></i>Load More Vehicles</button></div>
 </section>
 
-<!-- ===== SERVICES ===== -->
-<section id="services" class="section-wrap">
-    <div class="section-eyebrow">What We Do</div>
-    <h2 class="section-title">Why Choose <em>Elite</em></h2>
-    <p class="section-sub">Comprehensive automotive trading solutions designed for B2B, governments, and VIP buyers worldwide.</p>
-
-    <div class="services-grid">
-        <div class="service-card reveal">
-            <div class="service-icon-wrap"><i class="fas fa-ship"></i></div>
-            <h3>Global Logistics</h3>
-            <p>We handle all RoRo and container freight, ensuring your vehicles arrive safely at any port worldwide with full insurance coverage.</p>
-        </div>
-        <div class="service-card reveal">
-            <div class="service-icon-wrap"><i class="fas fa-shield-halved"></i></div>
-            <h3>Armored Sourcing</h3>
-            <p>Direct connections to VR6/VR7 certified armorers. We source, build, and export protection vehicles for high-profile clients.</p>
-        </div>
-        <div class="service-card reveal">
-            <div class="service-icon-wrap"><i class="fas fa-file-contract"></i></div>
-            <h3>Customs & Clearance</h3>
-            <p>Expert handling of homologation, import taxes, Letters of Credit, and port clearance documentation across 48+ countries.</p>
-        </div>
-        <div class="service-card reveal">
-            <div class="service-icon-wrap"><i class="fas fa-gem"></i></div>
-            <h3>Exotic Allocations</h3>
-            <p>Skip waitlists entirely. We source limited-edition supercars and luxury vehicles generally unavailable to the open market.</p>
-        </div>
-        <div class="service-card reveal">
-            <div class="service-icon-wrap"><i class="fas fa-users"></i></div>
-            <h3>Fleet Management</h3>
-            <p>Bulk fleet procurement and export services for governments, corporations, and humanitarian organizations.</p>
-        </div>
-        <div class="service-card reveal">
-            <div class="service-icon-wrap"><i class="fas fa-certificate"></i></div>
-            <h3>Title & Compliance</h3>
-            <p>Full legal compliance, title transfer, VIN verification, and manufacturer certification for every exported unit.</p>
-        </div>
-    </div>
+<!-- SERVICES -->
+<section id="services" class="sec">
+  <div class="eyebrow">What We Do</div>
+  <h2 class="sec-title">Why Choose <em>Elite</em></h2>
+  <p class="sec-sub">Comprehensive automotive trading solutions for B2B, governments, and VIP buyers worldwide.</p>
+  <div class="svc-grid">
+    <div class="svc-card reveal"><div class="svc-icon"><i class="fas fa-ship"></i></div><h3>Global Logistics</h3><p>RoRo and container freight handled end-to-end, ensuring vehicles arrive safely at any port worldwide with full insurance.</p></div>
+    <div class="svc-card reveal"><div class="svc-icon"><i class="fas fa-shield-halved"></i></div><h3>Armored Sourcing</h3><p>Direct VR6/VR7 certified armorers. We source, build, and export protection vehicles for high-profile clients.</p></div>
+    <div class="svc-card reveal"><div class="svc-icon"><i class="fas fa-file-contract"></i></div><h3>Customs &amp; Clearance</h3><p>Homologation, import taxes, Letters of Credit, and port clearance across 48+ countries.</p></div>
+    <div class="svc-card reveal"><div class="svc-icon"><i class="fas fa-gem"></i></div><h3>Exotic Allocations</h3><p>Skip waitlists entirely. Limited-edition supercars unavailable to the open market, sourced exclusively for you.</p></div>
+    <div class="svc-card reveal"><div class="svc-icon"><i class="fas fa-users"></i></div><h3>Fleet Management</h3><p>Bulk fleet procurement and export for governments, corporations, and humanitarian organizations.</p></div>
+    <div class="svc-card reveal"><div class="svc-icon"><i class="fas fa-certificate"></i></div><h3>Title &amp; Compliance</h3><p>Full legal compliance, title transfer, VIN verification, and manufacturer certification per exported unit.</p></div>
+  </div>
 </section>
 
-<!-- ===== CONTACT ===== -->
-<section id="contact" class="section-wrap">
-    <div class="section-eyebrow">Get In Touch</div>
-    <h2 class="section-title">Contact & <em>Location</em></h2>
-    <p class="section-sub">Visit our global export hub in Dubai or submit a confidential inquiry online.</p>
-
-    <div class="contact-grid reveal">
-        <div class="contact-left">
-            <h3>Request A Quote</h3>
-            <p>Submit your requirements and our export specialists will respond within 24 hours.</p>
-            <form onsubmit="event.preventDefault(); alert('Your inquiry has been sent. Our team will contact you shortly.');">
-                <div class="form-row">
-                    <label>Full Name / Company</label>
-                    <input type="text" required placeholder="e.g. Al-Mansouri Imports LLC">
-                </div>
-                <div class="form-row">
-                    <label>Email Address</label>
-                    <input type="email" required placeholder="procurement@company.com">
-                </div>
-                <div class="form-row">
-                    <label>Destination Port</label>
-                    <input type="text" required placeholder="e.g. Port of Jeddah, Saudi Arabia">
-                </div>
-                <div class="form-row">
-                    <label>Vehicle Requirements</label>
-                    <textarea required placeholder="Specify make, model, year, quantity, and specs…"></textarea>
-                </div>
-                <button type="submit" class="btn-submit">Submit Inquiry &nbsp;<i class="fas fa-paper-plane"></i></button>
-            </form>
-        </div>
-        <div class="contact-right">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115408.09799763787!2d55.20529432653805!3d25.075009587440046!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2sph!4v1708000000000!5m2!1sen!2sph" allowfullscreen="" loading="lazy"></iframe>
-            <div class="map-card">
-                <div class="map-card-row"><i class="fas fa-map-marker-alt"></i> Auto Hub Center, Ras Al Khor, Dubai, UAE</div>
-                <div class="map-card-row"><i class="fas fa-phone-alt"></i> +971 50 123 4567</div>
-                <div class="map-card-row"><i class="fas fa-envelope"></i> export@eliteroute.com</div>
-            </div>
-        </div>
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="eyebrow">Get In Touch</div>
+  <h2 class="sec-title">Contact &amp; <em>Location</em></h2>
+  <p class="sec-sub">Visit our global export hub in Dubai or submit a confidential inquiry online.</p>
+  <div class="contact-grid reveal">
+    <div class="c-left">
+      <h3>Request A Quote</h3>
+      <p>Our export specialists respond within 24 hours.</p>
+      <form onsubmit="event.preventDefault();showToast('Your inquiry has been sent. We\'ll contact you within 24 hours.')">
+        <div class="frow"><label>Full Name / Company</label><input type="text" required placeholder="e.g. Al-Mansouri Imports LLC"></div>
+        <div class="frow"><label>Email Address</label><input type="email" required placeholder="procurement@company.com"></div>
+        <div class="frow"><label>Destination Port</label><input type="text" required placeholder="e.g. Port of Jeddah, Saudi Arabia"></div>
+        <div class="frow"><label>Vehicle Requirements</label><textarea required placeholder="Make, model, year, quantity, specs…"></textarea></div>
+        <button type="submit" class="btn-sub">Submit Inquiry &nbsp;<i class="fas fa-paper-plane"></i></button>
+      </form>
     </div>
+    <div class="c-right">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115408.09799763787!2d55.20529432653805!3d25.075009587440046!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2sph!4v1708000000000!5m2!1sen!2sph" allowfullscreen loading="lazy"></iframe>
+      <div class="map-card">
+        <div class="mrow"><i class="fas fa-map-marker-alt"></i> Auto Hub Center, Ras Al Khor, Dubai, UAE</div>
+        <div class="mrow"><i class="fas fa-phone-alt"></i> +971 50 123 4567</div>
+        <div class="mrow"><i class="fas fa-envelope"></i> export@eliteroute.com</div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
+<!-- FOOTER -->
 <footer id="footer-connect">
-    <div class="footer-top">
-        <div class="footer-brand">
-            <div class="footer-logo">ELITE ROUTE</div>
-            <div class="footer-logo-sub">Automobile Trading For Export L.L.C.</div>
-            <p>A globally trusted name in luxury and commercial vehicle exports. Connecting buyers worldwide with the finest automobiles from UAE, USA, and Europe since 2008.</p>
-            <div class="footer-socials">
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-telegram"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-            </div>
-        </div>
-
-        <div class="footer-col">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="#hero"><i class="fas fa-chevron-right"></i> Home</a></li>
-                <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Showroom</a></li>
-                <li><a href="#services"><i class="fas fa-chevron-right"></i> Services</a></li>
-                <li><a href="#contact"><i class="fas fa-chevron-right"></i> Get a Quote</a></li>
-                <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-col">
-            <h4>Inventory</h4>
-            <ul>
-                <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Luxury Sedans</a></li>
-                <li><a href="#catalog"><i class="fas fa-chevron-right"></i> SUVs & 4x4</a></li>
-                <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Armored Vehicles</a></li>
-                <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Exotic / Hypercars</a></li>
-                <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Fleet Solutions</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-col">
-            <h4>Connected With</h4>
-            <div class="sister-cards">
-                <a class="sister-card" href="#">
-                    <div class="sister-name"><em>EWAN</em> ALMUTAMAIZ</div>
-                    <div class="sister-desc">Premium Automotive — UAE</div>
-                </a>
-                <a class="sister-card" href="#">
-                    <div class="sister-name"><em>MADAR</em> ALREKAZ</div>
-                    <div class="sister-desc">Infrastructure & Logistics</div>
-                </a>
-                <a class="sister-card" href="#">
-                    <div class="sister-name"><em>ADHWAH</em> ALMOSTAQBAL</div>
-                    <div class="sister-desc">Future Trading Group</div>
-                </a>
-            </div>
-        </div>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <div class="fl">ELITE ROUTE</div>
+      <div class="fls">Automobile Trading For Export L.L.C.</div>
+      <p>A globally trusted name in luxury and commercial vehicle exports. Connecting buyers worldwide with the finest automobiles from UAE, USA, and Europe since 2008.</p>
+      <div class="fsoc">
+        <a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a><a href="#"><i class="fab fa-telegram"></i></a><a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
     </div>
-
-    <div class="footer-bottom">
-        <div class="footer-copy">
-            &copy; 2026 <a href="#">ELITE ROUTE</a> | Automobile Trading For Export L.L.C. — Dubai, UAE. All rights reserved.
-        </div>
-        <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Export Compliance</a>
-        </div>
+    <div class="fcol"><h4>Quick Links</h4><ul>
+      <li><a href="#hero"><i class="fas fa-chevron-right"></i> Home</a></li>
+      <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Showroom</a></li>
+      <li><a href="#services"><i class="fas fa-chevron-right"></i> Services</a></li>
+      <li><a href="#contact"><i class="fas fa-chevron-right"></i> Get a Quote</a></li>
+    </ul></div>
+    <div class="fcol"><h4>Inventory</h4><ul>
+      <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Luxury Sedans</a></li>
+      <li><a href="#catalog"><i class="fas fa-chevron-right"></i> SUVs &amp; 4x4</a></li>
+      <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Armored Vehicles</a></li>
+      <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Exotic / Hypercars</a></li>
+      <li><a href="#catalog"><i class="fas fa-chevron-right"></i> Fleet Solutions</a></li>
+    </ul></div>
+    <div class="fcol"><h4>Connected With</h4>
+      <div class="sister-cards">
+        <a class="sister-card" href="#"><div class="sn"><em>EWAN</em> ALMUTAMAIZ</div><div class="sd">Premium Automotive — UAE</div></a>
+        <a class="sister-card" href="#"><div class="sn"><em>MADAR</em> ALREKAZ</div><div class="sd">Infrastructure &amp; Logistics</div></a>
+        <a class="sister-card" href="#"><div class="sn"><em>ADHWAH</em> ALMOSTAQBAL</div><div class="sd">Future Trading Group</div></a>
+      </div>
     </div>
+  </div>
+  <div class="foot-bot">
+    <div class="fcopy">&copy; 2026 <a href="#">ELITE ROUTE</a> | Automobile Trading For Export L.L.C. — Dubai, UAE. All rights reserved.</div>
+    <div class="flinks"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Export Compliance</a></div>
+  </div>
 </footer>
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Slick Slider -->
-<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<!-- CAR DETAIL MODAL -->
+<div class="modal-ov" id="carModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" id="carModalClose"><i class="fas fa-times"></i></button>
+    <img id="mHeroImg" class="modal-hero-img" src="" alt="">
+    <div class="modal-gallery" id="mGallery"></div>
+    <div class="modal-body">
+      <div class="m-badge-row"><span id="mBadge" class="m-badge"></span></div>
+      <div id="mMake" class="m-make"></div>
+      <div id="mTitle" class="m-title"></div>
+      <div id="mSold" class="m-sold"><i class="fas fa-check-circle"></i><span></span></div>
+      <div class="m-spec-grid">
+        <div class="m-spec-block"><h5><i class="fas fa-cogs"></i>Vehicle Specs</h5><div id="mSpecs"></div></div>
+        <div class="m-spec-block"><h5><i class="fas fa-ship"></i>Export Details</h5><div id="mExport"></div></div>
+      </div>
+      <div class="m-price-row"><div id="mPrice" class="m-price"></div><div id="mOldP" class="m-oldp"></div></div>
+      <div class="m-ship"><i class="fas fa-check-circle"></i> Free Shipping to Port of Destination Included</div>
+      <div class="m-ctas">
+        <button class="btn-m-inq" id="mInqBtn"><i class="fas fa-file-alt"></i> Inquire Now</button>
+        <a class="btn-m-wa" id="mWaBtn" href="#" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <button class="btn-m-pdf" onclick="showToast('Spec sheet download started!')"><i class="fas fa-file-pdf"></i> Spec Sheet</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- INQUIRY FORM MODAL -->
+<div class="modal-ov inq-modal" id="inqModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" id="inqModalClose"><i class="fas fa-times"></i></button>
+    <div class="inq-head">
+      <img id="inqImg" class="inq-head-img" src="" alt="">
+      <div class="inq-head-txt"><h4 id="inqTitle">Export Inquiry</h4><p id="inqSub">We'll contact you within 24 hours</p></div>
+    </div>
+    <div class="inq-body">
+      <div id="inqPills" class="inq-pills"></div>
+      <div class="inq-pstrip">
+        <div><div class="ips-lbl">Listed Price</div><div id="inqPrice" class="ips-val">—</div></div>
+        <div class="ips-ship"><i class="fas fa-ship"></i> Free Port Shipping</div>
+      </div>
+      <form id="inqForm">
+        <div class="frow"><label>Full Name / Company</label><input type="text" required placeholder="Your name or company"></div>
+        <div class="frow"><label>Email Address</label><input type="email" required placeholder="your@email.com"></div>
+        <div class="frow"><label>Phone / WhatsApp</label><input type="tel" placeholder="+971 50 000 0000"></div>
+        <div class="frow"><label>Destination Port / Country</label>
+          <select>
+            <option value="">Select destination…</option>
+            <option>Port of Jeddah, Saudi Arabia</option><option>Port of Dubai, UAE</option>
+            <option>Port of Rotterdam, Netherlands</option><option>Port of Hamburg, Germany</option>
+            <option>Port of Djibouti, Africa</option><option>Port of Mombasa, Kenya</option>
+            <option>Port of Lagos, Nigeria</option><option>Port of Manila, Philippines</option>
+            <option>Other (specify below)</option>
+          </select>
+        </div>
+        <div class="frow"><label>Additional Notes</label><textarea placeholder="Quantity, configuration, delivery timeline…"></textarea></div>
+        <button type="submit" class="btn-sub">Send Inquiry &nbsp;<i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- GENERAL QUOTE MODAL -->
+<div class="modal-ov quote-modal" id="quoteModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" id="quoteModalClose"><i class="fas fa-times"></i></button>
+    <div class="qm-head">
+      <h3>Request A <em style="color:var(--gold)">Quote</em></h3>
+      <p>Tell us what you need and our export specialists will get back to you within 24 hours.</p>
+    </div>
+    <div class="qm-body">
+      <form id="quoteForm">
+        <div class="frow"><label>Full Name / Company</label><input type="text" required placeholder="Your name or company"></div>
+        <div class="frow"><label>Email Address</label><input type="email" required placeholder="your@email.com"></div>
+        <div class="frow"><label>Vehicle Interest</label><input type="text" placeholder="Make, model, year, quantity…"></div>
+        <div class="frow"><label>Destination Country</label><input type="text" placeholder="e.g. Saudi Arabia"></div>
+        <div class="frow"><label>Budget Range</label>
+          <select>
+            <option value="">Select range…</option>
+            <option>Under $50,000</option><option>$50,000 – $100,000</option>
+            <option>$100,000 – $250,000</option><option>$250,000 – $500,000</option>
+            <option>$500,000+</option><option>Fleet / Corporate (contact for pricing)</option>
+          </select>
+        </div>
+        <div class="frow"><label>Message</label><textarea placeholder="Any specific requirements…"></textarea></div>
+        <button type="submit" class="btn-sub">Submit Quote Request &nbsp;<i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script>
+/* ---- PRODUCTS DATA ---- */
+const products = [
+  {id:1,make:"Rolls-Royce",name:"Ghost Series II",badge:"LUXURY",bc:"luxury",price:"$380,000",old:"$410K",sold:"8 Exported",img:"https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1631295868223-63265b40d9e4?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop"],tags:["V12","LHD","Bespoke"],cat:"luxury",specs:{Engine:"6.75L Twin-Turbo V12",Power:"563 HP / 900 Nm",Transmission:"8-Speed Auto",Drive:"RWD","Top Speed":"250 km/h",Color:"Commissioned"},export:{Shipping:"RoRo / Container","Lead Time":"4–6 Weeks",Documentation:"Full Factory COC",Warranty:"4-Year Manufacturer",Origin:"Goodwood, UK","IBAN / LC":"Available"}},
+  {id:2,make:"Toyota",name:"Land Cruiser LC300 Armored VR7",badge:"ARMORED",bc:"",price:"On Request",old:"",sold:"45 Exported",img:"https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=900&auto=format&fit=crop"],tags:["B6/VR7","RHD/LHD","Armored"],cat:"suv",specs:{Engine:"3.5L Twin-Turbo V6",Power:"415 HP",Protection:"VR7 / B6+",Glass:"Ballistic Optiwhite",Weight:"~5,800 kg",Drive:"4WD"},export:{Shipping:"Container Only","Lead Time":"8–12 Weeks",Documentation:"Armourer Certificate",Warranty:"3-Year",Origin:"UAE / Japan","IBAN / LC":"Required"}},
+  {id:3,make:"Mercedes-Benz",name:"G63 AMG Carbon Edition",badge:"HOT",bc:"hot",price:"$215,000",old:"$230K",sold:"28 Exported",img:"https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=900&auto=format&fit=crop"],tags:["V8 Biturbo","577HP","LHD"],cat:"suv",specs:{Engine:"4.0L BiTurbo V8",Power:"577 HP / 850 Nm",Transmission:"9G-Tronic",Drive:"AMG 4MATIC+","Top Speed":"220 km/h",Color:"Multiple Available"},export:{Shipping:"RoRo / Container","Lead Time":"3–5 Weeks",Documentation:"EU COC",Warranty:"3-Year Mercedes",Origin:"Graz, Austria","IBAN / LC":"Available"}},
+  {id:4,make:"Bentley",name:"Continental GT Speed W12",badge:"LUXURY",bc:"luxury",price:"$280,000",old:"$295K",sold:"11 Exported",img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop"],tags:["W12","660HP","Mulliner"],cat:"luxury",specs:{Engine:"6.0L Twin-Turbo W12",Power:"660 HP / 900 Nm",Transmission:"8-Speed DCT",Drive:"AWD","Top Speed":"335 km/h",Config:"Mulliner Spec"},export:{Shipping:"Container","Lead Time":"5–8 Weeks",Documentation:"Bentley COC",Warranty:"3-Year Bentley",Origin:"Crewe, UK","IBAN / LC":"Available"}},
+  {id:5,make:"Lexus",name:"LX 600 Ultra Luxury VIP 4-Seat",badge:"PREMIUM",bc:"",price:"$135,000",old:"$145K",sold:"34 Exported",img:"https://images.unsplash.com/photo-1652538188151-5bb502bcaf7d?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1652538188151-5bb502bcaf7d?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop"],tags:["VIP 4-Seat","LHD","TNGA-F"],cat:"suv",specs:{Engine:"3.5L Twin-Turbo V6",Power:"409 HP",Seats:"4 (Ultra Luxury)",Suspension:"E-KDSS",Drive:"4WD",Features:"Rear Executive Lounge"},export:{Shipping:"RoRo / Container","Lead Time":"4–6 Weeks",Documentation:"JDM / GCC Spec",Warranty:"4-Year Lexus",Origin:"Japan","IBAN / LC":"Available"}},
+  {id:6,make:"Porsche",name:"911 GT3 RS Track Spec",badge:"EXOTIC",bc:"hot",price:"$290,000",old:"",sold:"3 Exported",img:"https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop"],tags:["Nat. Aspirated","525HP","Track"],cat:"exotic",specs:{Engine:"4.0L Flat-Six NA",Power:"525 HP / 465 Nm",Transmission:"7-Speed PDK",Drive:"RWD","Top Speed":"296 km/h",Downforce:"409 kg @ max speed"},export:{Shipping:"Climate Container","Lead Time":"6–10 Weeks",Documentation:"Porsche COC",Warranty:"2-Year Porsche",Origin:"Stuttgart, Germany","IBAN / LC":"Available"}},
+  {id:7,make:"Toyota",name:"Hilux Invincible X Fleet (×5)",badge:"FLEET",bc:"fleet",price:"$195,000",old:"$210K",sold:"200+ Exported",img:"https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop"],tags:["Diesel","Fleet×5","LHD/RHD"],cat:"fleet",specs:{Engine:"2.8L Turbodiesel",Power:"204 HP / 500 Nm",Transmission:"6-Speed Auto",Drive:"4WD / Diff Lock",Quantity:"Batch of 5",Payload:"1,000 kg"},export:{Shipping:"RoRo (×5 units)","Lead Time":"3–4 Weeks",Documentation:"Fleet COO + COC",Warranty:"3-Year Toyota",Origin:"Thailand","IBAN / LC":"Required for fleet"}},
+  {id:8,make:"Range Rover",name:"SV Autobiography LWB",badge:"LUXURY",bc:"luxury",price:"$180,000",old:"$195K",sold:"18 Exported",img:"https://images.unsplash.com/photo-1606016159991-dce8ea900241?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1606016159991-dce8ea900241?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1652538188151-5bb502bcaf7d?q=80&w=900&auto=format&fit=crop"],tags:["LWB","P530","SV Bespoke"],cat:"luxury",specs:{Engine:"4.4L Twin-Turbo V8",Power:"530 HP",Wheelbase:"Long (LWB)",Seats:"5 (SV Rear Suite opt.)",Drive:"AWD Air Suspension",Interior:"SV Bespoke Leather"},export:{Shipping:"Container","Lead Time":"5–7 Weeks",Documentation:"UK COC",Warranty:"5-Year JLR",Origin:"Solihull, UK","IBAN / LC":"Available"}},
+  {id:9,make:"Ferrari",name:"SF90 Stradale Assetto Fiorano",badge:"HYPER",bc:"hot",price:"On Request",old:"",sold:"2 Exported",img:"https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=900&auto=format&fit=crop"],tags:["Hybrid","1000HP","LHD"],cat:"exotic",specs:{Engine:"4.0L V8 + 3 Electric Motors",Power:"1,000 HP (Combined)",Transmission:"8-Speed DCT",Drive:"eAWD","Top Speed":"340 km/h","0–100 km/h":"2.5 seconds"},export:{Shipping:"Climate Container","Lead Time":"10–16 Weeks",Documentation:"Ferrari COC + Origin",Warranty:"3-Year Ferrari",Origin:"Maranello, Italy","IBAN / LC":"Required"}},
+  {id:10,make:"Rolls-Royce",name:"Cullinan Black Badge",badge:"LUXURY",bc:"luxury",price:"$420,000",old:"",sold:"5 Exported",img:"https://images.unsplash.com/photo-1631295868223-63265b40d9e4?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1631295868223-63265b40d9e4?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop"],tags:["V12","600HP","AWD"],cat:"suv",specs:{Engine:"6.75L BiTurbo V12",Power:"600 HP / 900 Nm",Transmission:"8-Speed Auto",Drive:"AWD","Top Speed":"250 km/h",Roof:"Retractable Panoramic"},export:{Shipping:"Container","Lead Time":"6–10 Weeks",Documentation:"Full Rolls-Royce COC",Warranty:"4-Year",Origin:"Goodwood, UK","IBAN / LC":"Available"}},
+  {id:11,make:"Bentley",name:"Bentayga Speed W12 Azure",badge:"LUXURY",bc:"luxury",price:"$240,000",old:"",sold:"7 Exported",img:"https://images.unsplash.com/photo-1633045330364-75468d605bd9?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1633045330364-75468d605bd9?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop"],tags:["W12","635HP","Azure"],cat:"luxury",specs:{Engine:"6.0L Twin-Turbo W12",Power:"635 HP",Transmission:"8-Speed Auto",Drive:"AWD","Top Speed":"306 km/h",Trim:"Azure (Lifestyle Spec)"},export:{Shipping:"Container","Lead Time":"5–8 Weeks",Documentation:"Bentley COC",Warranty:"3-Year Bentley",Origin:"Crewe, UK","IBAN / LC":"Available"}},
+  {id:12,make:"Chevrolet",name:"Tahoe Z71 Fleet (×10)",badge:"FLEET",bc:"fleet",price:"$750,000",old:"$820K",sold:"65 Exported",img:"https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=900&auto=format&fit=crop"],tags:["V8 6.2L","Fleet×10","LHD"],cat:"fleet",specs:{Engine:"6.2L EcoTec3 V8",Power:"420 HP / 624 Nm",Transmission:"10-Speed Auto",Drive:"4WD / Z71 Off-Road",Quantity:"Batch of 10",Seats:"8 Passenger"},export:{Shipping:"RoRo (×10 units)","Lead Time":"4–6 Weeks",Documentation:"Fleet COO + COC",Warranty:"3-Year GM",Origin:"USA","IBAN / LC":"Required for fleet"}}
+];
+
+let activeFilter='all',itemsToShow=4;
+
+/* ---- RENDER ---- */
+function renderProducts(filter){
+  const grid=$('#productGrid').empty();
+  const list=filter==='all'?products:products.filter(p=>p.cat===filter);
+  list.forEach(car=>{
+    const tags=car.tags.map(t=>`<span class="spec-pill">${t}</span>`).join('');
+    const badge=car.badge?`<div class="card-badge ${car.bc}">${car.badge}</div>`:'';
+    const oldp=car.old?`<div class="card-oldp">${car.old}</div>`:'';
+    grid.append(`
+      <div class="product-card" data-id="${car.id}" style="display:none">
+        ${badge}
+        <div class="card-img"><img src="${car.img}" alt="${car.name}" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-make">${car.make}</div>
+          <div class="card-title">${car.name}</div>
+          <div class="card-specs">${tags}<span class="spec-pill" style="color:var(--gold);border-color:rgba(201,168,76,.3)">Free Port Ship</span></div>
+          <div class="card-bot">
+            <div><div class="card-price">${car.price}</div>${oldp}</div>
+            <div class="card-sold"><i class="fas fa-check-circle"></i>${car.sold}</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-inq" data-id="${car.id}"><i class="fas fa-file-alt"></i> Inquire Now</button>
+            <button class="btn-view-card" data-id="${car.id}" title="View Details"><i class="fas fa-expand-alt"></i></button>
+          </div>
+        </div>
+      </div>`);
+  });
+  $('.product-card').slice(0,itemsToShow).show();
+  if($('.product-card:hidden').length===0){$('#viewMoreBtn').hide();}else{$('#viewMoreBtn').show();}
+}
+
+/* ---- OPEN CAR DETAIL MODAL ---- */
+function openCarModal(id){
+  const car=products.find(p=>p.id===id); if(!car)return;
+  $('#mHeroImg').attr('src',car.imgs[0]).attr('alt',car.name);
+  const gal=$('#mGallery').empty();
+  car.imgs.forEach((url,i)=>{
+    const img=$(`<img src="${url}" loading="lazy" class="${i===0?'gal-active':''}">`);
+    img.on('click',function(){$('#mHeroImg').attr('src',url);gal.find('img').removeClass('gal-active');$(this).addClass('gal-active');});
+    gal.append(img);
+  });
+  const badge=$('#mBadge');
+  if(car.badge){badge.text(car.badge).attr('class','m-badge '+car.bc).show();}else{badge.hide();}
+  $('#mMake').text(car.make);
+  $('#mTitle').text(car.name);
+  $('#mSold span').text(car.sold);
+  const specsEl=$('#mSpecs').empty();
+  Object.entries(car.specs).forEach(([k,v])=>{specsEl.append(`<div class="spec-row"><span class="sk">${k}</span><span class="sv">${v}</span></div>`);});
+  const expEl=$('#mExport').empty();
+  Object.entries(car.export).forEach(([k,v])=>{expEl.append(`<div class="spec-row"><span class="sk">${k}</span><span class="sv">${v}</span></div>`);});
+  $('#mPrice').text(car.price);
+  $('#mOldP').text(car.old||'').toggle(!!car.old);
+  const waMsg=encodeURIComponent(`Hi Elite Route, I'm interested in the ${car.make} ${car.name} (${car.price}). Please send more details.`);
+  $('#mWaBtn').attr('href',`https://wa.me/971501234567?text=${waMsg}`);
+  $('#mInqBtn').off('click').on('click',()=>{closeModal('carModal');openInqModal(car);});
+  openModal('carModal');
+}
+
+/* ---- OPEN INQUIRY MODAL ---- */
+function openInqModal(car){
+  $('#inqImg').attr('src',car.imgs[0]).attr('alt',car.name);
+  $('#inqTitle').text(`${car.make} ${car.name}`);
+  $('#inqSub').text("Complete the form — we'll respond within 24 hours");
+  $('#inqPrice').text(car.price||'—');
+  const pills=$('#inqPills').empty();
+  car.tags.forEach(t=>pills.append(`<span class="inq-pill">${t}</span>`));
+  openModal('inqModal');
+}
+
+/* ---- QUOTE MODAL ---- */
+function openQuoteModal(){openModal('quoteModal');}
+
+/* ---- MODAL UTILS ---- */
+function openModal(id){document.body.style.overflow='hidden';$('#'+id).addClass('open');}
+function closeModal(id){$('#'+id).removeClass('open');if(!$('.modal-ov.open').length)document.body.style.overflow='';}
+function closeAllModals(){$('.modal-ov').removeClass('open');document.body.style.overflow='';}
+
+/* ---- TOAST ---- */
+function showToast(msg){$('#toastMsg').text(msg);$('#toast').addClass('show');setTimeout(()=>$('#toast').removeClass('show'),3600);}
+
+/* ---- JQUERY READY ---- */
 $(document).ready(function(){
 
-    /* ---- SIDEBAR ---- */
-    $('#hamburgerBtn').click(function(){ $('#sidebar').addClass('open'); $('#sidebarOverlay').addClass('active'); });
-    $('#sidebarClose, #sidebarOverlay').click(function(){ $('#sidebar').removeClass('open'); $('#sidebarOverlay').removeClass('active'); });
-    $('.sidebar-nav a').click(function(){ $('#sidebar').removeClass('open'); $('#sidebarOverlay').removeClass('active'); });
+  /* Sidebar */
+  $('#burgerBtn').click(()=>{$('#sidebar').addClass('on');$('#sideOv').addClass('on');});
+  $('#sbClose, #sideOv').click(()=>{$('#sidebar').removeClass('on');$('#sideOv').removeClass('on');});
+  $('.sb-nav a').click(()=>{$('#sidebar').removeClass('on');$('#sideOv').removeClass('on');});
 
-    /* ---- HEADER SCROLL ---- */
-    $(window).scroll(function(){
-        if($(this).scrollTop() > 60) { $('header').addClass('scrolled'); }
-        else { $('header').removeClass('scrolled'); }
-    });
+  /* Header scroll */
+  $(window).scroll(()=>$('header').toggleClass('scrolled',$(window).scrollTop()>60));
 
-    /* ---- HERO SLICK SLIDER ---- */
-    var $slider = $('.hero-slider').slick({
-        autoplay: true,
-        autoplaySpeed: 5500,
-        speed: 1200,
-        fade: true,
-        cssEase: 'cubic-bezier(0.77,0,0.175,1)',
-        dots: true,
-        arrows: false,
-        pauseOnHover: false
-    });
+  /* Quote btns */
+  $('#hdrQuoteBtn, #mobQuoteBtn').click(()=>openQuoteModal());
 
-    $('#heroNext').click(function(){ $slider.slick('slickNext'); });
-    $('#heroPrev').click(function(){ $slider.slick('slickPrev'); });
+  /* Hero slider */
+  const $sl=$('.hero-slider').slick({autoplay:true,autoplaySpeed:5500,speed:1200,fade:true,cssEase:'cubic-bezier(.77,0,.175,1)',dots:true,arrows:false,pauseOnHover:false});
+  $('#heroNext').click(()=>$sl.slick('slickNext'));
+  $('#heroPrev').click(()=>$sl.slick('slickPrev'));
 
-    /* ---- PRODUCTS DATA ---- */
-    const products = [
-        { id:1, make:"Rolls-Royce", name:"Ghost Series II", badge:"LUXURY", badgeClass:"luxury", price:"$380,000", old:"$410K", sold:"8 Exported", img:"https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=600&auto=format&fit=crop", tags:["V12","LHD","Bespoke"], cat:"luxury" },
-        { id:2, make:"Toyota", name:"Land Cruiser LC300 Armored VR7", badge:"ARMORED", badgeClass:"", price:"On Request", old:"", sold:"45 Exported", img:"https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=600&auto=format&fit=crop", tags:["B6/VR7","RHD/LHD"], cat:"suv" },
-        { id:3, make:"Mercedes-Benz", name:"G63 AMG Carbon Edition", badge:"HOT", badgeClass:"hot", price:"$215,000", old:"$230K", sold:"28 Exported", img:"https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?q=80&w=600&auto=format&fit=crop", tags:["V8 Biturbo","LHD"], cat:"suv" },
-        { id:4, make:"Bentley", name:"Continental GT Speed W12", badge:"LUXURY", badgeClass:"luxury", price:"$280,000", old:"$295K", sold:"11 Exported", img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600&auto=format&fit=crop", tags:["W12","LHD","Mulliner"], cat:"luxury" },
-        { id:5, make:"Lexus", name:"LX 600 Ultra Luxury VIP 4-Seat", badge:"PREMIUM", badgeClass:"", price:"$135,000", old:"$145K", sold:"34 Exported", img:"https://images.unsplash.com/photo-1652538188151-5bb502bcaf7d?q=80&w=600&auto=format&fit=crop", tags:["VIP","LHD"], cat:"suv" },
-        { id:6, make:"Porsche", name:"911 GT3 RS Track Spec", badge:"EXOTIC", badgeClass:"hot", price:"$290,000", old:"", sold:"3 Exported", img:"https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=600&auto=format&fit=crop", tags:["Naturally Aspirated","LHD"], cat:"exotic" },
-        { id:7, make:"Toyota", name:"Hilux Invincible X Fleet (×5)", badge:"FLEET", badgeClass:"fleet", price:"$195,000", old:"$210K", sold:"200+ Exported", img:"https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=600&auto=format&fit=crop", tags:["Diesel","LHD/RHD"], cat:"fleet" },
-        { id:8, make:"Range Rover", name:"SV Autobiography LWB", badge:"LUXURY", badgeClass:"luxury", price:"$180,000", old:"$195K", sold:"18 Exported", img:"https://images.unsplash.com/photo-1606016159991-dce8ea900241?q=80&w=600&auto=format&fit=crop", tags:["LWB","LHD"], cat:"luxury" },
-        { id:9, make:"Ferrari", name:"SF90 Stradale Assetto Fiorano", badge:"HYPER", badgeClass:"hot", price:"On Request", old:"", sold:"2 Exported", img:"https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=600&auto=format&fit=crop", tags:["Hybrid","LHD","1000HP"], cat:"exotic" },
-        { id:10, make:"Rolls-Royce", name:"Cullinan Black Badge", badge:"LUXURY", badgeClass:"luxury", price:"$420,000", old:"", sold:"5 Exported", img:"https://images.unsplash.com/photo-1631295868223-63265b40d9e4?q=80&w=600&auto=format&fit=crop", tags:["V12","LHD","AWD"], cat:"suv" },
-        { id:11, make:"Bentley", name:"Bentayga Speed W12 Azure", badge:"LUXURY", badgeClass:"luxury", price:"$240,000", old:"", sold:"7 Exported", img:"https://images.unsplash.com/photo-1633045330364-75468d605bd9?q=80&w=600&auto=format&fit=crop", tags:["W12","LHD"], cat:"luxury" },
-        { id:12, make:"Chevrolet", name:"Tahoe Z71 Fleet (×10)", badge:"FLEET", badgeClass:"fleet", price:"$750,000", old:"$820K", sold:"65 Exported", img:"https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=600&auto=format&fit=crop", tags:["V8","LHD","Batch"], cat:"fleet" }
-    ];
+  /* Products */
+  renderProducts('all');
 
-    /* ---- RENDER CARDS ---- */
-    const grid = $('#productGrid');
-    let itemsToShow = 4;
-    let activeFilter = 'all';
-    let currentVisible = 0;
+  /* Filter tabs */
+  $('.ftab').click(function(){
+    activeFilter=$(this).data('filter');
+    $('.ftab').removeClass('on');$(this).addClass('on');
+    itemsToShow=4;renderProducts(activeFilter);
+  });
 
-    function renderProducts(filter) {
-        grid.empty();
-        const filtered = filter === 'all' ? products : products.filter(p => p.cat === filter);
-        filtered.forEach(function(car, i) {
-            const tagsHtml = car.tags.map(t => `<span class="spec-pill">${t}</span>`).join('');
-            const badgeHtml = car.badge ? `<div class="card-badge ${car.badgeClass}">${car.badge}</div>` : '';
-            const oldHtml = car.old ? `<div class="card-old-price">${car.old}</div>` : '';
-            grid.append(`
-                <div class="product-card" data-cat="${car.cat}" style="display:none;">
-                    ${badgeHtml}
-                    <div class="card-img"><img src="${car.img}" alt="${car.name}" loading="lazy"></div>
-                    <div class="card-body">
-                        <div class="card-make">${car.make}</div>
-                        <div class="card-title">${car.name}</div>
-                        <div class="card-specs">${tagsHtml} <span class="spec-pill" style="color:var(--gold);border-color:rgba(201,168,76,0.3);">Free Port Shipping</span></div>
-                        <div class="card-footer-row">
-                            <div>
-                                <div class="card-price">${car.price}</div>
-                                ${oldHtml}
-                            </div>
-                            <div class="card-sold"><i class="fas fa-check-circle"></i> ${car.sold}</div>
-                        </div>
-                        <div class="btn-inquire" onclick="alert('Proceeding to export inquiry for ${car.make} ${car.name}')">Inquire Now</div>
-                    </div>
-                </div>
-            `);
-        });
-        $('.product-card').slice(0, itemsToShow).show();
-        currentVisible = Math.min(itemsToShow, filtered.length);
-        if ($('.product-card:hidden').length === 0) { $('#viewMoreBtn').hide(); }
-        else { $('#viewMoreBtn').show(); }
-    }
+  /* Load more */
+  $('#viewMoreBtn').click(function(){
+    const btn=$(this);btn.find('.fa-spinner').show();btn.prop('disabled',true);
+    setTimeout(()=>{
+      $('.product-card:hidden').slice(0,4).fadeIn(500);
+      if($('.product-card:hidden').length===0)btn.fadeOut();
+      btn.find('.fa-spinner').hide();btn.prop('disabled',false);
+    },600);
+  });
 
-    renderProducts('all');
+  /* Search */
+  $('#searchInput').on('keyup',function(){
+    const val=$(this).val().toLowerCase();
+    if(!val){renderProducts(activeFilter);return;}
+    $('.product-card').hide().filter(function(){return $(this).text().toLowerCase().includes(val);}).show();
+    $('#viewMoreBtn').hide();
+  });
 
-    /* ---- FILTER TABS ---- */
-    $('.filter-tab').click(function(){
-        activeFilter = $(this).data('filter');
-        $('.filter-tab').removeClass('active');
-        $(this).addClass('active');
-        itemsToShow = 4;
-        renderProducts(activeFilter);
-    });
+  /* Card clicks (delegated) */
+  $(document).on('click','.btn-inq',function(e){
+    e.stopPropagation();
+    const car=products.find(p=>p.id===parseInt($(this).data('id')));
+    if(car)openInqModal(car);
+  });
+  $(document).on('click','.btn-view-card',function(e){
+    e.stopPropagation();
+    openCarModal(parseInt($(this).data('id')));
+  });
+  $(document).on('click','.product-card',function(){
+    openCarModal(parseInt($(this).data('id')));
+  });
 
-    /* ---- LOAD MORE ---- */
-    $('#viewMoreBtn').click(function(){
-        const btn = $(this);
-        btn.find('.fa-spinner').show(); btn.prop('disabled', true);
-        setTimeout(function(){
-            $('.product-card:hidden').slice(0, 4).fadeIn(500);
-            if ($('.product-card:hidden').length === 0) btn.fadeOut();
-            btn.find('.fa-spinner').hide(); btn.prop('disabled', false);
-        }, 600);
-    });
+  /* Close modals */
+  $('#carModalClose').click(()=>closeModal('carModal'));
+  $('#inqModalClose').click(()=>closeModal('inqModal'));
+  $('#quoteModalClose').click(()=>closeModal('quoteModal'));
+  $('.modal-ov').click(function(e){if($(e.target).hasClass('modal-ov'))closeAllModals();});
+  $(document).keydown(function(e){if(e.key==='Escape')closeAllModals();});
 
-    /* ---- SEARCH ---- */
-    $('#searchInput').on('keyup', function(){
-        const val = $(this).val().toLowerCase();
-        if (val === '') {
-            renderProducts(activeFilter);
-        } else {
-            $('.product-card').hide().filter(function(){
-                return $(this).text().toLowerCase().includes(val);
-            }).show();
-            $('#viewMoreBtn').hide();
-        }
-    });
+  /* Inquiry form submit */
+  $('#inqForm').on('submit',function(e){
+    e.preventDefault();
+    closeModal('inqModal');
+    showToast('Inquiry sent! Our team will contact you within 24 hours.');
+  });
 
-    /* ---- SCROLL REVEAL ---- */
-    const observer = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-            if (entry.isIntersecting) { entry.target.classList.add('visible'); }
-        });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  /* Quote form submit */
+  $('#quoteForm').on('submit',function(e){
+    e.preventDefault();
+    closeAllModals();
+    showToast('Quote request received! We will respond within 24 hours.');
+  });
 
+  /* Scroll reveal */
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{if(en.isIntersecting)en.target.classList.add('vis');});
+  },{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  /* Mobile nav active state */
+  $('.mni').on('click',function(){$('.mni').removeClass('act');$(this).addClass('act');});
 });
 </script>
 </body>
