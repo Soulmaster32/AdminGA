@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Motors | Premium Cars</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==================== CSS UI/UX STYLES ==================== */
+        
+        /* CSS Reset and Variables */
+        :root {
+            --primary-color: #ff3b30; /* Sporty Red */
+            --bg-dark: #0f0f11;
+            --bg-card: #1c1c1f;
+            --text-light: #f4f4f5;
+            --text-muted: #a1a1aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: rgba(15, 15, 17, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        nav.scrolled {
+            padding: 15px 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
+                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-content h1 span {
+            color: var(--primary-color);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-inline: auto;
+            animation: fadeInUp 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        .hero-content .btn {
+            animation: fadeInUp 1s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .primary-btn {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .primary-btn:hover {
+            background-color: #d63026;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 59, 48, 0.4);
+        }
+
+        .secondary-btn {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .secondary-btn:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        /* Showroom Section */
+        .showroom {
+            padding: 80px 50px;
+            text-align: center;
+        }
+
+        .showroom h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .showroom h2 span {
+            color: var(--primary-color);
+        }
+
+        /* Filter UX */
+        .filter-container {
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--text-muted);
+            padding: 8px 20px;
+            margin: 0 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Car Cards UX */
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .car-card {
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #2a2a2d;
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 59, 48, 0.15);
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .car-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .car-info {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .car-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .car-info .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #000;
+            color: var(--text-muted);
+            border-top: 1px solid #2a2a2d;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive UI */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .showroom {
+                padding: 50px 20px;
+            }
+            .filter-btn {
+                margin: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HTML STRUCTURE ==================== -->
+    
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="logo">APEX<span>MOTORS</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#showroom">Showroom</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1>Drive Your <span>Dream</span></h1>
+            <p>Experience the thrill of luxury and performance. Discover our exclusive collection of premium vehicles tailored for you.</p>
+            <a href="#showroom" class="btn primary-btn">Explore Collection</a>
+        </div>
+    </header>
+
+    <!-- Showroom/Filter Section -->
+    <section id="showroom" class="showroom">
+        <h2>Our Featured <span>Models</span></h2>
+        
+        <!-- Filter Buttons -->
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">All Models</button>
+            <button class="filter-btn" data-filter="sports">Sports</button>
+            <button class="filter-btn" data-filter="luxury">Luxury</button>
+            <button class="filter-btn" data-filter="suv">SUV</button>
+        </div>
+
+        <!-- Car Grid -->
+        <div class="car-grid">
+            <!-- Car 1 -->
+            <div class="car-card sports">
+                <img src="https://images.unsplash.com/photo-1503376710356-70e698118848?auto=format&fit=crop&w=800&q=80" alt="Sports Car">
+                <div class="car-info">
+                    <h3>Porsche 911 Carrera</h3>
+                    <p class="price">$106,100</p>
+                    <button class="btn secondary-btn">View Details</button>
+                </div>
+            </div>
+            <!-- Car 2 -->
+            <div class="car-card luxury">
+                <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80" alt="Luxury Car">
+                <div class="car-info">
+                    <h3>BMW M5 Competition</h3>
+                    <p class="price">$135,000</p>
+                    <button class="btn secondary-btn">View Details</button>
+                </div>
+            </div>
+            <!-- Car 3 -->
+            <div class="car-card suv">
+                <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80" alt="SUV">
+                <div class="car-info">
+                    <h3>Range Rover Velar</h3>
+                    <p class="price">$60,300</p>
+                    <button class="btn secondary-btn">View Details</button>
+                </div>
+            </div>
+            <!-- Car 4 -->
+            <div class="car-card sports">
+                <img src="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=800&q=80" alt="Sports Car">
+                <div class="car-info">
+                    <h3>Ferrari F8 Tributo</h3>
+                    <p class="price">$276,550</p>
+                    <button class="btn secondary-btn">View Details</button>
+                </div>
+            </div>
+            <!-- Car 5 -->
+            <div class="car-card luxury">
+                <img src="https://images.unsplash.com/photo-1563720360172-67b8f3dce741?auto=format&fit=crop&w=800&q=80" alt="Luxury Car">
+                <div class="car-info">
+                    <h3>Mercedes-Benz S-Class</h3>
+                    <p class="price">$111,100</p>
+                    <button class="btn secondary-btn">View Details</button>
+                </div>
+            </div>
+            <!-- Car 6 -->
+            <div class="car-card suv">
+                <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=80" alt="SUV">
+                <div class="car-info">
+                    <h3>Mercedes-Benz G-Wagon</h3>
+                    <p class="price">$139,900</p>
+                    <button class="btn secondary-btn">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Apex Motors. Designed for Performance.</p>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT FOR UI INTERACTIVITY ==================== -->
+    <script>
+        // 1. Sticky Navbar Effect on Scroll (Improves UX by keeping navigation accessible)
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Interactive Car Category Filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const carCards = document.querySelectorAll('.car-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                // Get filter category from the clicked button
+                const filterValue = button.getAttribute('data-filter');
+
+                // Loop through all cars and filter them based on category
+                carCards.forEach(card => {
+                    if (filterValue === 'all') {
+                        card.style.display = 'block';
+                        // Small animation reset
+                        card.style.animation = 'fadeInUp 0.5s ease forwards';
+                    } else {
+                        if (card.classList.contains(filterValue)) {
+                            card.style.display = 'block';
+                            card.style.animation = 'fadeInUp 0.5s ease forwards';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
