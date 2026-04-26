@@ -1,19 +1,3 @@
-/* ================================================================
-   CONTROLPANEL.JS — Elite Route Admin Control Panel  v5.0
-
-   Enhancements v5.0:
-   - Admin Panel button in Navbar & Sidebar (wired via ER_ADMIN global)
-   - Map Location Settings (embed URL + address card details)
-   - Contact Details Management (phone, email, address)
-   - Social / Footer Links Management (WhatsApp, Instagram, LinkedIn,
-     Telegram, Facebook) editable from Admin Panel
-   - Services Editor (add / edit / remove service cards)
-   - Footer Quick Links & Inventory Links editor
-   - Improved Dashboard with 7-day activity chart
-   - Full CRUD for Cars with improved UX
-   - Per-card inquiry delete
-   - Settings: consolidated into tabbed settings pane
-================================================================ */
 
 (function () {
   'use strict';
