@@ -986,104 +986,59 @@
     </div><!-- /#er-panel -->
 
 
-    <!-- ==================== SCRIPTS ==================== -->
+
+
+
+
+<!-- ==================== JAVASCRIPT ==================== -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    
+    <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-    /* ================================================================
-       SUPABASE INIT
-    ================================================================ */
+    /* ==================== SUPABASE INITIALIZATION ==================== */
     const SUPABASE_URL = 'https://doycdipvtyflshhsxqqx.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRveWNkaXB2dHlmbHNoaHN4cXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNzczMjIsImV4cCI6MjA5Mjc1MzMyMn0.txaoSZw0DWdhICWnkDDTAFW_WqSkv6YdhHbMTlWLIwk';
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    /* ================================================================
-       PRODUCTS DATA
-    ================================================================ */
-    window.__er_productsBase = null; 
-    const products =[
-      {id:1,make:"Rolls-Royce",name:"Ghost Series II",badge:"LUXURY",bc:"luxury",price:"$380,000",old:"$410K",sold:"8 Exported",img:"https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1631295868223-63265b40d9e4?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop"],tags:["V12","LHD","Bespoke"],cat:"luxury",specs:{Engine:"6.75L Twin-Turbo V12",Power:"563 HP / 900 Nm",Transmission:"8-Speed Auto",Drive:"RWD","Top Speed":"250 km/h",Color:"Commissioned"},export:{Shipping:"RoRo / Container","Lead Time":"4–6 Weeks",Documentation:"Full Factory COC",Warranty:"4-Year Manufacturer",Origin:"Goodwood, UK","IBAN / LC":"Available"}},
-      {id:2,make:"Toyota",name:"Land Cruiser LC300 Armored VR7",badge:"ARMORED",bc:"",price:"On Request",old:"",sold:"45 Exported",img:"https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=900&auto=format&fit=crop"],tags:["B6/VR7","RHD/LHD","Armored"],cat:"suv",specs:{Engine:"3.5L Twin-Turbo V6",Power:"415 HP",Protection:"VR7 / B6+",Glass:"Ballistic Optiwhite",Weight:"~5,800 kg",Drive:"4WD"},export:{Shipping:"Container Only","Lead Time":"8–12 Weeks",Documentation:"Armourer Certificate",Warranty:"3-Year",Origin:"UAE / Japan","IBAN / LC":"Required"}},
-      {id:3,make:"Mercedes-Benz",name:"G63 AMG Carbon Edition",badge:"HOT",bc:"hot",price:"$215,000",old:"$230K",sold:"28 Exported",img:"https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=900&auto=format&fit=crop"],tags:["V8 Biturbo","577HP","LHD"],cat:"suv",specs:{Engine:"4.0L BiTurbo V8",Power:"577 HP / 850 Nm",Transmission:"9G-Tronic",Drive:"AMG 4MATIC+","Top Speed":"220 km/h",Color:"Multiple Available"},export:{Shipping:"RoRo / Container","Lead Time":"3–5 Weeks",Documentation:"EU COC",Warranty:"3-Year Mercedes",Origin:"Graz, Austria","IBAN / LC":"Available"}},
-      {id:4,make:"Bentley",name:"Continental GT Speed W12",badge:"LUXURY",bc:"luxury",price:"$280,000",old:"$295K",sold:"11 Exported",img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop"],tags:["W12","660HP","Mulliner"],cat:"luxury",specs:{Engine:"6.0L Twin-Turbo W12",Power:"660 HP / 900 Nm",Transmission:"8-Speed DCT",Drive:"AWD","Top Speed":"335 km/h",Config:"Mulliner Spec"},export:{Shipping:"Container","Lead Time":"5–8 Weeks",Documentation:"Bentley COC",Warranty:"3-Year Bentley",Origin:"Crewe, UK","IBAN / LC":"Available"}},
-      {id:5,make:"Lexus",name:"LX 600 Ultra Luxury VIP 4-Seat",badge:"PREMIUM",bc:"",price:"$135,000",old:"$145K",sold:"34 Exported",img:"https://images.unsplash.com/photo-1652538188151-5bb502bcaf7d?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1652538188151-5bb502bcaf7d?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop"],tags:["VIP 4-Seat","LHD","TNGA-F"],cat:"suv",specs:{Engine:"3.5L Twin-Turbo V6",Power:"409 HP",Seats:"4 (Ultra Luxury)",Suspension:"E-KDSS",Drive:"4WD",Features:"Rear Executive Lounge"},export:{Shipping:"RoRo / Container","Lead Time":"4–6 Weeks",Documentation:"JDM / GCC Spec",Warranty:"4-Year Lexus",Origin:"Japan","IBAN / LC":"Available"}},
-      {id:6,make:"Porsche",name:"911 GT3 RS Track Spec",badge:"EXOTIC",bc:"hot",price:"$290,000",old:"",sold:"3 Exported",img:"https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop"],tags:["Nat. Aspirated","525HP","Track"],cat:"exotic",specs:{Engine:"4.0L Flat-Six NA",Power:"525 HP / 465 Nm",Transmission:"7-Speed PDK",Drive:"RWD","Top Speed":"296 km/h",Downforce:"409 kg @ max speed"},export:{Shipping:"Climate Container","Lead Time":"6–10 Weeks",Documentation:"Porsche COC",Warranty:"2-Year Porsche",Origin:"Stuttgart, Germany","IBAN / LC":"Available"}},
-      {id:7,make:"Toyota",name:"Hilux Invincible X Fleet (×5)",badge:"FLEET",bc:"fleet",price:"$195,000",old:"$210K",sold:"200+ Exported",img:"https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop"],tags:["Diesel","Fleet×5","LHD/RHD"],cat:"fleet",specs:{Engine:"2.8L Turbodiesel",Power:"204 HP / 500 Nm",Transmission:"6-Speed Auto",Drive:"4WD / Diff Lock",Quantity:"Batch of 5",Payload:"1,000 kg"},export:{Shipping:"RoRo (×5 units)","Lead Time":"3–4 Weeks",Documentation:"Fleet COO + COC",Warranty:"3-Year Toyota",Origin:"Thailand","IBAN / LC":"Required for fleet"}},
-      {id:8,make:"Range Rover",name:"SV Autobiography LWB",badge:"LUXURY",bc:"luxury",price:"$180,000",old:"$195K",sold:"18 Exported",img:"https://images.unsplash.com/photo-1606016159991-dce8ea900241?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1606016159991-dce8ea900241?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1652538188151-5bb502bcaf7d?q=80&w=900&auto=format&fit=crop"],tags:["LWB","P530","SV Bespoke"],cat:"luxury",specs:{Engine:"4.4L Twin-Turbo V8",Power:"530 HP",Wheelbase:"Long (LWB)",Seats:"5 (SV Rear Suite opt.)",Drive:"AWD Air Suspension",Interior:"SV Bespoke Leather"},export:{Shipping:"Container","Lead Time":"5–7 Weeks",Documentation:"UK COC",Warranty:"5-Year JLR",Origin:"Solihull, UK","IBAN / LC":"Available"}},
-      {id:9,make:"Ferrari",name:"SF90 Stradale Assetto Fiorano",badge:"HYPER",bc:"hot",price:"On Request",old:"",sold:"2 Exported",img:"https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=900&auto=format&fit=crop"],tags:["Hybrid","1000HP","LHD"],cat:"exotic",specs:{Engine:"4.0L V8 + 3 Electric Motors",Power:"1,000 HP (Combined)",Transmission:"8-Speed DCT",Drive:"eAWD","Top Speed":"340 km/h","0–100 km/h":"2.5 seconds"},export:{Shipping:"Climate Container","Lead Time":"10–16 Weeks",Documentation:"Ferrari COC + Origin",Warranty:"3-Year Ferrari",Origin:"Maranello, Italy","IBAN / LC":"Required"}},
-      {id:10,make:"Rolls-Royce",name:"Cullinan Black Badge",badge:"LUXURY",bc:"luxury",price:"$420,000",old:"",sold:"5 Exported",img:"https://images.unsplash.com/photo-1631295868223-63265b40d9e4?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1631295868223-63265b40d9e4?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop"],tags:["V12","600HP","AWD"],cat:"suv",specs:{Engine:"6.75L BiTurbo V12",Power:"600 HP / 900 Nm",Transmission:"8-Speed Auto",Drive:"AWD","Top Speed":"250 km/h",Roof:"Retractable Panoramic"},export:{Shipping:"Container","Lead Time":"6–10 Weeks",Documentation:"Full Rolls-Royce COC",Warranty:"4-Year",Origin:"Goodwood, UK","IBAN / LC":"Available"}},
-      {id:11,make:"Bentley",name:"Bentayga Speed W12 Azure",badge:"LUXURY",bc:"luxury",price:"$240,000",old:"",sold:"7 Exported",img:"https://images.unsplash.com/photo-1633045330364-75468d605bd9?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1633045330364-75468d605bd9?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop"],tags:["W12","635HP","Azure"],cat:"luxury",specs:{Engine:"6.0L Twin-Turbo W12",Power:"635 HP",Transmission:"8-Speed Auto",Drive:"AWD","Top Speed":"306 km/h",Trim:"Azure (Lifestyle Spec)"},export:{Shipping:"Container","Lead Time":"5–8 Weeks",Documentation:"Bentley COC",Warranty:"3-Year Bentley",Origin:"Crewe, UK","IBAN / LC":"Available"}},
-      {id:12,make:"Chevrolet",name:"Tahoe Z71 Fleet (×10)",badge:"FLEET",bc:"fleet",price:"$750,000",old:"$820K",sold:"65 Exported",img:"https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=900&auto=format&fit=crop"],tags:["V8 6.2L","Fleet×10","LHD"],cat:"fleet",specs:{Engine:"6.2L EcoTec3 V8",Power:"420 HP / 624 Nm",Transmission:"10-Speed Auto",Drive:"4WD / Z71 Off-Road",Quantity:"Batch of 10",Seats:"8 Passenger"},export:{Shipping:"RoRo (×10 units)","Lead Time":"4–6 Weeks",Documentation:"Fleet COO + COC",Warranty:"3-Year GM",Origin:"USA","IBAN / LC":"Required for fleet"}}
-    ];
-
-    /* ── Expose globals ── */
-    window.ER = window.ER || {};
-    window.ER.getProducts    = ()    => products;
-    window.ER.setProducts    = (arr) => { products.length = 0; arr.forEach(p => products.push(p)); };
-    window.ER.getFilter      = ()    => activeFilter;
-    window.ER.rerender       = ()    => renderProducts(activeFilter);
-    window.ER.showToast      = (msg) => showToast(msg);
-
+    let products =[];
     let activeFilter = 'all', itemsToShow = 4;
 
-    /* ==================== FETCH INVENTORY GLOBALLY ==================== */
-    window.fetchInventory = async function() {
-        try {
-            const { data, error } = await sb.from('inventory').select('*').order('id', { ascending: false });
-            if (!error && data) {
-                const dbProducts = data.map(item => {
-                    let tagsArr =[];
-                    if (item.tags) {
-                        tagsArr = item.tags.split(',').map(t => t.trim());
-                    }
-                    return {
-                        id: item.id + '_sb', // Ensure no ID collisions
-                        make: item.make || '',
-                        name: item.name || '',
-                        badge: item.badge || '',
-                        bc: (item.badge || '').toLowerCase(),
-                        price: item.price || 'On Request',
-                        old: item.old_price || item.old || '',
-                        sold: item.sold || '',
-                        img: item.img || 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop',
-                        imgs:[item.img || 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop'],
-                        tags: tagsArr,
-                        cat: item.cat || 'luxury',
-                        specs: {
-                            Engine: item.engine || 'N/A',
-                            Power: item.power || 'N/A'
-                        },
-                        export: {
-                            Shipping: "RoRo / Container",
-                            Documentation: "Full Factory COC"
-                        }
-                    };
-                });
+    /* ==================== PRODUCTS SEED DATA ==================== */
+    const seedProducts =[
+      {make:"Rolls-Royce",name:"Ghost Series II",badge:"LUXURY",bc:"luxury",price:"$380,000",old:"$410K",sold:"8 Exported",img:"https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1631295868223-63265b40d9e4?q=80&w=900&auto=format&fit=crop"],tags:["V12","LHD","Bespoke"],cat:"luxury",specs:{Engine:"6.75L Twin-Turbo V12",Power:"563 HP / 900 Nm",Transmission:"8-Speed Auto",Drive:"RWD","Top Speed":"250 km/h"},export:{Shipping:"RoRo / Container","Lead Time":"4–6 Weeks",Documentation:"Full Factory COC"}},
+      {make:"Toyota",name:"Land Cruiser LC300 Armored VR7",badge:"ARMORED",bc:"",price:"On Request",old:"",sold:"45 Exported",img:"https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1629897048514-3dd74151e729?q=80&w=900&auto=format&fit=crop"],tags:["B6/VR7","RHD/LHD","Armored"],cat:"suv",specs:{Engine:"3.5L Twin-Turbo V6",Power:"415 HP",Protection:"VR7 / B6+"},export:{Shipping:"Container Only","Lead Time":"8–12 Weeks"}},
+      {make:"Mercedes-Benz",name:"G63 AMG Carbon Edition",badge:"HOT",bc:"hot",price:"$215,000",old:"$230K",sold:"28 Exported",img:"https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?q=80&w=900&auto=format&fit=crop"],tags:["V8 Biturbo","577HP","LHD"],cat:"suv",specs:{Engine:"4.0L BiTurbo V8",Power:"577 HP / 850 Nm",Transmission:"9G-Tronic"},export:{Shipping:"RoRo / Container","Lead Time":"3–5 Weeks",Documentation:"EU COC"}},
+      {make:"Bentley",name:"Continental GT Speed W12",badge:"LUXURY",bc:"luxury",price:"$280,000",old:"$295K",sold:"11 Exported",img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop"],tags:["W12","660HP","Mulliner"],cat:"luxury",specs:{Engine:"6.0L Twin-Turbo W12",Power:"660 HP / 900 Nm",Drive:"AWD"},export:{Shipping:"Container","Lead Time":"5–8 Weeks"}}
+    ];
 
-                // Clear previous Supabase items and merge with Static items
-                const staticProducts = products.filter(p => !String(p.id).endsWith('_sb'));
-                products.length = 0;
-                products.push(...dbProducts, ...staticProducts);
-                
-                // Re-render UI
-                renderProducts(activeFilter);
-            }
-        } catch (e) {
-            console.error('Fetch inventory error:', e);
+    /* ==================== LOAD & RENDER DATA ==================== */
+    async function loadInventory() {
+        let { data, error } = await supabase.from('inventory').select('*').order('id', { ascending: false });
+        
+        // Auto-seed database if empty so your site isn't blank
+        if (!error && (!data || data.length === 0)) {
+            await supabase.from('inventory').insert(seedProducts);
+            const res = await supabase.from('inventory').select('*').order('id', { ascending: false });
+            data = res.data;
         }
-    };
 
-    /* ==================== RENDER PRODUCTS ==================== */
+        products = data ||[];
+        renderProducts(activeFilter);
+    }
+
     function renderProducts(filter) {
         const grid = document.getElementById('productGrid');
         grid.innerHTML = '';
         const list = filter === 'all' ? products : products.filter(p => p.cat === filter);
 
         list.forEach(car => {
-            const tags = (car.tags ||[]).map(t => `<span class="spec-pill">${t}</span>`).join('');
-            const badge = car.badge ? `<div class="card-badge ${car.bc}">${car.badge}</div>` : '';
+            const safeTags = car.tags ||[];
+            const tags = safeTags.map(t => `<span class="spec-pill">${t}</span>`).join('');
+            const badge = car.badge ? `<div class="card-badge ${car.bc || ''}">${car.badge}</div>` : '';
+            const oldp = car.old ? `<div class="card-oldp">${car.old}</div>` : '';
             
             const card = document.createElement('div');
             card.className = 'product-card';
@@ -1091,50 +1046,44 @@
             card.style.display = 'none';
             card.innerHTML = `
                 ${badge}
-                <div class="card-img"><img src="${car.img}" alt="${car.name}" loading="lazy"></div>
+                <div class="card-img"><img src="${car.img || 'https://via.placeholder.com/600x400?text=No+Image'}" alt="${car.name}" loading="lazy"></div>
                 <div class="card-body">
                     <div class="card-make">${car.make}</div>
                     <div class="card-title">${car.name}</div>
-                    <div class="card-specs">${tags}<span class="spec-pill" style="color:var(--primary-color);border-color:rgba(255,59,48,.3)">For Export</span></div>
+                    <div class="card-specs">${tags}<span class="spec-pill" style="color:var(--primary-color);border-color:rgba(255,59,48,.3)">Free Port Ship</span></div>
                     <div class="card-bot">
-                        <div>
-                            <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary-color); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">For Export Only</div>
-                            <div style="font-size: 0.7rem; color: var(--text-muted); letter-spacing: 1px;"><i class="fas fa-info-circle"></i> View Details for Price</div>
-                        </div>
-                        <div class="card-sold"><i class="fas fa-check-circle"></i>${car.sold}</div>
+                        <div><div class="card-price">${car.price}</div>${oldp}</div>
+                        <div class="card-sold"><i class="fas fa-check-circle"></i>${car.sold || 'Available'}</div>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-inq" data-id="${car.id}"><i class="fas fa-file-alt"></i> Inquire Now</button>
+                        <button class="btn-inq" data-id="${car.id}"><i class="fas fa-file-alt"></i> Inquire</button>
                         <button class="btn-view-card" data-id="${car.id}" title="View Details"><i class="fas fa-expand-alt"></i></button>
                     </div>
                 </div>`;
             grid.appendChild(card);
         });
 
+        // Pagination Logic
         const allCards = grid.querySelectorAll('.product-card');
         allCards.forEach((card, i) => { if (i < itemsToShow) card.style.display = 'block'; });
-
-        const hiddenCount = grid.querySelectorAll('.product-card[style*="display: none"]').length +
-                            grid.querySelectorAll('.product-card[style="display:none"]').length;
-        document.getElementById('viewMoreBtn').style.display =
-            grid.querySelectorAll('.product-card:not([style*="display: block"])').length > 0 ? 'inline-flex' : 'none';
-
-        let shown = 0;
-        allCards.forEach(c => { if (c.style.display !== 'none') shown++; });
+        
+        let shown = Array.from(allCards).filter(c => c.style.display !== 'none').length;
         document.getElementById('viewMoreBtn').style.display = shown < allCards.length ? 'inline-block' : 'none';
     }
 
     /* ==================== OPEN CAR DETAIL MODAL ==================== */
     function openCarModal(id) {
-        const car = products.find(p => String(p.id) === String(id));
+        const car = products.find(p => p.id == id);
         if (!car) return;
 
-        document.getElementById('mHeroImg').src = (car.imgs || [])[0] || car.img;
+        const imgs = car.imgs && car.imgs.length > 0 ? car.imgs :[car.img];
+
+        document.getElementById('mHeroImg').src = imgs[0];
         document.getElementById('mHeroImg').alt = car.name;
 
         const gal = document.getElementById('mGallery');
         gal.innerHTML = '';
-        (car.imgs ||[]).forEach((url, i) => {
+        imgs.forEach((url, i) => {
             const img = document.createElement('img');
             img.src = url; img.loading = 'lazy';
             if (i === 0) img.classList.add('gal-active');
@@ -1147,22 +1096,22 @@
         });
 
         const badge = document.getElementById('mBadge');
-        if (car.badge) { badge.textContent = car.badge; badge.className = 'm-badge ' + car.bc; badge.style.display = ''; }
+        if (car.badge) { badge.textContent = car.badge; badge.className = 'm-badge ' + (car.bc || ''); badge.style.display = ''; }
         else { badge.style.display = 'none'; }
 
         document.getElementById('mMake').textContent = car.make;
         document.getElementById('mTitle').textContent = car.name;
-        document.getElementById('mSold').querySelector('span').textContent = car.sold;
+        document.getElementById('mSold').querySelector('span').textContent = car.sold || 'Available';
 
         const specsEl = document.getElementById('mSpecs');
         specsEl.innerHTML = '';
-        Object.entries(car.specs).forEach(([k, v]) => {
+        Object.entries(car.specs || {}).forEach(([k, v]) => {
             specsEl.innerHTML += `<div class="spec-row"><span class="sk">${k}</span><span class="sv">${v}</span></div>`;
         });
 
         const expEl = document.getElementById('mExport');
         expEl.innerHTML = '';
-        Object.entries(car.export).forEach(([k, v]) => {
+        Object.entries(car.export || {}).forEach(([k, v]) => {
             expEl.innerHTML += `<div class="spec-row"><span class="sk">${k}</span><span class="sv">${v}</span></div>`;
         });
 
@@ -1177,46 +1126,25 @@
         document.getElementById('mInqBtn').onclick = function () { closeModal('carModal'); openInqModal(car); };
         openModal('carModal');
     }
-    window.openCarModal = openCarModal;
 
     /* ==================== OPEN INQUIRY MODAL ==================== */
     function openInqModal(car) {
-        document.getElementById('inqImg').src = (car.imgs || [])[0] || car.img;
-        document.getElementById('inqImg').alt = car.name;
+        document.getElementById('inqImg').src = car.img;
         document.getElementById('inqTitle').textContent = `${car.make} ${car.name}`;
-        document.getElementById('inqSub').textContent = "Complete the form — we'll respond within 24 hours";
         document.getElementById('inqPrice').textContent = car.price || '—';
         const pills = document.getElementById('inqPills');
         pills.innerHTML = '';
         (car.tags ||[]).forEach(t => { pills.innerHTML += `<span class="inq-pill">${t}</span>`; });
-        
-        // Ensure Database ID format alignment
-        let realId = String(car.id).replace('_sb', '');
-        document.getElementById('inqForm').dataset.carId = realId;
-        document.getElementById('inqForm').dataset.carTitle = `${car.make} ${car.name}`;
-        document.getElementById('inqForm').dataset.carPrice = car.price;
-        
         openModal('inqModal');
     }
 
-    /* ==================== QUOTE MODAL ==================== */
     function openQuoteModal() { openModal('quoteModal'); }
 
-    /* ==================== MODAL UTILS ==================== */
-    function openModal(id) {
-        document.body.style.overflow = 'hidden';
-        document.getElementById(id).classList.add('open');
-    }
-    function closeModal(id) {
-        document.getElementById(id).classList.remove('open');
-        if (!document.querySelector('.modal-ov.open')) document.body.style.overflow = '';
-    }
-    function closeAllModals() {
-        document.querySelectorAll('.modal-ov').forEach(m => m.classList.remove('open'));
-        document.body.style.overflow = '';
-    }
-
-    /* ==================== TOAST ==================== */
+    /* ==================== MODAL UTILS & TOAST ==================== */
+    function openModal(id) { document.body.style.overflow = 'hidden'; document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); if (!document.querySelector('.modal-ov.open')) document.body.style.overflow = ''; }
+    function closeAllModals() { document.querySelectorAll('.modal-ov').forEach(m => m.classList.remove('open')); document.body.style.overflow = ''; }
+    
     function showToast(msg) {
         const t = document.getElementById('toast');
         document.getElementById('toastMsg').textContent = msg;
@@ -1224,312 +1152,23 @@
         setTimeout(() => t.classList.remove('show'), 3600);
     }
 
-    /* ================================================================
-       SUPABASE HELPERS — Save form submissions to DB
-    ================================================================ */
-    async function sbInsert(table, data) {
-        try {
-            const { error } = await sb.from(table).insert([data]);
-            if (error) { console.error(`Supabase [${table}] error:`, error); return false; }
-            return true;
-        } catch(e) { console.error('Supabase insert failed:', e); return false; }
-    }
-
-    /* Collect form values into an object */
-    function formToObj(form) {
-        const obj = {};
-        new FormData(form).forEach((v, k) => { if (v) obj[k] = v; });
-        return obj;
-    }
-
-    /* ================================================================
-       ADMIN PANEL — Auth
-    ================================================================ */
-    const ADMIN_CFG = Object.freeze({
-        PASSWORD: 'adminpass',
-        SESSION_TTL_MS: 30 * 60_000,
-        SK_AUTH: 'er_admin_auth',
-    });
-
-    function _sessionValid() {
-        try {
-            const r = sessionStorage.getItem(ADMIN_CFG.SK_AUTH);
-            if (!r) return false;
-            const { ok, ts } = JSON.parse(r);
-            return ok && (Date.now() - ts <= ADMIN_CFG.SESSION_TTL_MS);
-        } catch (_) { return false; }
-    }
-    function _sessionStart() { sessionStorage.setItem(ADMIN_CFG.SK_AUTH, JSON.stringify({ ok: true, ts: Date.now() })); }
-    function _sessionEnd() { sessionStorage.removeItem(ADMIN_CFG.SK_AUTH); }
-
-    /* ================================================================
-       ADMIN PANEL — Open / Close
-    ================================================================ */
-    function erOpen() {
-        const p = document.getElementById('er-panel');
-        p.classList.add('open');
-        setTimeout(() => p.classList.add('visible'), 10);
-        erCheckSession();
-    }
-    function erClose() {
-        const p = document.getElementById('er-panel');
-        p.classList.remove('visible');
-        setTimeout(() => p.classList.remove('open'), 300);
-    }
-    function erCheckSession() {
-        const valid = _sessionValid();
-        document.getElementById('er-login-view').style.display = valid ? 'none' : 'block';
-        document.getElementById('er-auth-view').style.display = valid ? 'block' : 'none';
-        if (valid) erRefreshAll();
-    }
-
-    function erSwitchTab(target) {
-        document.querySelectorAll('.er-tab[data-target]').forEach(t => t.classList.remove('on'));
-        document.querySelectorAll('.er-pane').forEach(p => p.classList.remove('on'));
-        const tab = document.querySelector(`.er-tab[data-target="${target}"]`);
-        if (tab) tab.classList.add('on');
-        const pane = document.getElementById(target);
-        if (pane) pane.classList.add('on');
-    }
-
-    /* ================================================================
-       ADMIN PANEL — Data Loading
-    ================================================================ */
-    async function erRefreshAll() {
-        erUpdateSupabaseStatus();
-        erLoadDashboard();
-    }
-
-    async function erUpdateSupabaseStatus() {
-        const dot = document.getElementById('er-dot');
-        const txt = document.getElementById('er-sb-txt');
-        try {
-            const { error } = await sb.from('inquiries').select('id', { count: 'exact', head: true });
-            if (error) throw error;
-            dot.className = 'er-dot green';
-            txt.textContent = 'Supabase connected — Database online';
-        } catch(e) {
-            dot.className = 'er-dot red';
-            txt.textContent = 'Supabase connection error — Check tables';
-        }
-    }
-
-    async function erLoadDashboard() {
-        // Get counts from supabase
-        const tables =['inquiries', 'quotes', 'inventory', 'contacts'];
-        const ids =['stat-inq', 'stat-quotes', 'stat-cars', 'stat-contacts'];
-
-        for (let i = 0; i < tables.length; i++) {
-            try {
-                const { count, error } = await sb.from(tables[i]).select('*', { count: 'exact', head: true });
-                document.getElementById(ids[i]).textContent = error ? '—' : (count || 0);
-            } catch(e) {
-                document.getElementById(ids[i]).textContent = '—';
-            }
-        }
-
-        // Recent activity from all tables
-        erLoadRecentActivity();
-    }
-
-    async function erLoadRecentActivity() {
-        const wrap = document.getElementById('pane-recent');
-        wrap.innerHTML = '<div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading…</div>';
-
-        let rows =[];
-        const tables =[
-            { name: 'inquiries', label: 'Inquiry', badge: 'er-badge-red' },
-            { name: 'quotes', label: 'Quote', badge: 'er-badge-blue' },
-            { name: 'contacts', label: 'Contact', badge: 'er-badge-green' },
-        ];
-
-        for (const t of tables) {
-            try {
-                const { data, error } = await sb.from(t.name).select('*').order('created_at', { ascending: false }).limit(5);
-                if (!error && data) data.forEach(r => rows.push({ ...r, _type: t.label, _badge: t.badge }));
-            } catch(e) {}
-        }
-
-        // Sort by created_at
-        rows.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        rows = rows.slice(0, 10);
-
-        if (!rows.length) {
-            wrap.innerHTML = '<div class="er-empty"><i class="fas fa-inbox" style="font-size:1.5rem;margin-bottom:8px;display:block;color:#3f3f46"></i>No recent activity yet. Submissions will appear here.</div>';
-            return;
-        }
-
-        wrap.innerHTML = `<table class="er-tbl">
-            <thead><tr><th>Type</th><th>Name</th><th>Email</th><th>Date</th></tr></thead>
-            <tbody>${rows.map(r => `
-                <tr>
-                    <td><span class="er-badge ${r._badge}">${r._type}</span></td>
-                    <td>${r.name || '—'}</td>
-                    <td>${r.email ? `<a href="mailto:${r.email}" style="color:#ff3b30">${r.email}</a>` : '—'}</td>
-                    <td style="color:#71717a;font-size:.75rem;">${r.created_at ? new Date(r.created_at).toLocaleString() : '—'}</td>
-                </tr>`).join('')}
-            </tbody></table>`;
-    }
-
-    async function erLoadInquiries() {
-        const wrap = document.getElementById('er-inq-wrap');
-        wrap.innerHTML = '<div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading from Supabase…</div>';
-        try {
-            const { data, error } = await sb.from('inquiries').select('*').order('created_at', { ascending: false });
-            if (error) throw error;
-            if (!data.length) { wrap.innerHTML = '<div class="er-empty"><i class="fas fa-envelope-open" style="font-size:1.5rem;margin-bottom:8px;display:block;color:#3f3f46"></i>No vehicle inquiries yet.</div>'; return; }
-            wrap.innerHTML = `<table class="er-tbl">
-                <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Phone</th><th>Vehicle</th><th>Destination</th><th>Action</th></tr></thead>
-                <tbody>${data.map(r => `<tr>
-                    <td style="color:#71717a;font-size:.72rem;">${r.created_at ? new Date(r.created_at).toLocaleDateString() : '—'}</td>
-                    <td><strong>${r.name || '—'}</strong></td>
-                    <td>${r.email ? `<a href="mailto:${r.email}" style="color:#ff3b30">${r.email}</a>` : '—'}</td>
-                    <td style="color:#a1a1aa">${r.phone || '—'}</td>
-                    <td><span style="color:#f4f4f5">${r.car_title || '—'}</span>${r.car_price ? `<br><span style="color:#ff3b30;font-size:.68rem">${r.car_price}</span>` : ''}</td>
-                    <td style="color:#a1a1aa;font-size:.75rem">${r.destination || '—'}</td>
-                    <td><button class="er-btn-danger" onclick="erDeleteRecord('inquiries','${r.id}',this)"><i class="fas fa-trash"></i></button></td>
-                </tr>`).join('')}
-                </tbody></table>`;
-        } catch(e) {
-            wrap.innerHTML = `<div class="er-empty" style="color:#ff3b30"><i class="fas fa-exclamation-circle"></i> Error: ${e.message}</div>`;
-        }
-    }
-
-    async function erLoadQuotes() {
-        const wrap = document.getElementById('er-quotes-wrap');
-        wrap.innerHTML = '<div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading from Supabase…</div>';
-        try {
-            const { data, error } = await sb.from('quotes').select('*').order('created_at', { ascending: false });
-            if (error) throw error;
-            if (!data.length) { wrap.innerHTML = '<div class="er-empty"><i class="fas fa-file-alt" style="font-size:1.5rem;margin-bottom:8px;display:block;color:#3f3f46"></i>No quote requests yet.</div>'; return; }
-            wrap.innerHTML = `<table class="er-tbl">
-                <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Vehicle Interest</th><th>Destination</th><th>Budget</th><th>Action</th></tr></thead>
-                <tbody>${data.map(r => `<tr>
-                    <td style="color:#71717a;font-size:.72rem;">${r.created_at ? new Date(r.created_at).toLocaleDateString() : '—'}</td>
-                    <td><strong>${r.name || '—'}</strong></td>
-                    <td>${r.email ? `<a href="mailto:${r.email}" style="color:#ff3b30">${r.email}</a>` : '—'}</td>
-                    <td>${r.vehicle_interest || r.vehicle || '—'}</td>
-                    <td style="color:#a1a1aa">${r.destination || '—'}</td>
-                    <td><span class="er-badge er-badge-blue">${r.budget || '—'}</span></td>
-                    <td><button class="er-btn-danger" onclick="erDeleteRecord('quotes','${r.id}',this)"><i class="fas fa-trash"></i></button></td>
-                </tr>`).join('')}
-                </tbody></table>`;
-        } catch(e) {
-            wrap.innerHTML = `<div class="er-empty" style="color:#ff3b30"><i class="fas fa-exclamation-circle"></i> Error: ${e.message}</div>`;
-        }
-    }
-
-    async function erLoadInventory() {
-        const wrap = document.getElementById('er-inv-wrap');
-        wrap.innerHTML = '<div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading…</div>';
-        try {
-            const { data, error } = await sb.from('inventory').select('*').order('created_at', { ascending: false });
-            if (error) throw error;
-
-            // Only map the default non-Supabase products as Built-In
-            const staticProducts = products.filter(p => !String(p.id).endsWith('_sb'));
-            const builtIn = staticProducts.map(p => ({
-                id: `local-${p.id}`, make: p.make, name: p.name, price: p.price,
-                cat: p.cat, badge: p.badge, engine: p.specs?.Engine || '—',
-                power: p.specs?.Power || '—', _source: 'Built-in'
-            }));
-
-            const dbItems = (data ||[]).map(r => ({ ...r, _source: 'Supabase' }));
-            const all = [...dbItems, ...builtIn];
-
-            if (!all.length) { wrap.innerHTML = '<div class="er-empty">No inventory records.</div>'; return; }
-
-            wrap.innerHTML = `<table class="er-tbl">
-                <thead><tr><th>Source</th><th>Make &amp; Model</th><th>Price</th><th>Category</th><th>Engine</th><th>Power</th><th>Action</th></tr></thead>
-                <tbody>${all.map(r => `<tr>
-                    <td><span class="er-badge ${r._source === 'Supabase' ? 'er-badge-green' : 'er-badge-blue'}">${r._source}</span></td>
-                    <td><strong>${r.make}</strong> ${r.name}</td>
-                    <td style="color:#ff3b30;font-weight:700">${r.price}</td>
-                    <td><span style="text-transform:uppercase;font-size:.65rem;color:#a1a1aa">${r.cat || '—'}</span></td>
-                    <td style="color:#a1a1aa;font-size:.75rem">${r.engine || '—'}</td>
-                    <td style="color:#a1a1aa;font-size:.75rem">${r.power || '—'}</td>
-                    <td>${r._source === 'Supabase' ? `<button class="er-btn-danger" onclick="erDeleteRecord('inventory','${r.id}',this)"><i class="fas fa-trash"></i></button>` : '<span style="color:#52525b;font-size:.7rem">—</span>'}</td>
-                </tr>`).join('')}
-                </tbody></table>`;
-        } catch(e) {
-            // Fallback to built-in products only
-            const staticProducts = products.filter(p => !String(p.id).endsWith('_sb'));
-            const builtIn = staticProducts;
-            wrap.innerHTML = `<div style="margin-bottom:12px;padding:10px 14px;background:rgba(255,59,48,.07);border-radius:6px;font-size:.76rem;color:#ff3b30;"><i class="fas fa-info-circle"></i> Showing built-in inventory only. Supabase inventory table may not exist yet.</div>
-            <table class="er-tbl">
-                <thead><tr><th>#</th><th>Make &amp; Model</th><th>Price</th><th>Category</th><th>Status</th></tr></thead>
-                <tbody>${builtIn.map(p => `<tr>
-                    <td style="color:#52525b">#${p.id}</td>
-                    <td><strong>${p.make}</strong> ${p.name}</td>
-                    <td style="color:#ff3b30;font-weight:700">${p.price}</td>
-                    <td><span style="text-transform:uppercase;font-size:.65rem;color:#a1a1aa">${p.cat}</span></td>
-                    <td><span style="color:#25d366;font-size:.75rem"><i class="fas fa-check-circle"></i> Listed</span></td>
-                </tr>`).join('')}
-                </tbody></table>`;
-        }
-    }
-
-    async function erDeleteRecord(table, id, btn) {
-        if (!confirm('Delete this record from Supabase?')) return;
-        btn.disabled = true; btn.textContent = '…';
-        try {
-            const { error } = await sb.from(table).delete().eq('id', id);
-            if (error) throw error;
-            btn.closest('tr').remove();
-            showToast('Record deleted successfully.');
-            erLoadDashboard();
-            if (table === 'inventory') window.fetchInventory(); // Resync Grid Dynamically
-        } catch(e) {
-            btn.textContent = '✗';
-            alert('Delete failed: ' + e.message);
-        }
-    }
-
-    /* ================================================================
-       ADMIN PANEL — Add Vehicle Form
-    ================================================================ */
-    document.getElementById('er-add-car-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const msgEl = document.getElementById('er-add-car-msg');
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const fd = new FormData(this);
-        const data = {};
-        fd.forEach((v, k) => { if(v) data[k] = v; });
-
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
-        msgEl.style.display = 'none';
-
-        const ok = await sbInsert('inventory', data);
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-save"></i> Save to Supabase';
-
-        if (ok) {
-            msgEl.style.display = 'block';
-            msgEl.style.color = '#25d366';
-            msgEl.innerHTML = '<i class="fas fa-check-circle"></i> Vehicle saved to Supabase inventory successfully!';
-            this.reset();
-            erLoadDashboard();
-            window.fetchInventory(); // Resync front-end grid dynamically
-        } else {
-            msgEl.style.display = 'block';
-            msgEl.style.color = '#ff3b30';
-            msgEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error saving to Supabase. Check that the <code>inventory</code> table exists.';
-        }
-    });
-
-    /* ================================================================
-       INIT — DOMContentLoaded
-    ================================================================ */
+    /* ==================== INIT ==================== */
     document.addEventListener('DOMContentLoaded', function () {
 
-        // Hero Slider
-        const $sl = $('.hero-slider').slick({ autoplay: true, autoplaySpeed: 5500, speed: 1200, fade: true, cssEase: 'cubic-bezier(.77,0,.175,1)', dots: true, arrows: false, pauseOnHover: false });
+        // Setup Real-time updates from Control Panel
+        supabase.channel('public:inventory').on('postgres_changes', { event: '*', schema: 'public', table: 'inventory' }, payload => {
+            loadInventory(); // Auto reload catalog if admin changes anything!
+        }).subscribe();
+
+        // Load the cars
+        loadInventory();
+
+        // Hero Slider Initialization
+        const $sl = $('.hero-slider').slick({ autoplay: true, autoplaySpeed: 5500, speed: 1200, fade: true, dots: true, arrows: false, pauseOnHover: false });
         $('#heroNext').on('click', () => $sl.slick('slickNext'));
         $('#heroPrev').on('click', () => $sl.slick('slickPrev'));
 
-        // Sticky Navbar
-        window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
+        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
 
         // Sidebar
         document.getElementById('burgerBtn').addEventListener('click', () => { document.getElementById('sidebar').classList.add('on'); document.getElementById('sideOv').classList.add('on'); });
@@ -1538,14 +1177,9 @@
         document.getElementById('sideOv').addEventListener('click', closeSidebar);
         document.querySelectorAll('.sb-nav a').forEach(a => a.addEventListener('click', closeSidebar));
 
-        // Quote buttons
+        // Header & Mobile Quote buttons
         document.getElementById('hdrQuoteBtn').addEventListener('click', openQuoteModal);
         document.getElementById('mobQuoteBtn').addEventListener('click', openQuoteModal);
-
-        // Render Local Defaults 
-        renderProducts('all');
-        // Fetch Supabase data seamlessly and prepend 
-        window.fetchInventory();
 
         // Filter tabs
         document.querySelectorAll('.ftab').forEach(btn => {
@@ -1564,12 +1198,10 @@
             btn.querySelector('.fa-spinner').style.display = 'inline-block';
             btn.disabled = true;
             setTimeout(() => {
-                const hidden = document.querySelectorAll('#productGrid .product-card[style*="display: none"]');
-                let shown = 0;
-                hidden.forEach(c => { if (shown < 4) { c.style.display = 'block'; shown++; } });
+                itemsToShow += 4;
+                renderProducts(activeFilter);
                 btn.querySelector('.fa-spinner').style.display = 'none';
                 btn.disabled = false;
-                if (document.querySelectorAll('#productGrid .product-card[style*="display: none"]').length === 0) { btn.style.display = 'none'; }
             }, 600);
         });
 
@@ -1577,25 +1209,20 @@
         document.getElementById('searchInput').addEventListener('keyup', function () {
             const val = this.value.toLowerCase();
             if (!val) { renderProducts(activeFilter); return; }
-            document.querySelectorAll('.product-card').forEach(c => { c.style.display = c.textContent.toLowerCase().includes(val) ? 'block' : 'none'; });
+            document.querySelectorAll('.product-card').forEach(c => {
+                c.style.display = c.textContent.toLowerCase().includes(val) ? 'block' : 'none';
+            });
             document.getElementById('viewMoreBtn').style.display = 'none';
         });
 
-        // Card clicks (delegated matching converted to String comparison)
+        // Card clicks
         document.getElementById('productGrid').addEventListener('click', function (e) {
             const inqBtn = e.target.closest('.btn-inq');
             const viewBtn = e.target.closest('.btn-view-card');
             const card = e.target.closest('.product-card');
-            if (inqBtn) {
-                e.stopPropagation();
-                const car = products.find(p => String(p.id) === String(inqBtn.dataset.id));
-                if (car) openInqModal(car);
-            } else if (viewBtn) {
-                e.stopPropagation();
-                openCarModal(viewBtn.dataset.id);
-            } else if (card) {
-                openCarModal(card.dataset.id);
-            }
+            if (inqBtn) { e.stopPropagation(); const car = products.find(p => p.id == inqBtn.dataset.id); if (car) openInqModal(car); } 
+            else if (viewBtn) { e.stopPropagation(); openCarModal(viewBtn.dataset.id); } 
+            else if (card) { openCarModal(card.dataset.id); }
         });
 
         // Close modals
@@ -1605,129 +1232,108 @@
         document.querySelectorAll('.modal-ov').forEach(m => { m.addEventListener('click', function (e) { if (e.target === this) closeAllModals(); }); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllModals(); });
 
-        /* ---- FORM SUBMISSIONS — Save to Supabase ---- */
-
-        // Vehicle Inquiry Form
+        /* ==================== FORM SUBMISSIONS TO SUPABASE ==================== */
+        
+        // 1. Specific Car Inquiry Form
         document.getElementById('inqForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            const btn = this.querySelector('.btn-sub');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+            const btn = this.querySelector('button[type="submit"]');
+            const origHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            
+            const inputs = this.querySelectorAll('input, select, textarea');
+            const { error } = await supabase.from('inquiries').insert([{
+                name: inputs[0].value,
+                email: inputs[1].value,
+                phone: inputs[2].value,
+                destination: inputs[3].value,
+                notes: inputs[4].value,
+                car_title: document.getElementById('inqTitle').textContent
+            }]);
 
-            const data = {
-                name: this.querySelector('[name="name"]').value,
-                email: this.querySelector('[name="email"]').value,
-                phone: this.querySelector('[name="phone"]').value,
-                destination: this.querySelector('[name="destination"]').value,
-                notes: this.querySelector('[name="notes"]').value,
-                car_id: this.dataset.carId || null,
-                car_title: this.dataset.carTitle || null,
-                car_price: this.dataset.carPrice || null,
-            };
-
-            const ok = await sbInsert('inquiries', data);
-            btn.disabled = false;
-            btn.innerHTML = 'Send Inquiry &nbsp;<i class="fas fa-paper-plane"></i>';
-
-            closeModal('inqModal');
-            showToast(ok ? 'Inquiry sent! Our team will contact you within 24 hours.' : 'Inquiry sent! (Offline mode — check Supabase tables)');
+            btn.innerHTML = origHTML;
+            if (!error) { showToast('Inquiry sent! Our team will contact you within 24 hours.'); closeModal('inqModal'); this.reset(); }
+            else showToast('Error sending request. Please try again.');
         });
 
-        // Quote Form (Mapped `vehicle_interest` compatible with external control panel code)
+        // 2. General Quote Form
         document.getElementById('quoteForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            const btn = this.querySelector('.btn-sub');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+            const btn = this.querySelector('button[type="submit"]');
+            const origHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
-            const data = {
-                name: this.querySelector('[name="name"]').value,
-                email: this.querySelector('[name="email"]').value,
-                vehicle_interest: this.querySelector('[name="vehicle"]').value,
-                destination: this.querySelector('[name="destination"]').value,
-                budget: this.querySelector('[name="budget"]').value,
-                message: this.querySelector('[name="message"]').value,
-            };
+            const inputs = this.querySelectorAll('input, select, textarea');
+            const { error } = await supabase.from('quotes').insert([{
+                name: inputs[0].value,
+                email: inputs[1].value,
+                vehicle_interest: inputs[2].value,
+                destination: inputs[3].value,
+                budget: inputs[4].value,
+                message: inputs[5].value
+            }]);
 
-            const ok = await sbInsert('quotes', data);
-            btn.disabled = false;
-            btn.innerHTML = 'Submit Quote Request &nbsp;<i class="fas fa-paper-plane"></i>';
-
-            closeAllModals();
-            showToast(ok ? 'Quote request received! We will respond within 24 hours.' : 'Quote received! (Check Supabase tables)');
+            btn.innerHTML = origHTML;
+            if (!error) { showToast('Quote request received! We will respond within 24 hours.'); closeAllModals(); this.reset(); }
+            else showToast('Error sending request. Please try again.');
         });
 
-        // Contact Form
-        document.getElementById('contactForm').addEventListener('submit', async function (e) {
+        // 3. Contact Form (in section#contact)
+        const contactForm = document.querySelector('#contact form');
+        contactForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-            const btn = this.querySelector('.btn-sub');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+            const btn = this.querySelector('button[type="submit"]');
+            const origHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
-            const data = {
-                name: this.querySelector('[name="name"]').value,
-                email: this.querySelector('[name="email"]').value,
-                destination: this.querySelector('[name="destination"]').value,
-                message: this.querySelector('[name="message"]').value,
-            };
+            const inputs = this.querySelectorAll('input, textarea');
+            const { error } = await supabase.from('quotes').insert([{
+                name: inputs[0].value,
+                email: inputs[1].value,
+                destination: inputs[2].value,
+                message: inputs[3].value,
+                vehicle_interest: 'Contact Page Inquiry',
+                budget: 'N/A'
+            }]);
 
-            const ok = await sbInsert('contacts', data);
-            btn.disabled = false;
-            btn.innerHTML = 'Submit Inquiry &nbsp;<i class="fas fa-paper-plane"></i>';
-
-            this.reset();
-            showToast(ok ? 'Your inquiry has been sent. We\'ll contact you within 24 hours.' : 'Inquiry sent! (Check Supabase tables)');
+            btn.innerHTML = origHTML;
+            if (!error) { showToast('Your inquiry has been sent. We\'ll contact you within 24 hours.'); this.reset(); }
+            else showToast('Error sending request. Please try again.');
         });
 
-        // Scroll reveal
         const obs = new IntersectionObserver(entries => { entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('vis'); }); }, { threshold: .1 });
         document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-        // Mobile nav active state
         document.querySelectorAll('.mni').forEach(btn => {
-            btn.addEventListener('click', function () {
-                document.querySelectorAll('.mni').forEach(b => b.classList.remove('act'));
-                this.classList.add('act');
-            });
+            btn.addEventListener('click', function () { document.querySelectorAll('.mni').forEach(b => b.classList.remove('act')); this.classList.add('act'); });
         });
+    });
+          </script>
 
-        /* ---- ADMIN PANEL EVENTS ---- */
-        document.getElementById('navAdminTrigger').addEventListener('click', erOpen);
-        document.getElementById('er-close').addEventListener('click', erClose);
 
-        // Login
-        document.getElementById('er-login-btn').addEventListener('click', () => {
-            const pwd = document.getElementById('er-pwd').value;
-            const errEl = document.getElementById('er-login-err');
-            if (pwd === ADMIN_CFG.PASSWORD) {
-                _sessionStart();
-                document.getElementById('er-pwd').value = '';
-                errEl.style.display = 'none';
-                erCheckSession();
-            } else {
-                errEl.style.display = 'block';
-            }
-        });
-        document.getElementById('er-pwd').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('er-login-btn').click(); });
 
-        // Logout
-        document.getElementById('er-logout-tab').addEventListener('click', () => { _sessionEnd(); erCheckSession(); });
 
-        // Tab switching
-        document.querySelectorAll('.er-tab[data-target]').forEach(tab => {
-            tab.addEventListener('click', function () {
-                const target = this.dataset.target;
-                erSwitchTab(target);
-                // Lazy-load pane data on tab click
-                if (target === 'pane-inq') erLoadInquiries();
-                else if (target === 'pane-quotes') erLoadQuotes();
-                else if (target === 'pane-cars') erLoadInventory();
-            });
-        });
 
-    }); // end DOMContentLoaded
 
-    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+                                
     <script src="js/sect.js"></script>
     <script src="js/loading.js"></script>
     <script src="js/controlpanel.js"></script>
