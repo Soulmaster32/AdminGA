@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,6 +85,8 @@
         .nav-links a:hover::after { width: 100%; }
         .btn-qte { padding: 8px 20px; background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); font-weight: 700; font-size: .8rem; letter-spacing: 2px; text-transform: uppercase; transition: .3s; border-radius: 4px; }
         .btn-qte:hover { background: var(--primary-color); color: #fff; }
+        #navAdminTrigger { padding: 8px 14px; background: rgba(255,59,48,.08); border: 1px solid rgba(255,59,48,.3); color: var(--primary-color); font-size: .78rem; border-radius: 4px; margin-left: 10px; transition: .3s; }
+        #navAdminTrigger:hover { background: var(--primary-color); color: #fff; }
 
         /* ==================== HERO SECTION ==================== */
         .hero { height: 100vh; position: relative; overflow: hidden; }
@@ -369,6 +372,74 @@
         @keyframes lineSlide { 0% { left: -100%; } 50% { left: 0; } 100% { left: 100%; } }
         @media (max-width: 768px) { .dream-content h1 { font-size: 3.2rem; } .dream-content { margin-left: 5%; max-width: 92%; } }
         @media (max-width: 480px) { .dream-content h1 { font-size: 2.6rem; } }
+
+        /* ==================== ADMIN CONTROL PANEL STYLES ==================== */
+        #er-panel{display:none;position:fixed;inset:0;z-index:9100;background:rgba(0,0,0,.94);backdrop-filter:blur(14px);justify-content:center;align-items:flex-start;overflow-y:auto;padding:0;opacity:0;transition:opacity .3s ease;}
+        #er-panel.open{display:flex;}
+        #er-panel.open.visible{opacity:1;}
+        .erb{background:#111113;border:1px solid rgba(255,59,48,.22);border-radius:14px;width:100%;max-width:960px;margin:50px 14px;box-shadow:0 24px 80px rgba(0,0,0,.95);font-family:'Montserrat',sans-serif;overflow:hidden;}
+        .erb-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 26px;background:linear-gradient(90deg,#0c0c0e,#151517);border-bottom:1px solid rgba(255,59,48,.16);}
+        .erb-logo{font-size:1.05rem;font-weight:700;letter-spacing:3px;color:#f4f4f5;}
+        .erb-logo span{color:#ff3b30;}
+        .erb-logo small{display:block;font-size:.55rem;color:#71717a;letter-spacing:2px;margin-top:2px;font-weight:500;}
+        .erb-x{background:none;border:1px solid rgba(255,255,255,.1);color:#a1a1aa;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.88rem;cursor:pointer;transition:.2s;}
+        .erb-x:hover{background:#ff3b30;border-color:#ff3b30;color:#fff;}
+        .er-login{max-width:340px;margin:60px auto;text-align:center;padding:0 24px 60px;}
+        .er-login h3{font-size:1.4rem;font-weight:700;color:#f4f4f5;margin-bottom:8px;}
+        .er-login p{font-size:.78rem;color:#71717a;margin-bottom:22px;}
+        .er-inp{width:100%;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#f4f4f5;border-radius:7px;margin-bottom:15px;font-family:inherit;outline:none;font-size:.88rem;}
+        .er-inp:focus{border-color:#ff3b30;}
+        .er-btn{padding:11px 22px;background:#ff3b30;border:none;color:#fff;font-weight:700;text-transform:uppercase;border-radius:7px;cursor:pointer;transition:.2s;font-family:inherit;font-size:.82rem;letter-spacing:1px;}
+        .er-btn:hover{background:#d63026;}
+        .er-btn-sm{padding:4px 10px;font-size:.65rem;letter-spacing:.5px;border-radius:5px;}
+        .er-btn-danger{background:rgba(255,59,48,.15);border:1px solid rgba(255,59,48,.3);color:#ff3b30;padding:4px 10px;font-size:.65rem;border-radius:5px;cursor:pointer;transition:.2s;font-family:inherit;font-weight:700;}
+        .er-btn-danger:hover{background:#ff3b30;color:#fff;}
+        .er-btn-success{background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.3);color:#25d366;padding:4px 10px;font-size:.65rem;border-radius:5px;cursor:pointer;transition:.2s;font-family:inherit;font-weight:700;}
+        .er-auth-view{display:none;}
+        .er-tabs{display:flex;background:#0f0f11;border-bottom:1px solid rgba(255,255,255,.05);overflow-x:auto;}
+        .er-tab{padding:13px 20px;font-size:.72rem;font-weight:700;text-transform:uppercase;color:#71717a;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.2s;}
+        .er-tab.on{color:#ff3b30;border-bottom-color:#ff3b30;}
+        .er-tab:hover:not(.on){color:#a1a1aa;}
+        .er-pane{display:none;padding:26px;}
+        .er-pane.on{display:block;}
+        .er-tbl{width:100%;border-collapse:collapse;color:#f4f4f5;font-size:0.82rem;}
+        .er-tbl th{text-align:left;color:#71717a;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);text-transform:uppercase;font-size:0.65rem;letter-spacing:1px;}
+        .er-tbl td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
+        .er-tbl tr:hover td{background:rgba(255,255,255,.02);}
+        .er-stat-row{display:flex;gap:15px;margin-bottom:22px;flex-wrap:wrap;}
+        .er-stat-card{background:rgba(255,59,48,.06);border:1px solid rgba(255,59,48,.14);border-radius:8px;padding:20px;text-align:center;flex:1;min-width:120px;}
+        .er-stat-num{font-size:2rem;color:#ff3b30;font-weight:700;line-height:1;}
+        .er-stat-lbl{font-size:0.65rem;color:#71717a;text-transform:uppercase;margin-top:6px;letter-spacing:1px;}
+        .er-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+        .er-section-hdr h4{color:#f4f4f5;font-size:.9rem;font-weight:700;letter-spacing:1px;}
+        .er-badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+        .er-badge-red{background:rgba(255,59,48,.15);color:#ff3b30;border:1px solid rgba(255,59,48,.25);}
+        .er-badge-green{background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.2);}
+        .er-badge-blue{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2);}
+        .er-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+        .er-form-group{margin-bottom:14px;}
+        .er-form-group label{display:block;font-size:.65rem;color:#71717a;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
+        .er-form-group input,.er-form-group select,.er-form-group textarea{width:100%;padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#f4f4f5;border-radius:6px;font-family:inherit;font-size:.82rem;outline:none;transition:.2s;}
+        .er-form-group input:focus,.er-form-group select:focus,.er-form-group textarea:focus{border-color:#ff3b30;}
+        .er-form-group select option{background:#1c1c1f;}
+        .er-supabase-status{display:flex;align-items:center;gap:8px;font-size:.7rem;color:#71717a;padding:8px 14px;background:rgba(255,255,255,.03);border-radius:6px;border:1px solid rgba(255,255,255,.06);}
+        .er-dot{width:7px;height:7px;border-radius:50%;background:#71717a;flex-shrink:0;transition:.3s;}
+        .er-dot.green{background:#25d366;box-shadow:0 0 6px rgba(37,211,102,.4);}
+        .er-dot.red{background:#ff3b30;box-shadow:0 0 6px rgba(255,59,48,.4);}
+        .er-loading{text-align:center;padding:30px;color:#71717a;font-size:.8rem;}
+        .er-empty{text-align:center;padding:40px;color:#52525b;font-size:.82rem;}
+        .er-detail-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:16px;margin-bottom:12px;}
+        .er-detail-card h5{font-size:.7rem;color:#ff3b30;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;font-weight:700;}
+        .er-kv{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.8rem;}
+        .er-kv:last-child{border:none;}
+        .er-kv .k{color:#71717a;}
+        .er-kv .v{color:#f4f4f5;font-weight:500;text-align:right;max-width:60%;}
+        /* Modal for adding vehicles */
+        #er-add-car-modal{display:none;position:fixed;inset:0;z-index:9200;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);justify-content:center;align-items:center;padding:20px;}
+        #er-add-car-modal.open{display:flex;}
+        .er-modal-box{background:#111113;border:1px solid rgba(255,59,48,.2);border-radius:12px;width:100%;max-width:640px;max-height:85vh;overflow-y:auto;padding:28px;}
+        .er-modal-box h4{font-size:1.1rem;font-weight:700;color:#f4f4f5;margin-bottom:20px;letter-spacing:1px;}
+        @media(max-width:600px){.er-form-grid{grid-template-columns:1fr;}.er-stat-row{flex-direction:column;}}
     </style>
 </head>
 <body>
@@ -429,7 +500,10 @@
             <li><a href="#services">Services</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
-        <button class="btn-qte" id="hdrQuoteBtn">Get Quote</button>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <button class="btn-qte" id="hdrQuoteBtn">Get Quote</button>
+            <button id="navAdminTrigger" title="Admin Panel"><i class="fas fa-shield-alt"></i></button>
+        </div>
     </nav>
 
     <!-- HERO SECTION -->
@@ -625,11 +699,11 @@
             <div class="c-left">
                 <h3>Request A Quote</h3>
                 <p>Our export specialists respond within 24 hours.</p>
-                <form onsubmit="event.preventDefault();showToast('Your inquiry has been sent. We\'ll contact you within 24 hours.')">
-                    <div class="frow"><label>Full Name / Company</label><input type="text" required placeholder="e.g. Al-Mansouri Imports LLC"></div>
-                    <div class="frow"><label>Email Address</label><input type="email" required placeholder="procurement@company.com"></div>
-                    <div class="frow"><label>Destination Port</label><input type="text" required placeholder="e.g. Port of Jeddah, Saudi Arabia"></div>
-                    <div class="frow"><label>Vehicle Requirements</label><textarea required placeholder="Make, model, year, quantity, specs…"></textarea></div>
+                <form id="contactForm">
+                    <div class="frow"><label>Full Name / Company</label><input type="text" name="name" required placeholder="e.g. Al-Mansouri Imports LLC"></div>
+                    <div class="frow"><label>Email Address</label><input type="email" name="email" required placeholder="procurement@company.com"></div>
+                    <div class="frow"><label>Destination Port</label><input type="text" name="destination" required placeholder="e.g. Port of Jeddah, Saudi Arabia"></div>
+                    <div class="frow"><label>Vehicle Requirements</label><textarea name="message" required placeholder="Make, model, year, quantity, specs…"></textarea></div>
                     <button type="submit" class="btn-sub">Submit Inquiry &nbsp;<i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
@@ -727,24 +801,28 @@
                     <div class="ips-ship"><i class="fas fa-ship"></i> Free Port Shipping</div>
                 </div>
                 <form id="inqForm">
-                    <div class="frow"><label>Full Name / Company</label><input type="text" required placeholder="Your name or company"></div>
-                    <div class="frow"><label>Email Address</label><input type="email" required placeholder="your@email.com"></div>
-                    <div class="frow"><label>Phone / WhatsApp</label><input type="tel" placeholder="+971 50 000 0000"></div>
+                    <div class="frow"><label>Full Name / Company</label><input type="text" name="name" required placeholder="Your name or company"></div>
+                    <div class="frow"><label>Email Address</label><input type="email" name="email" required placeholder="your@email.com"></div>
+                    <div class="frow"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+971 50 000 0000"></div>
                     <div class="frow"><label>Destination Port / Country</label>
-                        <select>
+                        <select name="destination">
                             <option value="">Select destination…</option>
                             <option>Port of Jeddah, Saudi Arabia</option>
                             <option>Port of Dubai, UAE</option>
+                            <option>Port of Muscat, Oman</option>
+                            <option>Port of Kuwait City, Kuwait</option>
+                            <option>Port of Doha, Qatar</option>
+                            <option>Port of Karachi, Pakistan</option>
+                            <option>Port of Mombasa, Kenya</option>
                             <option>Port of Rotterdam, Netherlands</option>
                             <option>Port of Hamburg, Germany</option>
                             <option>Port of Djibouti, Africa</option>
-                            <option>Port of Mombasa, Kenya</option>
                             <option>Port of Lagos, Nigeria</option>
                             <option>Port of Manila, Philippines</option>
                             <option>Other (specify below)</option>
                         </select>
                     </div>
-                    <div class="frow"><label>Additional Notes</label><textarea placeholder="Quantity, configuration, delivery timeline…"></textarea></div>
+                    <div class="frow"><label>Additional Notes</label><textarea name="notes" placeholder="Quantity, configuration, delivery timeline…"></textarea></div>
                     <button type="submit" class="btn-sub">Send Inquiry &nbsp;<i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
@@ -761,12 +839,12 @@
             </div>
             <div class="qm-body">
                 <form id="quoteForm">
-                    <div class="frow"><label>Full Name / Company</label><input type="text" required placeholder="Your name or company"></div>
-                    <div class="frow"><label>Email Address</label><input type="email" required placeholder="your@email.com"></div>
-                    <div class="frow"><label>Vehicle Interest</label><input type="text" placeholder="Make, model, year, quantity…"></div>
-                    <div class="frow"><label>Destination Country</label><input type="text" placeholder="e.g. Saudi Arabia"></div>
+                    <div class="frow"><label>Full Name / Company</label><input type="text" name="name" required placeholder="Your name or company"></div>
+                    <div class="frow"><label>Email Address</label><input type="email" name="email" required placeholder="your@email.com"></div>
+                    <div class="frow"><label>Vehicle Interest</label><input type="text" name="vehicle" placeholder="Make, model, year, quantity…"></div>
+                    <div class="frow"><label>Destination Country</label><input type="text" name="destination" placeholder="e.g. Saudi Arabia"></div>
                     <div class="frow"><label>Budget Range</label>
-                        <select>
+                        <select name="budget">
                             <option value="">Select range…</option>
                             <option>Under $50,000</option>
                             <option>$50,000 – $100,000</option>
@@ -776,18 +854,154 @@
                             <option>Fleet / Corporate (contact for pricing)</option>
                         </select>
                     </div>
-                    <div class="frow"><label>Message</label><textarea placeholder="Any specific requirements…"></textarea></div>
+                    <div class="frow"><label>Message</label><textarea name="message" placeholder="Any specific requirements…"></textarea></div>
                     <button type="submit" class="btn-sub">Submit Quote Request &nbsp;<i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- ==================== JAVASCRIPT ==================== -->
+    <!-- ==================== ADMIN CONTROL PANEL ==================== -->
+    <div id="er-panel">
+        <div class="erb">
+            <div class="erb-hdr">
+                <div class="erb-logo">ELITE <span>ROUTE</span> ADMIN<small>Control Panel — Supabase Connected</small></div>
+                <button class="erb-x" id="er-close"><i class="fas fa-times"></i></button>
+            </div>
+
+            <!-- LOGIN VIEW -->
+            <div class="er-login" id="er-login-view">
+                <h3>Admin Authentication</h3>
+                <p>Enter your master password to access the control panel</p>
+                <input type="password" id="er-pwd" class="er-inp" placeholder="Master Password…" />
+                <button class="er-btn" id="er-login-btn" style="width:100%">Secure Login &nbsp;<i class="fas fa-lock"></i></button>
+                <div id="er-login-err" style="color:#ff3b30;font-size:0.78rem;margin-top:10px;display:none;"><i class="fas fa-exclamation-triangle"></i> Invalid Password.</div>
+            </div>
+
+            <!-- DASHBOARD VIEW -->
+            <div class="er-auth-view" id="er-auth-view">
+                <div class="er-tabs">
+                    <div class="er-tab on" data-target="pane-dash"><i class="fas fa-chart-bar" style="margin-right:5px"></i>Dashboard</div>
+                    <div class="er-tab" data-target="pane-inq"><i class="fas fa-envelope" style="margin-right:5px"></i>Inquiries</div>
+                    <div class="er-tab" data-target="pane-quotes"><i class="fas fa-file-alt" style="margin-right:5px"></i>Quotes</div>
+                    <div class="er-tab" data-target="pane-cars"><i class="fas fa-car" style="margin-right:5px"></i>Inventory</div>
+                    <div class="er-tab" data-target="pane-add-car"><i class="fas fa-plus" style="margin-right:5px"></i>Add Vehicle</div>
+                    <div class="er-tab" style="margin-left:auto;color:#ff3b30;" id="er-logout-tab"><i class="fas fa-sign-out-alt"></i> Logout</div>
+                </div>
+
+                <!-- PANE: DASHBOARD -->
+                <div class="er-pane on" id="pane-dash">
+                    <div class="er-stat-row">
+                        <div class="er-stat-card"><div class="er-stat-num" id="stat-inq">—</div><div class="er-stat-lbl">Inquiries</div></div>
+                        <div class="er-stat-card"><div class="er-stat-num" id="stat-quotes">—</div><div class="er-stat-lbl">Quote Requests</div></div>
+                        <div class="er-stat-card"><div class="er-stat-num" id="stat-cars">—</div><div class="er-stat-lbl">Listed Vehicles</div></div>
+                        <div class="er-stat-card"><div class="er-stat-num" id="stat-contacts">—</div><div class="er-stat-lbl">Contact Forms</div></div>
+                    </div>
+                    <div class="er-supabase-status" id="er-sb-status">
+                        <div class="er-dot" id="er-dot"></div>
+                        <span id="er-sb-txt">Connecting to Supabase…</span>
+                    </div>
+                    <div style="margin-top:18px;padding:16px;background:rgba(255,59,48,.04);border:1px solid rgba(255,59,48,.1);border-radius:8px;">
+                        <p style="font-size:.8rem;color:#a1a1aa;line-height:1.65;">
+                            <strong style="color:#f4f4f5;">Welcome to Elite Route Admin.</strong> All form submissions on the site — vehicle inquiries, quote requests, and contact forms — are automatically saved to your Supabase database in real-time. Use the tabs above to view and manage all records. You can also add, edit or remove vehicles from your live inventory.
+                        </p>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div style="margin-top:22px;">
+                        <div class="er-section-hdr"><h4><i class="fas fa-clock" style="color:#ff3b30;margin-right:8px"></i>Recent Activity</h4></div>
+                        <div id="pane-recent"><div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading…</div></div>
+                    </div>
+                </div>
+
+                <!-- PANE: INQUIRIES -->
+                <div class="er-pane" id="pane-inq">
+                    <div class="er-section-hdr">
+                        <h4><i class="fas fa-envelope" style="color:#ff3b30;margin-right:8px"></i>Vehicle Inquiries</h4>
+                        <button class="er-btn er-btn-sm" onclick="erLoadInquiries()"><i class="fas fa-sync"></i> Refresh</button>
+                    </div>
+                    <div id="er-inq-wrap"><div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading from Supabase…</div></div>
+                </div>
+
+                <!-- PANE: QUOTES -->
+                <div class="er-pane" id="pane-quotes">
+                    <div class="er-section-hdr">
+                        <h4><i class="fas fa-file-alt" style="color:#ff3b30;margin-right:8px"></i>Quote Requests</h4>
+                        <button class="er-btn er-btn-sm" onclick="erLoadQuotes()"><i class="fas fa-sync"></i> Refresh</button>
+                    </div>
+                    <div id="er-quotes-wrap"><div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading from Supabase…</div></div>
+                </div>
+
+                <!-- PANE: INVENTORY -->
+                <div class="er-pane" id="pane-cars">
+                    <div class="er-section-hdr">
+                        <h4><i class="fas fa-car" style="color:#ff3b30;margin-right:8px"></i>Inventory Management</h4>
+                        <div style="display:flex;gap:8px;">
+                            <button class="er-btn er-btn-sm" onclick="erLoadInventory()"><i class="fas fa-sync"></i> Refresh</button>
+                            <button class="er-btn er-btn-sm" onclick="erSwitchTab('pane-add-car')"><i class="fas fa-plus"></i> Add Vehicle</button>
+                        </div>
+                    </div>
+                    <div id="er-inv-wrap"><div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading…</div></div>
+                </div>
+
+                <!-- PANE: ADD VEHICLE -->
+                <div class="er-pane" id="pane-add-car">
+                    <div class="er-section-hdr">
+                        <h4><i class="fas fa-plus-circle" style="color:#ff3b30;margin-right:8px"></i>Add New Vehicle to Inventory</h4>
+                    </div>
+                    <form id="er-add-car-form">
+                        <div class="er-form-grid">
+                            <div class="er-form-group"><label>Make (Brand)</label><input type="text" name="make" placeholder="e.g. Mercedes-Benz" required></div>
+                            <div class="er-form-group"><label>Model Name</label><input type="text" name="name" placeholder="e.g. G63 AMG Carbon" required></div>
+                            <div class="er-form-group"><label>Category</label>
+                                <select name="cat" required>
+                                    <option value="">Select category…</option>
+                                    <option value="luxury">Luxury</option>
+                                    <option value="suv">SUV</option>
+                                    <option value="exotic">Exotic</option>
+                                    <option value="fleet">Fleet</option>
+                                </select>
+                            </div>
+                            <div class="er-form-group"><label>Badge Label</label><input type="text" name="badge" placeholder="e.g. HOT, LUXURY, FLEET"></div>
+                            <div class="er-form-group"><label>Price</label><input type="text" name="price" placeholder="e.g. $215,000 or On Request" required></div>
+                            <div class="er-form-group"><label>Old Price (optional)</label><input type="text" name="old_price" placeholder="e.g. $230K"></div>
+                            <div class="er-form-group"><label>Units Exported / Sold Text</label><input type="text" name="sold" placeholder="e.g. 28 Exported"></div>
+                            <div class="er-form-group"><label>Tags (comma-separated)</label><input type="text" name="tags" placeholder="e.g. V8,577HP,LHD"></div>
+                        </div>
+                        <div class="er-form-group"><label>Main Image URL</label><input type="url" name="img" placeholder="https://…" required></div>
+                        <div class="er-form-group"><label>Engine</label><input type="text" name="engine" placeholder="e.g. 4.0L BiTurbo V8"></div>
+                        <div class="er-form-group"><label>Power</label><input type="text" name="power" placeholder="e.g. 577 HP / 850 Nm"></div>
+                        <div class="er-form-group"><label>Additional Notes / Description</label><textarea name="notes" style="min-height:80px" placeholder="Any extra info for the admin panel…"></textarea></div>
+
+                        <div style="margin-top:6px;display:flex;gap:12px;align-items:center;">
+                            <button type="submit" class="er-btn"><i class="fas fa-save"></i> Save to Supabase</button>
+                            <button type="reset" class="er-btn" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);"><i class="fas fa-undo"></i> Reset</button>
+                        </div>
+                        <div id="er-add-car-msg" style="margin-top:12px;font-size:.8rem;display:none;"></div>
+                    </form>
+                </div>
+
+            </div><!-- /.er-auth-view -->
+        </div><!-- /.erb -->
+    </div><!-- /#er-panel -->
+
+
+    <!-- ==================== SCRIPTS ==================== -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-    /* ==================== PRODUCTS DATA ==================== */
+    /* ================================================================
+       SUPABASE INIT
+    ================================================================ */
+    const SUPABASE_URL = 'https://doycdipvtyflshhsxqqx.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRveWNkaXB2dHlmbHNoaHN4cXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNzczMjIsImV4cCI6MjA5Mjc1MzMyMn0.txaoSZw0DWdhICWnkDDTAFW_WqSkv6YdhHbMTlWLIwk';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    /* ================================================================
+       PRODUCTS DATA
+    ================================================================ */
     window.__er_productsBase = null; 
     const products =[
       {id:1,make:"Rolls-Royce",name:"Ghost Series II",badge:"LUXURY",bc:"luxury",price:"$380,000",old:"$410K",sold:"8 Exported",img:"https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1536700503339-1e4b06520771?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1631295868223-63265b40d9e4?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop"],tags:["V12","LHD","Bespoke"],cat:"luxury",specs:{Engine:"6.75L Twin-Turbo V12",Power:"563 HP / 900 Nm",Transmission:"8-Speed Auto",Drive:"RWD","Top Speed":"250 km/h",Color:"Commissioned"},export:{Shipping:"RoRo / Container","Lead Time":"4–6 Weeks",Documentation:"Full Factory COC",Warranty:"4-Year Manufacturer",Origin:"Goodwood, UK","IBAN / LC":"Available"}},
@@ -804,7 +1018,7 @@
       {id:12,make:"Chevrolet",name:"Tahoe Z71 Fleet (×10)",badge:"FLEET",bc:"fleet",price:"$750,000",old:"$820K",sold:"65 Exported",img:"https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=900&auto=format&fit=crop",imgs:["https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=900&auto=format&fit=crop","https://images.unsplash.com/photo-1593055407736-2151ae2bbcc2?q=80&w=900&auto=format&fit=crop"],tags:["V8 6.2L","Fleet×10","LHD"],cat:"fleet",specs:{Engine:"6.2L EcoTec3 V8",Power:"420 HP / 624 Nm",Transmission:"10-Speed Auto",Drive:"4WD / Z71 Off-Road",Quantity:"Batch of 10",Seats:"8 Passenger"},export:{Shipping:"RoRo (×10 units)","Lead Time":"4–6 Weeks",Documentation:"Fleet COO + COC",Warranty:"3-Year GM",Origin:"USA","IBAN / LC":"Required for fleet"}}
     ];
 
-    /* ── Expose globals for extension.js ── */
+    /* ── Expose globals ── */
     window.ER = window.ER || {};
     window.ER.getProducts    = ()    => products;
     window.ER.setProducts    = (arr) => { products.length = 0; arr.forEach(p => products.push(p)); };
@@ -814,6 +1028,53 @@
 
     let activeFilter = 'all', itemsToShow = 4;
 
+    /* ==================== FETCH INVENTORY GLOBALLY ==================== */
+    window.fetchInventory = async function() {
+        try {
+            const { data, error } = await sb.from('inventory').select('*').order('id', { ascending: false });
+            if (!error && data) {
+                const dbProducts = data.map(item => {
+                    let tagsArr =[];
+                    if (item.tags) {
+                        tagsArr = item.tags.split(',').map(t => t.trim());
+                    }
+                    return {
+                        id: item.id + '_sb', // Ensure no ID collisions
+                        make: item.make || '',
+                        name: item.name || '',
+                        badge: item.badge || '',
+                        bc: (item.badge || '').toLowerCase(),
+                        price: item.price || 'On Request',
+                        old: item.old_price || item.old || '',
+                        sold: item.sold || '',
+                        img: item.img || 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop',
+                        imgs:[item.img || 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=900&auto=format&fit=crop'],
+                        tags: tagsArr,
+                        cat: item.cat || 'luxury',
+                        specs: {
+                            Engine: item.engine || 'N/A',
+                            Power: item.power || 'N/A'
+                        },
+                        export: {
+                            Shipping: "RoRo / Container",
+                            Documentation: "Full Factory COC"
+                        }
+                    };
+                });
+
+                // Clear previous Supabase items and merge with Static items
+                const staticProducts = products.filter(p => !String(p.id).endsWith('_sb'));
+                products.length = 0;
+                products.push(...dbProducts, ...staticProducts);
+                
+                // Re-render UI
+                renderProducts(activeFilter);
+            }
+        } catch (e) {
+            console.error('Fetch inventory error:', e);
+        }
+    };
+
     /* ==================== RENDER PRODUCTS ==================== */
     function renderProducts(filter) {
         const grid = document.getElementById('productGrid');
@@ -821,7 +1082,7 @@
         const list = filter === 'all' ? products : products.filter(p => p.cat === filter);
 
         list.forEach(car => {
-            const tags = car.tags.map(t => `<span class="spec-pill">${t}</span>`).join('');
+            const tags = (car.tags ||[]).map(t => `<span class="spec-pill">${t}</span>`).join('');
             const badge = car.badge ? `<div class="card-badge ${car.bc}">${car.badge}</div>` : '';
             
             const card = document.createElement('div');
@@ -835,7 +1096,6 @@
                     <div class="card-make">${car.make}</div>
                     <div class="card-title">${car.name}</div>
                     <div class="card-specs">${tags}<span class="spec-pill" style="color:var(--primary-color);border-color:rgba(255,59,48,.3)">For Export</span></div>
-                    
                     <div class="card-bot">
                         <div>
                             <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary-color); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">For Export Only</div>
@@ -843,7 +1103,6 @@
                         </div>
                         <div class="card-sold"><i class="fas fa-check-circle"></i>${car.sold}</div>
                     </div>
-
                     <div class="card-actions">
                         <button class="btn-inq" data-id="${car.id}"><i class="fas fa-file-alt"></i> Inquire Now</button>
                         <button class="btn-view-card" data-id="${car.id}" title="View Details"><i class="fas fa-expand-alt"></i></button>
@@ -860,7 +1119,6 @@
         document.getElementById('viewMoreBtn').style.display =
             grid.querySelectorAll('.product-card:not([style*="display: block"])').length > 0 ? 'inline-flex' : 'none';
 
-        // Recount
         let shown = 0;
         allCards.forEach(c => { if (c.style.display !== 'none') shown++; });
         document.getElementById('viewMoreBtn').style.display = shown < allCards.length ? 'inline-block' : 'none';
@@ -868,15 +1126,15 @@
 
     /* ==================== OPEN CAR DETAIL MODAL ==================== */
     function openCarModal(id) {
-        const car = products.find(p => p.id === id);
+        const car = products.find(p => String(p.id) === String(id));
         if (!car) return;
 
-        document.getElementById('mHeroImg').src = car.imgs[0];
+        document.getElementById('mHeroImg').src = (car.imgs || [])[0] || car.img;
         document.getElementById('mHeroImg').alt = car.name;
 
         const gal = document.getElementById('mGallery');
         gal.innerHTML = '';
-        car.imgs.forEach((url, i) => {
+        (car.imgs ||[]).forEach((url, i) => {
             const img = document.createElement('img');
             img.src = url; img.loading = 'lazy';
             if (i === 0) img.classList.add('gal-active');
@@ -919,19 +1177,25 @@
         document.getElementById('mInqBtn').onclick = function () { closeModal('carModal'); openInqModal(car); };
         openModal('carModal');
     }
-    // Expose openCarModal globally for admin panel integration
     window.openCarModal = openCarModal;
 
     /* ==================== OPEN INQUIRY MODAL ==================== */
     function openInqModal(car) {
-        document.getElementById('inqImg').src = car.imgs[0];
+        document.getElementById('inqImg').src = (car.imgs || [])[0] || car.img;
         document.getElementById('inqImg').alt = car.name;
         document.getElementById('inqTitle').textContent = `${car.make} ${car.name}`;
         document.getElementById('inqSub').textContent = "Complete the form — we'll respond within 24 hours";
         document.getElementById('inqPrice').textContent = car.price || '—';
         const pills = document.getElementById('inqPills');
         pills.innerHTML = '';
-        car.tags.forEach(t => { pills.innerHTML += `<span class="inq-pill">${t}</span>`; });
+        (car.tags ||[]).forEach(t => { pills.innerHTML += `<span class="inq-pill">${t}</span>`; });
+        
+        // Ensure Database ID format alignment
+        let realId = String(car.id).replace('_sb', '');
+        document.getElementById('inqForm').dataset.carId = realId;
+        document.getElementById('inqForm').dataset.carTitle = `${car.make} ${car.name}`;
+        document.getElementById('inqForm').dataset.carPrice = car.price;
+        
         openModal('inqModal');
     }
 
@@ -960,9 +1224,306 @@
         setTimeout(() => t.classList.remove('show'), 3600);
     }
 
-    /* ==================== INIT ==================== */
+    /* ================================================================
+       SUPABASE HELPERS — Save form submissions to DB
+    ================================================================ */
+    async function sbInsert(table, data) {
+        try {
+            const { error } = await sb.from(table).insert([data]);
+            if (error) { console.error(`Supabase [${table}] error:`, error); return false; }
+            return true;
+        } catch(e) { console.error('Supabase insert failed:', e); return false; }
+    }
+
+    /* Collect form values into an object */
+    function formToObj(form) {
+        const obj = {};
+        new FormData(form).forEach((v, k) => { if (v) obj[k] = v; });
+        return obj;
+    }
+
+    /* ================================================================
+       ADMIN PANEL — Auth
+    ================================================================ */
+    const ADMIN_CFG = Object.freeze({
+        PASSWORD: 'adminpass',
+        SESSION_TTL_MS: 30 * 60_000,
+        SK_AUTH: 'er_admin_auth',
+    });
+
+    function _sessionValid() {
+        try {
+            const r = sessionStorage.getItem(ADMIN_CFG.SK_AUTH);
+            if (!r) return false;
+            const { ok, ts } = JSON.parse(r);
+            return ok && (Date.now() - ts <= ADMIN_CFG.SESSION_TTL_MS);
+        } catch (_) { return false; }
+    }
+    function _sessionStart() { sessionStorage.setItem(ADMIN_CFG.SK_AUTH, JSON.stringify({ ok: true, ts: Date.now() })); }
+    function _sessionEnd() { sessionStorage.removeItem(ADMIN_CFG.SK_AUTH); }
+
+    /* ================================================================
+       ADMIN PANEL — Open / Close
+    ================================================================ */
+    function erOpen() {
+        const p = document.getElementById('er-panel');
+        p.classList.add('open');
+        setTimeout(() => p.classList.add('visible'), 10);
+        erCheckSession();
+    }
+    function erClose() {
+        const p = document.getElementById('er-panel');
+        p.classList.remove('visible');
+        setTimeout(() => p.classList.remove('open'), 300);
+    }
+    function erCheckSession() {
+        const valid = _sessionValid();
+        document.getElementById('er-login-view').style.display = valid ? 'none' : 'block';
+        document.getElementById('er-auth-view').style.display = valid ? 'block' : 'none';
+        if (valid) erRefreshAll();
+    }
+
+    function erSwitchTab(target) {
+        document.querySelectorAll('.er-tab[data-target]').forEach(t => t.classList.remove('on'));
+        document.querySelectorAll('.er-pane').forEach(p => p.classList.remove('on'));
+        const tab = document.querySelector(`.er-tab[data-target="${target}"]`);
+        if (tab) tab.classList.add('on');
+        const pane = document.getElementById(target);
+        if (pane) pane.classList.add('on');
+    }
+
+    /* ================================================================
+       ADMIN PANEL — Data Loading
+    ================================================================ */
+    async function erRefreshAll() {
+        erUpdateSupabaseStatus();
+        erLoadDashboard();
+    }
+
+    async function erUpdateSupabaseStatus() {
+        const dot = document.getElementById('er-dot');
+        const txt = document.getElementById('er-sb-txt');
+        try {
+            const { error } = await sb.from('inquiries').select('id', { count: 'exact', head: true });
+            if (error) throw error;
+            dot.className = 'er-dot green';
+            txt.textContent = 'Supabase connected — Database online';
+        } catch(e) {
+            dot.className = 'er-dot red';
+            txt.textContent = 'Supabase connection error — Check tables';
+        }
+    }
+
+    async function erLoadDashboard() {
+        // Get counts from supabase
+        const tables =['inquiries', 'quotes', 'inventory', 'contacts'];
+        const ids =['stat-inq', 'stat-quotes', 'stat-cars', 'stat-contacts'];
+
+        for (let i = 0; i < tables.length; i++) {
+            try {
+                const { count, error } = await sb.from(tables[i]).select('*', { count: 'exact', head: true });
+                document.getElementById(ids[i]).textContent = error ? '—' : (count || 0);
+            } catch(e) {
+                document.getElementById(ids[i]).textContent = '—';
+            }
+        }
+
+        // Recent activity from all tables
+        erLoadRecentActivity();
+    }
+
+    async function erLoadRecentActivity() {
+        const wrap = document.getElementById('pane-recent');
+        wrap.innerHTML = '<div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading…</div>';
+
+        let rows =[];
+        const tables =[
+            { name: 'inquiries', label: 'Inquiry', badge: 'er-badge-red' },
+            { name: 'quotes', label: 'Quote', badge: 'er-badge-blue' },
+            { name: 'contacts', label: 'Contact', badge: 'er-badge-green' },
+        ];
+
+        for (const t of tables) {
+            try {
+                const { data, error } = await sb.from(t.name).select('*').order('created_at', { ascending: false }).limit(5);
+                if (!error && data) data.forEach(r => rows.push({ ...r, _type: t.label, _badge: t.badge }));
+            } catch(e) {}
+        }
+
+        // Sort by created_at
+        rows.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        rows = rows.slice(0, 10);
+
+        if (!rows.length) {
+            wrap.innerHTML = '<div class="er-empty"><i class="fas fa-inbox" style="font-size:1.5rem;margin-bottom:8px;display:block;color:#3f3f46"></i>No recent activity yet. Submissions will appear here.</div>';
+            return;
+        }
+
+        wrap.innerHTML = `<table class="er-tbl">
+            <thead><tr><th>Type</th><th>Name</th><th>Email</th><th>Date</th></tr></thead>
+            <tbody>${rows.map(r => `
+                <tr>
+                    <td><span class="er-badge ${r._badge}">${r._type}</span></td>
+                    <td>${r.name || '—'}</td>
+                    <td>${r.email ? `<a href="mailto:${r.email}" style="color:#ff3b30">${r.email}</a>` : '—'}</td>
+                    <td style="color:#71717a;font-size:.75rem;">${r.created_at ? new Date(r.created_at).toLocaleString() : '—'}</td>
+                </tr>`).join('')}
+            </tbody></table>`;
+    }
+
+    async function erLoadInquiries() {
+        const wrap = document.getElementById('er-inq-wrap');
+        wrap.innerHTML = '<div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading from Supabase…</div>';
+        try {
+            const { data, error } = await sb.from('inquiries').select('*').order('created_at', { ascending: false });
+            if (error) throw error;
+            if (!data.length) { wrap.innerHTML = '<div class="er-empty"><i class="fas fa-envelope-open" style="font-size:1.5rem;margin-bottom:8px;display:block;color:#3f3f46"></i>No vehicle inquiries yet.</div>'; return; }
+            wrap.innerHTML = `<table class="er-tbl">
+                <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Phone</th><th>Vehicle</th><th>Destination</th><th>Action</th></tr></thead>
+                <tbody>${data.map(r => `<tr>
+                    <td style="color:#71717a;font-size:.72rem;">${r.created_at ? new Date(r.created_at).toLocaleDateString() : '—'}</td>
+                    <td><strong>${r.name || '—'}</strong></td>
+                    <td>${r.email ? `<a href="mailto:${r.email}" style="color:#ff3b30">${r.email}</a>` : '—'}</td>
+                    <td style="color:#a1a1aa">${r.phone || '—'}</td>
+                    <td><span style="color:#f4f4f5">${r.car_title || '—'}</span>${r.car_price ? `<br><span style="color:#ff3b30;font-size:.68rem">${r.car_price}</span>` : ''}</td>
+                    <td style="color:#a1a1aa;font-size:.75rem">${r.destination || '—'}</td>
+                    <td><button class="er-btn-danger" onclick="erDeleteRecord('inquiries','${r.id}',this)"><i class="fas fa-trash"></i></button></td>
+                </tr>`).join('')}
+                </tbody></table>`;
+        } catch(e) {
+            wrap.innerHTML = `<div class="er-empty" style="color:#ff3b30"><i class="fas fa-exclamation-circle"></i> Error: ${e.message}</div>`;
+        }
+    }
+
+    async function erLoadQuotes() {
+        const wrap = document.getElementById('er-quotes-wrap');
+        wrap.innerHTML = '<div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading from Supabase…</div>';
+        try {
+            const { data, error } = await sb.from('quotes').select('*').order('created_at', { ascending: false });
+            if (error) throw error;
+            if (!data.length) { wrap.innerHTML = '<div class="er-empty"><i class="fas fa-file-alt" style="font-size:1.5rem;margin-bottom:8px;display:block;color:#3f3f46"></i>No quote requests yet.</div>'; return; }
+            wrap.innerHTML = `<table class="er-tbl">
+                <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Vehicle Interest</th><th>Destination</th><th>Budget</th><th>Action</th></tr></thead>
+                <tbody>${data.map(r => `<tr>
+                    <td style="color:#71717a;font-size:.72rem;">${r.created_at ? new Date(r.created_at).toLocaleDateString() : '—'}</td>
+                    <td><strong>${r.name || '—'}</strong></td>
+                    <td>${r.email ? `<a href="mailto:${r.email}" style="color:#ff3b30">${r.email}</a>` : '—'}</td>
+                    <td>${r.vehicle_interest || r.vehicle || '—'}</td>
+                    <td style="color:#a1a1aa">${r.destination || '—'}</td>
+                    <td><span class="er-badge er-badge-blue">${r.budget || '—'}</span></td>
+                    <td><button class="er-btn-danger" onclick="erDeleteRecord('quotes','${r.id}',this)"><i class="fas fa-trash"></i></button></td>
+                </tr>`).join('')}
+                </tbody></table>`;
+        } catch(e) {
+            wrap.innerHTML = `<div class="er-empty" style="color:#ff3b30"><i class="fas fa-exclamation-circle"></i> Error: ${e.message}</div>`;
+        }
+    }
+
+    async function erLoadInventory() {
+        const wrap = document.getElementById('er-inv-wrap');
+        wrap.innerHTML = '<div class="er-loading"><i class="fas fa-spinner fa-spin"></i> Loading…</div>';
+        try {
+            const { data, error } = await sb.from('inventory').select('*').order('created_at', { ascending: false });
+            if (error) throw error;
+
+            // Only map the default non-Supabase products as Built-In
+            const staticProducts = products.filter(p => !String(p.id).endsWith('_sb'));
+            const builtIn = staticProducts.map(p => ({
+                id: `local-${p.id}`, make: p.make, name: p.name, price: p.price,
+                cat: p.cat, badge: p.badge, engine: p.specs?.Engine || '—',
+                power: p.specs?.Power || '—', _source: 'Built-in'
+            }));
+
+            const dbItems = (data ||[]).map(r => ({ ...r, _source: 'Supabase' }));
+            const all = [...dbItems, ...builtIn];
+
+            if (!all.length) { wrap.innerHTML = '<div class="er-empty">No inventory records.</div>'; return; }
+
+            wrap.innerHTML = `<table class="er-tbl">
+                <thead><tr><th>Source</th><th>Make &amp; Model</th><th>Price</th><th>Category</th><th>Engine</th><th>Power</th><th>Action</th></tr></thead>
+                <tbody>${all.map(r => `<tr>
+                    <td><span class="er-badge ${r._source === 'Supabase' ? 'er-badge-green' : 'er-badge-blue'}">${r._source}</span></td>
+                    <td><strong>${r.make}</strong> ${r.name}</td>
+                    <td style="color:#ff3b30;font-weight:700">${r.price}</td>
+                    <td><span style="text-transform:uppercase;font-size:.65rem;color:#a1a1aa">${r.cat || '—'}</span></td>
+                    <td style="color:#a1a1aa;font-size:.75rem">${r.engine || '—'}</td>
+                    <td style="color:#a1a1aa;font-size:.75rem">${r.power || '—'}</td>
+                    <td>${r._source === 'Supabase' ? `<button class="er-btn-danger" onclick="erDeleteRecord('inventory','${r.id}',this)"><i class="fas fa-trash"></i></button>` : '<span style="color:#52525b;font-size:.7rem">—</span>'}</td>
+                </tr>`).join('')}
+                </tbody></table>`;
+        } catch(e) {
+            // Fallback to built-in products only
+            const staticProducts = products.filter(p => !String(p.id).endsWith('_sb'));
+            const builtIn = staticProducts;
+            wrap.innerHTML = `<div style="margin-bottom:12px;padding:10px 14px;background:rgba(255,59,48,.07);border-radius:6px;font-size:.76rem;color:#ff3b30;"><i class="fas fa-info-circle"></i> Showing built-in inventory only. Supabase inventory table may not exist yet.</div>
+            <table class="er-tbl">
+                <thead><tr><th>#</th><th>Make &amp; Model</th><th>Price</th><th>Category</th><th>Status</th></tr></thead>
+                <tbody>${builtIn.map(p => `<tr>
+                    <td style="color:#52525b">#${p.id}</td>
+                    <td><strong>${p.make}</strong> ${p.name}</td>
+                    <td style="color:#ff3b30;font-weight:700">${p.price}</td>
+                    <td><span style="text-transform:uppercase;font-size:.65rem;color:#a1a1aa">${p.cat}</span></td>
+                    <td><span style="color:#25d366;font-size:.75rem"><i class="fas fa-check-circle"></i> Listed</span></td>
+                </tr>`).join('')}
+                </tbody></table>`;
+        }
+    }
+
+    async function erDeleteRecord(table, id, btn) {
+        if (!confirm('Delete this record from Supabase?')) return;
+        btn.disabled = true; btn.textContent = '…';
+        try {
+            const { error } = await sb.from(table).delete().eq('id', id);
+            if (error) throw error;
+            btn.closest('tr').remove();
+            showToast('Record deleted successfully.');
+            erLoadDashboard();
+            if (table === 'inventory') window.fetchInventory(); // Resync Grid Dynamically
+        } catch(e) {
+            btn.textContent = '✗';
+            alert('Delete failed: ' + e.message);
+        }
+    }
+
+    /* ================================================================
+       ADMIN PANEL — Add Vehicle Form
+    ================================================================ */
+    document.getElementById('er-add-car-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const msgEl = document.getElementById('er-add-car-msg');
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const fd = new FormData(this);
+        const data = {};
+        fd.forEach((v, k) => { if(v) data[k] = v; });
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+        msgEl.style.display = 'none';
+
+        const ok = await sbInsert('inventory', data);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> Save to Supabase';
+
+        if (ok) {
+            msgEl.style.display = 'block';
+            msgEl.style.color = '#25d366';
+            msgEl.innerHTML = '<i class="fas fa-check-circle"></i> Vehicle saved to Supabase inventory successfully!';
+            this.reset();
+            erLoadDashboard();
+            window.fetchInventory(); // Resync front-end grid dynamically
+        } else {
+            msgEl.style.display = 'block';
+            msgEl.style.color = '#ff3b30';
+            msgEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error saving to Supabase. Check that the <code>inventory</code> table exists.';
+        }
+    });
+
+    /* ================================================================
+       INIT — DOMContentLoaded
+    ================================================================ */
     document.addEventListener('DOMContentLoaded', function () {
-        // Hero Slider Initialization
+
+        // Hero Slider
         const $sl = $('.hero-slider').slick({ autoplay: true, autoplaySpeed: 5500, speed: 1200, fade: true, cssEase: 'cubic-bezier(.77,0,.175,1)', dots: true, arrows: false, pauseOnHover: false });
         $('#heroNext').on('click', () => $sl.slick('slickNext'));
         $('#heroPrev').on('click', () => $sl.slick('slickPrev'));
@@ -981,8 +1542,10 @@
         document.getElementById('hdrQuoteBtn').addEventListener('click', openQuoteModal);
         document.getElementById('mobQuoteBtn').addEventListener('click', openQuoteModal);
 
-        // Render products
+        // Render Local Defaults 
         renderProducts('all');
+        // Fetch Supabase data seamlessly and prepend 
+        window.fetchInventory();
 
         // Filter tabs
         document.querySelectorAll('.ftab').forEach(btn => {
@@ -1018,20 +1581,20 @@
             document.getElementById('viewMoreBtn').style.display = 'none';
         });
 
-        // Card clicks (delegated)
+        // Card clicks (delegated matching converted to String comparison)
         document.getElementById('productGrid').addEventListener('click', function (e) {
             const inqBtn = e.target.closest('.btn-inq');
             const viewBtn = e.target.closest('.btn-view-card');
             const card = e.target.closest('.product-card');
             if (inqBtn) {
                 e.stopPropagation();
-                const car = products.find(p => p.id === parseInt(inqBtn.dataset.id));
+                const car = products.find(p => String(p.id) === String(inqBtn.dataset.id));
                 if (car) openInqModal(car);
             } else if (viewBtn) {
                 e.stopPropagation();
-                openCarModal(parseInt(viewBtn.dataset.id));
+                openCarModal(viewBtn.dataset.id);
             } else if (card) {
-                openCarModal(parseInt(card.dataset.id));
+                openCarModal(card.dataset.id);
             }
         });
 
@@ -1042,9 +1605,79 @@
         document.querySelectorAll('.modal-ov').forEach(m => { m.addEventListener('click', function (e) { if (e.target === this) closeAllModals(); }); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllModals(); });
 
-        // Form submits
-        document.getElementById('inqForm').addEventListener('submit', function (e) { e.preventDefault(); closeModal('inqModal'); showToast('Inquiry sent! Our team will contact you within 24 hours.'); });
-        document.getElementById('quoteForm').addEventListener('submit', function (e) { e.preventDefault(); closeAllModals(); showToast('Quote request received! We will respond within 24 hours.'); });
+        /* ---- FORM SUBMISSIONS — Save to Supabase ---- */
+
+        // Vehicle Inquiry Form
+        document.getElementById('inqForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-sub');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+            const data = {
+                name: this.querySelector('[name="name"]').value,
+                email: this.querySelector('[name="email"]').value,
+                phone: this.querySelector('[name="phone"]').value,
+                destination: this.querySelector('[name="destination"]').value,
+                notes: this.querySelector('[name="notes"]').value,
+                car_id: this.dataset.carId || null,
+                car_title: this.dataset.carTitle || null,
+                car_price: this.dataset.carPrice || null,
+            };
+
+            const ok = await sbInsert('inquiries', data);
+            btn.disabled = false;
+            btn.innerHTML = 'Send Inquiry &nbsp;<i class="fas fa-paper-plane"></i>';
+
+            closeModal('inqModal');
+            showToast(ok ? 'Inquiry sent! Our team will contact you within 24 hours.' : 'Inquiry sent! (Offline mode — check Supabase tables)');
+        });
+
+        // Quote Form (Mapped `vehicle_interest` compatible with external control panel code)
+        document.getElementById('quoteForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-sub');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+            const data = {
+                name: this.querySelector('[name="name"]').value,
+                email: this.querySelector('[name="email"]').value,
+                vehicle_interest: this.querySelector('[name="vehicle"]').value,
+                destination: this.querySelector('[name="destination"]').value,
+                budget: this.querySelector('[name="budget"]').value,
+                message: this.querySelector('[name="message"]').value,
+            };
+
+            const ok = await sbInsert('quotes', data);
+            btn.disabled = false;
+            btn.innerHTML = 'Submit Quote Request &nbsp;<i class="fas fa-paper-plane"></i>';
+
+            closeAllModals();
+            showToast(ok ? 'Quote request received! We will respond within 24 hours.' : 'Quote received! (Check Supabase tables)');
+        });
+
+        // Contact Form
+        document.getElementById('contactForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-sub');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+            const data = {
+                name: this.querySelector('[name="name"]').value,
+                email: this.querySelector('[name="email"]').value,
+                destination: this.querySelector('[name="destination"]').value,
+                message: this.querySelector('[name="message"]').value,
+            };
+
+            const ok = await sbInsert('contacts', data);
+            btn.disabled = false;
+            btn.innerHTML = 'Submit Inquiry &nbsp;<i class="fas fa-paper-plane"></i>';
+
+            this.reset();
+            showToast(ok ? 'Your inquiry has been sent. We\'ll contact you within 24 hours.' : 'Inquiry sent! (Check Supabase tables)');
+        });
 
         // Scroll reveal
         const obs = new IntersectionObserver(entries => { entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('vis'); }); }, { threshold: .1 });
@@ -1057,10 +1690,43 @@
                 this.classList.add('act');
             });
         });
-    });
+
+        /* ---- ADMIN PANEL EVENTS ---- */
+        document.getElementById('navAdminTrigger').addEventListener('click', erOpen);
+        document.getElementById('er-close').addEventListener('click', erClose);
+
+        // Login
+        document.getElementById('er-login-btn').addEventListener('click', () => {
+            const pwd = document.getElementById('er-pwd').value;
+            const errEl = document.getElementById('er-login-err');
+            if (pwd === ADMIN_CFG.PASSWORD) {
+                _sessionStart();
+                document.getElementById('er-pwd').value = '';
+                errEl.style.display = 'none';
+                erCheckSession();
+            } else {
+                errEl.style.display = 'block';
+            }
+        });
+        document.getElementById('er-pwd').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('er-login-btn').click(); });
+
+        // Logout
+        document.getElementById('er-logout-tab').addEventListener('click', () => { _sessionEnd(); erCheckSession(); });
+
+        // Tab switching
+        document.querySelectorAll('.er-tab[data-target]').forEach(tab => {
+            tab.addEventListener('click', function () {
+                const target = this.dataset.target;
+                erSwitchTab(target);
+                // Lazy-load pane data on tab click
+                if (target === 'pane-inq') erLoadInquiries();
+                else if (target === 'pane-quotes') erLoadQuotes();
+                else if (target === 'pane-cars') erLoadInventory();
+            });
+        });
+
+    }); // end DOMContentLoaded
+
     </script>
-    <script src="js/sect.js"></script>
-    <script src="js/loading.js"></script>
-    <script src="js/controlpanel.js"></script>
 </body>
 </html>
