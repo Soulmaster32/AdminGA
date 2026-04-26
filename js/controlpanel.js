@@ -1,210 +1,361 @@
+/* ================================================================
+   ELITE ROUTE — ELITE ADMIN SUITE (V2.0 PRO)
+   Features: Full CRUD, Search, View, Real-time Sync
+================================================================ */
 
 (function () {
-  'use strict';
+    'use strict';
 
-  const CFG = Object.freeze({
-    PASSWORD       : 'adminpass',
-    MAX_ATTEMPTS   : 5,
-    LOCKOUT_MS     : 30_000,
-    SESSION_TTL_MS : 30 * 60_000,
-    SK_AUTH        : 'er_admin_auth',
-    SK_INQUIRIES   : 'er_inquiries',
-    SK_CARS        : 'er_cars_override',
-    SK_SERVICES    : 'er_services',
-    SK_SOCIALS     : 'er_socials',
-    SK_CONTACT     : 'er_contact',
-    SK_FOOTLINKS   : 'er_footlinks',
-  });
+    const SUPABASE_URL = 'https://doycdipvtyflshhsxqqx.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRveWNkaXB2dHlmbHNoaHN4cXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNzczMjIsImV4cCI6MjA5Mjc1MzMyMn0.txaoSZw0DWdhICWnkDDTAFW_WqSkv6YdhHbMTlWLIwk';
 
-  const DEFAULT_CONTACT = {
-    phone   : '+971 50 123 4567',
-    email   : 'export@eliteroute.com',
-    address : 'Auto Hub Center, Ras Al Khor, Dubai, UAE',
-    mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115408.09799763787!2d55.20529432653805!3d25.075009587440046!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2sph!4v1708000000000!5m2!1sen!2sph',
-  };
-  const DEFAULT_SOCIALS = { whatsapp:'971501234567', instagram:'', linkedin:'', telegram:'', facebook:'' };
-  const DEFAULT_SERVICES = [
-    {id:1,icon:'fas fa-ship',          title:'Global Logistics',    desc:'RoRo and container freight handled end-to-end, ensuring vehicles arrive safely at any port worldwide with full insurance.'},
-    {id:2,icon:'fas fa-shield-halved', title:'Armored Sourcing',    desc:'Direct VR6/VR7 certified armorers. We source, build, and export protection vehicles for high-profile clients.'},
-    {id:3,icon:'fas fa-file-contract', title:'Customs & Clearance', desc:'Homologation, import taxes, Letters of Credit, and port clearance across 48+ countries.'},
-    {id:4,icon:'fas fa-gem',           title:'Exotic Allocations',  desc:'Skip waitlists entirely. Limited-edition supercars unavailable to the open market, sourced exclusively for you.'},
-    {id:5,icon:'fas fa-users',         title:'Fleet Management',    desc:'Bulk fleet procurement and export for governments, corporations, and humanitarian organizations.'},
-    {id:6,icon:'fas fa-certificate',   title:'Title & Compliance',  desc:'Full legal compliance, title transfer, VIN verification, and manufacturer certification per exported unit.'},
-  ];
-  const DEFAULT_FOOTLINKS = {
-    quickLinks:[{label:'Home',href:'#home'},{label:'Showroom',href:'#showroom'},{label:'Services',href:'#services'},{label:'Get a Quote',href:'#contact'}],
-    inventory:[{label:'Luxury Sedans',href:'#showroom'},{label:'SUVs & 4x4',href:'#showroom'},{label:'Armored Vehicles',href:'#showroom'},{label:'Exotic / Hypercars',href:'#showroom'},{label:'Fleet Solutions',href:'#showroom'}],
-  };
+    let sb = null;
+    let currentUser = null;
+    let inventoryData = [];
+    let inquiriesData = [];
+    let editingId = null; // Track if we are editing or adding new
 
-  let isAdmin=false, inqFilter='all', editingId=null, editingSvcId=null, inventorySearch='', settingsTab='contact', _idleTimer=null, _focusTrap=null;
-  let inquiries = _loadJSON(CFG.SK_INQUIRIES, []);
-  let contact   = _loadJSON(CFG.SK_CONTACT,   DEFAULT_CONTACT);
-  let socials   = _loadJSON(CFG.SK_SOCIALS,   DEFAULT_SOCIALS);
-  let services  = _loadJSON(CFG.SK_SERVICES,  DEFAULT_SERVICES);
-  let footlinks = _loadJSON(CFG.SK_FOOTLINKS, DEFAULT_FOOTLINKS);
+    // Initialize Supabase
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    script.onload = () => {
+        sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        init();
+    };
+    document.head.appendChild(script);
 
-  /* --- SECURITY --- */
-  function _sessionValid(){try{const r=sessionStorage.getItem(CFG.SK_AUTH);if(!r)return false;const{ok,ts}=JSON.parse(r);if(!ok||!ts)return false;if(Date.now()-ts>CFG.SESSION_TTL_MS){sessionStorage.removeItem(CFG.SK_AUTH);return false;}return true;}catch(_){return false;}}
-  function _sessionStart(){sessionStorage.setItem(CFG.SK_AUTH,JSON.stringify({ok:true,ts:Date.now()}));}
-  function _sessionRefresh(){if(_sessionValid())_sessionStart();}
-  function _sessionEnd(){sessionStorage.removeItem(CFG.SK_AUTH);}
-  const _bf={count:0,lockedUntil:0};
-  function _bfCheck(){return Date.now()>=_bf.lockedUntil;}
-  function _bfFail(){_bf.count++;if(_bf.count>=CFG.MAX_ATTEMPTS){_bf.lockedUntil=Date.now()+CFG.LOCKOUT_MS;_bf.count=0;}}
-  function _bfReset(){_bf.count=0;_bf.lockedUntil=0;}
-  function _lockoutRemaining(){const r=_bf.lockedUntil-Date.now();return r>0?Math.ceil(r/1000):0;}
-  function _resetIdleTimer(){clearTimeout(_idleTimer);if(!isAdmin)return;_idleTimer=setTimeout(()=>{doLogout();toast('Session expired.');},CFG.SESSION_TTL_MS);}
+    // 1. UI INJECTION (Styles & HTML)
+    function injectStyles() {
+        const css = `
+            :root { --p: #ff3b30; --bg: #0a0a0c; --card: #151518; --border: rgba(255,59,48,0.2); }
+            #ep-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; font-family: 'Montserrat', sans-serif; color: #eee; overflow-y: auto; }
+            .ep-container { max-width: 1100px; margin: 40px auto; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+            .ep-header { padding: 20px; background: #111; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+            .ep-nav { display: flex; background: #111; border-bottom: 1px solid #222; }
+            .ep-nav-btn { padding: 15px 25px; border: none; background: none; color: #777; cursor: pointer; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+            .ep-nav-btn.active { color: var(--p); border-bottom: 2px solid var(--p); }
+            .ep-content { padding: 30px; }
+            
+            /* Inputs */
+            .ep-input { width: 100%; padding: 12px; background: #1a1a1d; border: 1px solid #333; color: #fff; border-radius: 6px; margin-bottom: 15px; }
+            .ep-input:focus { border-color: var(--p); outline: none; }
+            .ep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+            
+            /* Buttons */
+            .ep-btn { padding: 10px 20px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 0.7rem; }
+            .ep-btn-p { background: var(--p); color: #fff; }
+            .ep-btn-p:hover { background: #d63026; }
+            .ep-btn-sec { background: #333; color: #fff; }
+            
+            /* Tables */
+            .ep-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            .ep-table th { text-align: left; padding: 12px; background: #111; color: var(--p); font-size: 0.7rem; text-transform: uppercase; }
+            .ep-table td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.85rem; }
+            .ep-status { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; }
+            .status-live { background: rgba(37,211,102,0.1); color: #25d366; }
 
-  /* --- STORAGE --- */
-  function _loadJSON(k,fb){try{return JSON.parse(localStorage.getItem(k))||fb;}catch(_){return fb;}}
-  function _saveJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){if(e.name==='QuotaExceededError')toast('Storage limit reached!');return false;}}
-  function saveInquiries(){_saveJSON(CFG.SK_INQUIRIES,inquiries);}
-  function saveCars(){_saveJSON(CFG.SK_CARS,getProducts());}
-  function saveContact(){_saveJSON(CFG.SK_CONTACT,contact);}
-  function saveSocials(){_saveJSON(CFG.SK_SOCIALS,socials);}
-  function saveServices(){_saveJSON(CFG.SK_SERVICES,services);}
-  function saveFootlinks(){_saveJSON(CFG.SK_FOOTLINKS,footlinks);}
+            #ep-admin-trigger { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--p); color: white; border: none; cursor: pointer; z-index: 9999; box-shadow: 0 4px 15px rgba(255,59,48,0.4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        `;
+        const style = document.createElement('style');
+        style.innerHTML = css;
+        document.head.appendChild(style);
+    }
 
-  /* --- PRODUCTS BRIDGE --- */
-  function getProducts(){return(window.ER&&typeof window.ER.getProducts==='function')?window.ER.getProducts():[];}
-  function mutateProducts(a){if(Array.isArray(a)&&window.ER&&typeof window.ER.setProducts==='function')window.ER.setProducts(a);}
-  function triggerRerender(){if(window.ER&&typeof window.ER.rerender==='function')window.ER.rerender();}
-  function nextId(){const ids=getProducts().map(p=>p.id).filter(Number.isFinite);return ids.length?Math.max(...ids)+1:1;}
-  function restoreCarOverrides(){const s=_loadJSON(CFG.SK_CARS,null);if(Array.isArray(s)&&s.length)mutateProducts(s);}
-  function toast(msg){if(window.ER&&typeof window.ER.showToast==='function')window.ER.showToast(msg);}
+    function injectHTML() {
+        document.body.insertAdjacentHTML('beforeend', `
+            <button id="ep-admin-trigger" title="Admin Panel"><i class="fas fa-user-shield"></i></button>
+            <div id="ep-overlay">
+                <div class="ep-container">
+                    <div class="ep-header">
+                        <div style="font-weight: 800; font-size: 1.2rem; letter-spacing: 2px;">ELITE <span style="color:var(--p)">ROUTE</span> ADMIN</div>
+                        <button class="ep-btn ep-btn-sec" onclick="document.getElementById('ep-overlay').style.display='none'">Close</button>
+                    </div>
 
-  function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');}
-  function safeUrl(v){try{const u=new URL(v);return(u.protocol==='https:'||u.protocol==='http:'||v.startsWith('data:image'))?v:'';}catch(_){return v.startsWith('data:image')?v:'';}}
-  function fmtDate(ts){const d=new Date(ts);return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
-  function isoDate(){return new Date().toISOString().split('T')[0];}
+                    <div id="ep-login-form" style="padding: 50px; max-width: 400px; margin: 0 auto; text-align: center;">
+                        <h2 style="margin-bottom: 20px;">Secure Login</h2>
+                        <input type="email" id="ep-email" class="ep-input" placeholder="Admin Email">
+                        <input type="password" id="ep-pass" class="ep-input" placeholder="Password">
+                        <button id="ep-login-btn" class="ep-btn ep-btn-p" style="width: 100%;">Access Panel</button>
+                    </div>
 
-  function _triggerDownload(blob,name){const u=URL.createObjectURL(blob);const a=Object.assign(document.createElement('a'),{href:u,download:name});document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(u),60000);}
-  function exportJSON(d,n){_triggerDownload(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}),n);}
-  function escCSV(s){return!s?'""':`"${String(s).replace(/"/g,'""').replace(/\n/g,' ')}"`;} 
-  function exportInquiriesCSV(){if(!inquiries.length){toast('No inquiries to export.');return;}const h=['Date','Type','Car ID','Car Title','Budget/Price','Name','Email','Phone','Destination','Interest','Notes'];const r=inquiries.map(i=>[fmtDate(i.ts).replace(/,/g,''),i.type||'inquiry',i.carId??'General',escCSV(i.carTitle),escCSV(i.carPrice||i.budget),escCSV(i.name),escCSV(i.email),escCSV(i.phone),escCSV(i.destination),escCSV(i.interest),escCSV(i.notes)]);const csv=[h.join(','),...r.map(row=>row.join(','))].join('\n');_triggerDownload(new Blob([csv],{type:'text/csv;charset=utf-8;'}),`er_inquiries_${isoDate()}.csv`);}
+                    <div id="ep-main-panel" style="display: none;">
+                        <div class="ep-nav">
+                            <button class="ep-nav-btn active" data-tab="tab-inventory">Inventory Management</button>
+                            <button class="ep-nav-btn" data-tab="tab-leads">Customer Inquiries</button>
+                            <button class="ep-nav-btn" data-tab="tab-quotes">General Quotes</button>
+                            <button class="ep-nav-btn" id="ep-logout" style="margin-left: auto; color: #ff4444;">Logout</button>
+                        </div>
 
+                        <div class="ep-content">
+                            <!-- INVENTORY TAB -->
+                            <div id="tab-inventory" class="ep-tab-content">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <h3>Vehicle Catalog</h3>
+                                    <button class="ep-btn ep-btn-p" onclick="window.openCarForm()">+ Add New Vehicle</button>
+                                </div>
+                                <input type="text" id="inv-search" class="ep-input" placeholder="Search by make, name or category..." onkeyup="window.filterInventory()">
+                                <table class="ep-table">
+                                    <thead>
+                                        <tr><th>ID</th><th>Vehicle</th><th>Price</th><th>Category</th><th>Badge</th><th>Actions</th></tr>
+                                    </thead>
+                                    <tbody id="inv-list"></tbody>
+                                </table>
+                            </div>
 
-  /* ================================================================
-     INJECT STYLES
-  ================================================================ */
-  function injectStyles(){
-    const css=`
-      #er-panel{display:none;position:fixed;inset:0;z-index:9100;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);justify-content:center;align-items:flex-start;overflow-y:auto;padding:0;opacity:0;transition:opacity .3s ease;}
-      #er-panel.open{display:flex;}
-      #er-panel.open.visible{opacity:1;}
-      .erb{background:#111113;border:1px solid rgba(255,59,48,.2);border-radius:14px;width:100%;max-width:1060px;margin:28px 14px 80px;box-shadow:0 24px 70px rgba(0,0,0,.95);font-family:'Montserrat',sans-serif;overflow:hidden;transform:translateY(18px) scale(0.975);transition:transform .35s cubic-bezier(.22,.68,0,1.2);}
-      #er-panel.open.visible .erb{transform:translateY(0) scale(1);}
-      .erb-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 26px;background:linear-gradient(90deg,#0c0c0e,#151517);border-bottom:1px solid rgba(255,59,48,.16);}
-      .erb-logo{font-size:1.05rem;font-weight:700;letter-spacing:3px;color:#f4f4f5;}
-      .erb-logo span{color:#ff3b30;}
-      .erb-badge{font-size:.55rem;letter-spacing:2px;text-transform:uppercase;background:rgba(255,59,48,.1);border:1px solid rgba(255,59,48,.3);color:#ff3b30;padding:3px 10px;border-radius:2px;margin-left:10px;}
-      .erb-x{background:none;border:1px solid rgba(255,255,255,.1);color:#a1a1aa;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.88rem;cursor:pointer;transition:.2s;flex-shrink:0;}
-      .erb-x:hover{background:#ff3b30;border-color:#ff3b30;color:#fff;}
-      .er-login{max-width:340px;margin:52px auto;text-align:center;padding:0 24px;}
-      .er-login h3{font-size:1.4rem;font-weight:700;letter-spacing:2px;color:#f4f4f5;margin-bottom:6px;}
-      .er-login p{font-size:.8rem;color:#a1a1aa;margin-bottom:26px;line-height:1.6;}
-      .er-login-err,.er-login-lock{font-size:.76rem;margin-top:10px;display:none;line-height:1.5;}
-      .er-login-err{color:#ff3b30;}.er-login-lock{color:#f59e0b;}
-      .er-inp,.er-sel,.er-ta{width:100%;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#f4f4f5;border-radius:7px;font-size:.86rem;font-family:'Montserrat',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;box-sizing:border-box;}
-      .er-sel option{background:#111113;color:#f4f4f5;}
-      .er-inp:focus,.er-sel:focus,.er-ta:focus{border-color:#ff3b30;box-shadow:0 0 0 3px rgba(255,59,48,.12);}
-      .er-inp:disabled,.er-sel:disabled{opacity:.45;cursor:not-allowed;}
-      .er-ta{resize:vertical;min-height:72px;}
-      .er-inp-mb{margin-bottom:12px;}
-      .er-btn{padding:10px 22px;background:#ff3b30;border:none;color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;border-radius:7px;cursor:pointer;transition:background .2s,box-shadow .2s,transform .15s;display:inline-flex;align-items:center;gap:7px;}
-      .er-btn:hover{background:#d63026;box-shadow:0 4px 16px rgba(255,59,48,.35);}
-      .er-btn:active{transform:scale(.97);}
-      .er-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
-      .er-btn.sec{background:transparent;border:1px solid rgba(255,59,48,.4);color:#ff3b30;}
-      .er-btn.sec:hover{background:rgba(255,59,48,.1);}
-      .er-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.12);color:#a1a1aa;}
-      .er-btn.ghost:hover{border-color:rgba(255,59,48,.4);color:#ff3b30;background:rgba(255,59,48,.05);}
-      .er-btn.danger{background:#b91c1c;border:1px solid #b91c1c;}
-      .er-btn.danger:hover{background:#991b1b;box-shadow:0 4px 16px rgba(185,28,28,.4);}
-      .er-btn.sm{padding:6px 13px;font-size:.68rem;letter-spacing:1.5px;}
-      .er-btn.full{width:100%;justify-content:center;}
-      .er-tabs{display:flex;gap:2px;padding:14px 26px 0;border-bottom:1px solid rgba(255,255,255,.05);background:#0f0f11;overflow-x:auto;}
-      .er-tabs::-webkit-scrollbar{display:none;}
-      .er-tab{padding:9px 16px;font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;color:#71717a;background:none;border:none;border-bottom:2px solid transparent;font-family:'Montserrat',sans-serif;transition:color .2s,border-color .2s;white-space:nowrap;}
-      .er-tab.on{color:#ff3b30;border-bottom-color:#ff3b30;}
-      .er-tab:hover:not(.on){color:#f4f4f5;}
-      .er-pane{display:none;padding:26px;}
-      .er-pane.on{display:block;}
-      .er-stitle{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:#ff3b30;font-weight:700;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-      .er-stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px;}
-      .er-stat{flex:1;min-width:110px;background:rgba(255,59,48,.06);border:1px solid rgba(255,59,48,.14);border-radius:10px;padding:16px 18px;transition:border-color .2s,transform .2s;cursor:default;}
-      .er-stat:hover{border-color:rgba(255,59,48,.35);transform:translateY(-2px);}
-      .er-stat-v{font-size:1.65rem;font-weight:700;color:#ff3b30;line-height:1;}
-      .er-stat-l{font-size:.6rem;letter-spacing:2px;color:#71717a;text-transform:uppercase;margin-top:5px;}
-      .er-tbl{width:100%;border-collapse:collapse;}
-      .er-tbl th{text-align:left;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:#71717a;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.06);}
-      .er-tbl td{padding:11px 10px;font-size:.82rem;color:#f4f4f5;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
-      .er-tbl tr:hover td{background:rgba(255,59,48,.04);}
-      .er-thumb{width:64px;height:44px;object-fit:cover;border-radius:5px;border:1px solid rgba(255,255,255,.08);display:block;}
-      .er-pill{font-size:.56rem;letter-spacing:1.5px;padding:2px 8px;border-radius:2px;font-weight:700;text-transform:uppercase;background:rgba(255,59,48,.14);color:#ff3b30;border:1px solid rgba(255,59,48,.28);display:inline-block;}
-      .er-actrow{display:flex;gap:5px;flex-wrap:wrap;}
-      .er-grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px;}
-      .er-frow{display:flex;flex-direction:column;gap:5px;}
-      .er-frow.full{grid-column:1/-1;}
-      .er-frow label{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:#71717a;font-weight:600;}
-      .er-frow small{font-size:.62rem;color:#52525b;margin-top:-2px;}
-      .er-divider{grid-column:1/-1;font-size:.63rem;letter-spacing:2.5px;color:#ff3b30;text-transform:uppercase;padding:6px 0 2px;border-top:1px solid rgba(255,59,48,.12);margin-top:4px;}
-      .er-form-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:6px;}
-      .er-inq-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
-      .er-inq-tag{font-size:.64rem;letter-spacing:1.5px;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.1);color:#71717a;cursor:pointer;background:none;font-family:'Montserrat',sans-serif;font-weight:600;transition:.2s;}
-      .er-inq-tag.on,.er-inq-tag:hover{background:rgba(255,59,48,.1);border-color:rgba(255,59,48,.35);color:#ff3b30;}
-      .er-grp{margin-bottom:28px;}
-      .er-grp-hdr{display:flex;align-items:center;gap:10px;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:#f4f4f5;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,59,48,.14);}
-      .er-grp-hdr img{width:52px;height:36px;object-fit:cover;border-radius:4px;border:1px solid rgba(255,255,255,.1);flex-shrink:0;}
-      .er-grp-cnt{margin-left:auto;font-size:.6rem;background:rgba(255,59,48,.14);border:1px solid rgba(255,59,48,.28);color:#ff3b30;padding:2px 9px;border-radius:10px;white-space:nowrap;}
-      .er-inq-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:13px 15px;margin-bottom:7px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;transition:border-color .2s;}
-      .er-inq-card:hover{border-color:rgba(255,59,48,.2);}
-      .er-inq-name{font-size:.88rem;font-weight:700;color:#f4f4f5;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
-      .er-inq-type{font-size:.55rem;padding:2px 6px;background:#ff3b30;color:#fff;border-radius:2px;letter-spacing:1px;text-transform:uppercase;}
-      .er-inq-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:.73rem;color:#a1a1aa;}
-      .er-inq-meta span{display:flex;align-items:center;gap:4px;}
-      .er-inq-meta i{color:#ff3b30;font-size:.66rem;}
-      .er-inq-note{margin-top:7px;font-size:.75rem;color:#a1a1aa;font-style:italic;border-top:1px solid rgba(255,255,255,.05);padding-top:7px;}
-      .er-inq-ts{font-size:.6rem;color:#52525b;white-space:nowrap;margin-bottom:6px;}
-      .er-inq-del{background:none;border:1px solid rgba(255,255,255,.08);color:#71717a;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;cursor:pointer;transition:.2s;flex-shrink:0;}
-      .er-inq-del:hover{background:#b91c1c;border-color:#b91c1c;color:#fff;}
-      .er-empty{text-align:center;color:#71717a;font-size:.84rem;padding:40px 0;}
-      .er-img-prev{width:100%;max-height:130px;object-fit:cover;border-radius:7px;border:1px solid rgba(255,59,48,.2);margin-top:6px;display:none;}
-      #er-session-bar{font-size:.58rem;letter-spacing:1.5px;color:#52525b;text-align:right;padding:4px 26px 0;background:#0f0f11;}
-      #er-panel *::-webkit-scrollbar{width:4px;height:4px;}
-      #er-panel *::-webkit-scrollbar-track{background:transparent;}
-      #er-panel *::-webkit-scrollbar-thumb{background:#ff3b30;border-radius:2px;}
-      .er-set-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:22px;}
-      .er-set-tab{font-size:.64rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.1);color:#71717a;cursor:pointer;background:none;font-family:'Montserrat',sans-serif;transition:.2s;}
-      .er-set-tab.on,.er-set-tab:hover{background:rgba(255,59,48,.1);border-color:rgba(255,59,48,.35);color:#ff3b30;}
-      .er-set-pane{display:none;}
-      .er-set-pane.on{display:block;}
-      .er-svc-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
-      .er-svc-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:14px 16px;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;transition:border-color .2s;}
-      .er-svc-item:hover{border-color:rgba(255,59,48,.2);}
-      .er-svc-icon-prev{width:36px;height:36px;background:rgba(255,59,48,.1);border:1px solid rgba(255,59,48,.2);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#ff3b30;font-size:.95rem;flex-shrink:0;}
-      .er-svc-text h5{font-size:.84rem;font-weight:700;color:#f4f4f5;margin-bottom:3px;}
-      .er-svc-text p{font-size:.72rem;color:#71717a;line-height:1.5;}
-      .er-soc-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:4px;}
-      .er-soc-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:12px 14px;}
-      .er-soc-icon{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,59,48,.25);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#ff3b30;flex-shrink:0;}
-      .er-soc-row .er-inp{flex:1;}
-      .er-map-prev{width:100%;height:180px;border-radius:9px;border:1px solid rgba(255,59,48,.2);overflow:hidden;margin-top:8px;}
-      .er-map-prev iframe{width:100%;height:100%;border:none;filter:invert(90%) hue-rotate(180deg) brightness(.85);}
-      .er-link-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
-      .er-link-item{display:flex;gap:8px;align-items:center;}
-      .er-link-item .er-inp{flex:1;}
-      .er-link-del{background:none;border:1px solid rgba(255,255,255,.08);color:#71717a;width:30px;height:30px;min-width:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;cursor:pointer;transition:.2s;}
-      .er-link-del:hover{background:#b91c1c;border-color:#b91c1c;color:#fff;}
-      .er-chart-wrap{background:rgba(255,59,48,.04);border:1px solid rgba(255,59,48,.1);border-radius:10px;padding:18px;margin-bottom:22px;}
-      .er-chart-title{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:#71717a;margin-bottom:14px;}
-      .er-chart-bars{display:flex;gap:6px;align-items:flex-end;height:80px;}
-      .er-chart-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;}
-      .er-chart-bar{width:100%;background:rgba(255,59,48,.25);border-radius:3px 3px 0 0;transition:height .6s ease,background .2s;min-height:2px;}
-      .er-chart-bar:hover{background:#ff3b30;}
-      .er-chart-lbl{font-size:.52rem;color:#52525b;letter-spacing:.5px;}
-      .er-svc-form-box{background:rgba(255,59,48,.04);border:1px solid rgba(255,59,48,.12);border-radius:10px;padding:20px;margin-top:4px;}
-      @media(max-width:640px){.er-grid2{grid-template-columns:1fr;}.er-soc-grid{grid-template-columns:1fr;}.er-tbl th:nth-child(1),.er-tbl td:nth-child(1),.er-tbl th:nth-child(5),.er-tbl td:nth-child(5){display:none;}.er-tab{padding:8px 10px;font-size:.6rem;}.er-pane{padding:16px;}}
-    `;
-    const s=document.createElement('style');s.id='er-styles';s.textContent=css;document.head.appendChild(s);
-  }
+                            <!-- LEADS TAB -->
+                            <div id="tab-leads" class="ep-tab-content" style="display: none;">
+                                <h3>Active Sales Inquiries</h3>
+                                <input type="text" id="leads-search" class="ep-input" placeholder="Search by customer name or email..." onkeyup="window.filterLeads()">
+                                <table class="ep-table">
+                                    <thead>
+                                        <tr><th>Date</th><th>Customer</th><th>Vehicle</th><th>Port</th><th>Action</th></tr>
+                                    </thead>
+                                    <tbody id="leads-list"></tbody>
+                                </table>
+                            </div>
+
+                             <!-- QUOTES TAB -->
+                             <div id="tab-quotes" class="ep-tab-content" style="display: none;">
+                                <h3>General Quote Requests</h3>
+                                <table class="ep-table">
+                                    <thead>
+                                        <tr><th>Date</th><th>Customer</th><th>Interest</th><th>Budget</th><th>Action</th></tr>
+                                    </thead>
+                                    <tbody id="quotes-list"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAR EDIT MODAL -->
+            <div id="ep-car-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:11000; padding:40px;">
+                <div style="max-width: 800px; margin: 0 auto; background: #111; padding: 30px; border-radius: 10px; border: 1px solid var(--p);">
+                    <h2 id="modal-title">Add Vehicle</h2>
+                    <form id="car-form" class="ep-grid" style="margin-top: 20px;">
+                        <div><label>Make</label><input name="make" class="ep-input" required placeholder="e.g. BMW"></div>
+                        <div><label>Model Name</label><input name="name" class="ep-input" required placeholder="e.g. X5 M-Sport"></div>
+                        <div><label>Price</label><input name="price" class="ep-input" placeholder="e.g. $85,000"></div>
+                        <div><label>Category</label>
+                            <select name="cat" class="ep-input">
+                                <option value="luxury">Luxury</option>
+                                <option value="suv">SUV</option>
+                                <option value="exotic">Exotic</option>
+                                <option value="fleet">Fleet</option>
+                            </select>
+                        </div>
+                        <div><label>Badge</label><input name="badge" class="ep-input" placeholder="e.g. HOT"></div>
+                        <div><label>Sold Text</label><input name="sold" class="ep-input" placeholder="e.g. 15 Exported"></div>
+                        <div style="grid-column: span 2;"><label>Main Image URL</label><input name="img" class="ep-input" placeholder="https://..."></div>
+                        <div style="grid-column: span 2;">
+                            <button type="submit" class="ep-btn ep-btn-p">Save Vehicle</button>
+                            <button type="button" class="ep-btn ep-btn-sec" onclick="document.getElementById('ep-car-modal').style.display='none'">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `);
+    }
+
+    // 2. CORE LOGIC
+    async function init() {
+        injectStyles();
+        injectHTML();
+        setupEventListeners();
+        checkSession();
+    }
+
+    function setupEventListeners() {
+        // Trigger Panel
+        document.getElementById('ep-admin-trigger').onclick = () => {
+            document.getElementById('ep-overlay').style.display = 'block';
+        };
+
+        // Login
+        document.getElementById('ep-login-btn').onclick = login;
+
+        // Logout
+        document.getElementById('ep-logout').onclick = logout;
+
+        // Tab Switching
+        document.querySelectorAll('.ep-nav-btn[data-tab]').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.ep-nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.ep-tab-content').forEach(c => c.style.display = 'none');
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).style.display = 'block';
+                loadData();
+            };
+        });
+
+        // Car Form Submission (Create/Update)
+        document.getElementById('car-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const carObj = Object.fromEntries(formData.entries());
+
+            if (editingId) {
+                const { error } = await sb.from('inventory').update(carObj).eq('id', editingId);
+                if (error) alert(error.message);
+            } else {
+                const { error } = await sb.from('inventory').insert([carObj]);
+                if (error) alert(error.message);
+            }
+            
+            document.getElementById('ep-car-modal').style.display = 'none';
+            loadData();
+        };
+    }
+
+    // 3. AUTHENTICATION
+    async function login() {
+        const email = document.getElementById('ep-email').value;
+        const password = document.getElementById('ep-pass').value;
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+        
+        if (error) return alert("Login Failed: " + error.message);
+        currentUser = data.user;
+        showPanel();
+    }
+
+    async function logout() {
+        await sb.auth.signOut();
+        currentUser = null;
+        document.getElementById('ep-login-form').style.display = 'block';
+        document.getElementById('ep-main-panel').style.display = 'none';
+    }
+
+    async function checkSession() {
+        const { data } = await sb.auth.getUser();
+        if (data.user) {
+            currentUser = data.user;
+            showPanel();
+        }
+    }
+
+    function showPanel() {
+        document.getElementById('ep-login-form').style.display = 'none';
+        document.getElementById('ep-main-panel').style.display = 'block';
+        loadData();
+    }
+
+    // 4. DATA OPERATIONS
+    async function loadData() {
+        // Fetch Inventory
+        const { data: inv } = await sb.from('inventory').select('*').order('id', { ascending: false });
+        inventoryData = inv || [];
+        renderInventory(inventoryData);
+
+        // Fetch Inquiries
+        const { data: inq } = await sb.from('inquiries').select('*').order('created_at', { ascending: false });
+        inquiriesData = inq || [];
+        renderLeads(inquiriesData);
+
+        // Fetch Quotes
+        const { data: qts } = await sb.from('quotes').select('*').order('created_at', { ascending: false });
+        renderQuotes(qts || []);
+    }
+
+    // --- RENDERERS ---
+
+    function renderInventory(data) {
+        const container = document.getElementById('inv-list');
+        container.innerHTML = data.map(item => `
+            <tr>
+                <td>${item.id}</td>
+                <td><strong>${item.make}</strong> ${item.name}</td>
+                <td>${item.price}</td>
+                <td><span class="ep-status status-live">${item.cat}</span></td>
+                <td>${item.badge || '—'}</td>
+                <td>
+                    <button class="ep-btn ep-btn-sec" onclick="window.editCar(${item.id})">Edit</button>
+                    <button class="ep-btn ep-btn-sec" style="color:#ff4444" onclick="window.deleteCar(${item.id})">Delete</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function renderLeads(data) {
+        const container = document.getElementById('leads-list');
+        container.innerHTML = data.map(item => `
+            <tr>
+                <td>${new Date(item.created_at).toLocaleDateString()}</td>
+                <td><strong>${item.name}</strong><br><small>${item.email}</small></td>
+                <td>${item.car_title}</td>
+                <td>${item.destination}</td>
+                <td>
+                    <button class="ep-btn ep-btn-sec" onclick="alert('Note: ${item.notes || 'No message'}')">View</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function renderQuotes(data) {
+        const container = document.getElementById('quotes-list');
+        container.innerHTML = data.map(item => `
+            <tr>
+                <td>${new Date(item.created_at).toLocaleDateString()}</td>
+                <td><strong>${item.name}</strong><br><small>${item.email}</small></td>
+                <td>${item.vehicle_interest || 'General'}</td>
+                <td>${item.budget || '—'}</td>
+                <td>
+                    <button class="ep-btn ep-btn-sec" onclick="alert('Message: ${item.message || 'No message'}')">View</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // --- SEARCH / FILTER ---
+
+    window.filterInventory = () => {
+        const query = document.getElementById('inv-search').value.toLowerCase();
+        const filtered = inventoryData.filter(i => 
+            i.make.toLowerCase().includes(query) || 
+            i.name.toLowerCase().includes(query) || 
+            i.cat.toLowerCase().includes(query)
+        );
+        renderInventory(filtered);
+    };
+
+    window.filterLeads = () => {
+        const query = document.getElementById('leads-search').value.toLowerCase();
+        const filtered = inquiriesData.filter(i => 
+            i.name.toLowerCase().includes(query) || 
+            i.email.toLowerCase().includes(query)
+        );
+        renderLeads(filtered);
+    };
+
+    // --- CRUD ACTIONS ---
+
+    window.openCarForm = () => {
+        editingId = null;
+        document.getElementById('car-form').reset();
+        document.getElementById('modal-title').innerText = "Add Vehicle";
+        document.getElementById('ep-car-modal').style.display = 'block';
+    };
+
+    window.editCar = (id) => {
+        editingId = id;
+        const car = inventoryData.find(c => c.id === id);
+        const form = document.getElementById('car-form');
+        
+        document.getElementById('modal-title').innerText = "Edit Vehicle #" + id;
+        
+        // Fill form
+        for (let key in car) {
+            if (form.elements[key]) form.elements[key].value = car[key];
+        }
+        
+        document.getElementById('ep-car-modal').style.display = 'block';
+    };
+
+    window.deleteCar = async (id) => {
+        if (!confirm("Are you sure you want to remove this vehicle?")) return;
+        const { error } = await sb.from('inventory').delete().eq('id', id);
+        if (error) alert(error.message);
+        loadData();
+    };
+
+})();
