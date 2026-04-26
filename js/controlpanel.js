@@ -6,7 +6,7 @@
 (function () {
     'use strict';
 
-    const SUPABASE_URL = 'https://doycdipvtyflshhsxqqx.supabase.co';
+    const SUPABASE_URL = 'https://doycdipvtyflshhsxqqx.supabase.co/rest/v1/';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRveWNkaXB2dHlmbHNoaHN4cXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNzczMjIsImV4cCI6MjA5Mjc1MzMyMn0.txaoSZw0DWdhICWnkDDTAFW_WqSkv6YdhHbMTlWLIwk';
 
     let sb = null;
