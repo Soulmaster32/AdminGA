@@ -1,0 +1,1715 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELITE ROUTE | Automobile Trading For Export L.L.C.</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Slick Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+    <style>
+        /* ==================== CSS UI/UX STYLES ==================== */
+        :root {
+            --primary-color: #ff3b30;
+            --primary-gradient: linear-gradient(135deg, #ff3b30, #d63026);
+            --bg-dark: #070709;
+            --bg-card: #121215;
+            --text-light: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --gold-dim: rgba(255, 59, 48, 0.08);
+            --border: rgba(255, 59, 48, 0.25);
+            --border2: rgba(255, 255, 255, 0.08);
+            --glow: 0 8px 30px rgba(255, 59, 48, 0.3);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { display: block; max-width: 100%; }
+        button { cursor: pointer; font-family: inherit; outline: none; border: none; background: transparent; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; border: 2px solid var(--bg-dark); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
+
+        /* ==================== NAVIGATION ==================== */
+        nav#navbar { display: flex; justify-content: space-between; align-items: center; padding: 25px 50px; background-color: rgba(7, 7, 9, 0.7); position: fixed; width: 100%; top: 0; z-index: 1000; transition: all 0.4s var(--ease-smooth); backdrop-filter: blur(15px); border-bottom: 1px solid transparent; }
+        nav#navbar.scrolled { padding: 15px 50px; background-color: rgba(7, 7, 9, 0.95); border-bottom: 1px solid var(--border2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); }
+        
+        .nav-left { display: flex; align-items: center; gap: 16px; }
+        .burger-btn { display: none; background: transparent; border: 1px solid var(--border2); color: var(--text-light); width: 44px; height: 44px; border-radius: 8px; flex-direction: column; align-items: center; justify-content: center; gap: 6px; transition: 0.3s; z-index: 1001; }
+        .burger-btn:hover { border-color: var(--primary-color); background: var(--gold-dim); }
+        .burger-btn span { display: block; width: 20px; height: 2px; background: var(--text-light); transition: 0.4s var(--ease-spring); }
+        
+        .burger-btn.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background: var(--primary-color); }
+        .burger-btn.active span:nth-child(2) { opacity: 0; }
+        .burger-btn.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background: var(--primary-color); }
+
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 3px; line-height: 1; text-transform: uppercase; z-index: 1001; position: relative;}
+        .logo span { color: var(--primary-color); }
+        .logo-sub-txt { font-size: 0.45rem; color: var(--primary-color); letter-spacing: 2px; font-weight: 600; text-transform: uppercase; display: block; margin-top: 4px; opacity: 0.8;}
+        
+        .nav-menu-wrap { display: flex; align-items: center; gap: 40px; transition: all 0.4s ease; }
+        .nav-links { display: flex; gap: 35px; }
+        .nav-links a { color: var(--text-muted); font-weight: 600; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.3s; position: relative; padding: 5px 0;}
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--primary-color); transition: 0.4s var(--ease-spring); }
+        .nav-links a:hover, .nav-links a.active-link { color: var(--text-light); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .btn-qte { padding: 12px 28px; background: rgba(255,59,48,0.1); border: 1px solid var(--primary-color); color: var(--text-light); font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.4s var(--ease-spring); border-radius: 6px; overflow: hidden; position: relative; z-index: 1; }
+        .btn-qte::before { content:''; position: absolute; top:0; left:0; width:0%; height:100%; background: var(--primary-gradient); transition: 0.4s var(--ease-smooth); z-index: -1; }
+        .btn-qte:hover::before { width: 100%; }
+        .btn-qte:hover { border-color: transparent; box-shadow: var(--glow); transform: translateY(-2px); }
+
+        @media (max-width: 992px) {
+            nav#navbar { padding: 20px 30px; }
+            .burger-btn { display: flex; }
+            .nav-menu-wrap { position: fixed; top: 0; right: -100%; width: 300px; height: 100vh; background: rgba(10,10,12,0.98); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: flex-start; padding: 40px; border-left: 1px solid var(--border2); z-index: 1000; box-shadow: -10px 0 30px rgba(0,0,0,0.8); }
+            .nav-menu-wrap.active { right: 0; }
+            .nav-links { flex-direction: column; gap: 25px; width: 100%; margin-bottom: 40px;}
+            .nav-links a { font-size: 1.1rem; }
+        }
+
+        /* ==================== BUTTONS ==================== */
+        .btn { padding: 14px 30px; border: none; border-radius: 6px; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.4s var(--ease-spring); display: inline-flex; align-items: center; justify-content: center; gap: 8px; position: relative; overflow: hidden; cursor: pointer; }
+        .primary-btn { background: var(--primary-gradient); color: #fff; box-shadow: 0 6px 20px rgba(255, 59, 48, 0.25); }
+        .primary-btn:hover { transform: translateY(-4px); box-shadow: var(--glow); }
+        .secondary-btn { background: rgba(255,255,255,0.03); color: #fff; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(5px); }
+        .secondary-btn:hover { border-color: #fff; background: rgba(255,255,255,0.1); transform: translateY(-4px); box-shadow: 0 8px 25px rgba(255,255,255,0.1); }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero { height: 100vh; position: relative; overflow: hidden; background: #000; }
+        .hero-slider, .slick-list, .slick-track, .slick-slide { height: 100%; }
+        .hero-slide { position: relative; height: 100vh; display: flex !important; align-items: center; overflow: hidden; }
+        .slide-bg { position: absolute; inset: -5%; background-size: cover; background-position: center; will-change: transform; transition: transform 8s ease-out; }
+        .hero-slide.slick-active .slide-bg { transform: scale(1.08) translateX(2%); }
+        .hero-ov { position: absolute; inset: 0; background: linear-gradient(110deg, rgba(7, 7, 9, 0.95) 0%, rgba(7, 7, 9, 0.6) 50%, rgba(7, 7, 9, 0.2) 100%); z-index: 2; }
+        
+        .hero-content { position: relative; z-index: 10; max-width: 750px; margin-left: 8%; color: #fff; opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease 0.4s, transform 0.8s var(--ease-spring) 0.4s; }
+        .hero-slide.slick-active .hero-content { opacity: 1; transform: translateY(0); }
+        
+        .h-tag-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,59,48,0.15); border: 1px solid rgba(255,59,48,0.3); padding: 8px 16px; border-radius: 30px; margin-bottom: 25px; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--primary-color); backdrop-filter: blur(4px); }
+        .hero-content h1 { font-size: 4.8rem; font-weight: 900; line-height: 1.05; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 15px 40px rgba(0,0,0,0.9); }
+        .hero-content h1 em { color: var(--primary-color); font-style: normal; text-shadow: 0 0 40px rgba(255,59,48,0.4); }
+        .hero-content p { font-size: 1.15rem; color: rgba(255,255,255,0.85); margin-bottom: 40px; max-width: 550px; line-height: 1.8; font-weight: 400; }
+        .h-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+        
+        .slide-wm { position: absolute; bottom: 0; right: -2%; z-index: 5; padding: 20px 40px; background: linear-gradient(90deg, transparent, rgba(7,7,9,0.9)); font-size: 5rem; font-weight: 900; color: rgba(255,255,255,0.02); letter-spacing: 8px; text-transform: uppercase; user-select: none; }
+        .slick-dots { position: absolute; bottom: 50px; left: 8%; z-index: 20; display: flex; gap: 12px; }
+        .slick-dots li button { width: 35px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; transition: 0.4s var(--ease-spring); font-size: 0; border: none; cursor: pointer; }
+        .slick-dots li.slick-active button { background: var(--primary-color); width: 60px; box-shadow: 0 0 15px var(--primary-color); }
+
+        @media (max-width: 768px) {
+            .hero-content { margin-left: 5%; margin-right: 5%; text-align: center; display: flex; flex-direction: column; align-items: center; }
+            .hero-content h1 { font-size: 3.2rem; }
+            .h-btns { justify-content: center; }
+            .slick-dots { left: 50%; transform: translateX(-50%); bottom: 30px; }
+            .slide-wm { font-size: 3rem; bottom: 10%; right: 50%; transform: translateX(50%); text-align: center; background: none;}
+        }
+
+        /* ==================== STATS & SECTIONS ==================== */
+        .stats-bar { background: linear-gradient(90deg, #0a0a0c, #151518, #0a0a0c); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 40px 5%; display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 30px; position: relative; z-index: 30; margin-top: -2px; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        .stat-item { text-align: center; transition: 0.4s var(--ease-spring); cursor: default; }
+        .stat-item:hover { transform: translateY(-5px) scale(1.05); }
+        .stat-num { font-size: 2.5rem; font-weight: 900; color: var(--primary-color); letter-spacing: 1px; text-shadow: 0 4px 20px rgba(255,59,48,0.2); }
+        .stat-lbl { font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-top: 8px; font-weight: 700; }
+
+        .sec { padding: 120px 6%; position: relative; }
+        .eyebrow { font-size: 0.8rem; font-weight: 800; letter-spacing: 5px; color: var(--primary-color); text-transform: uppercase; text-align: center; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .eyebrow::before, .eyebrow::after { content: ''; width: 40px; height: 2px; background: var(--border); }
+        .sec-title { font-size: 3.2rem; font-weight: 900; text-align: center; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .sec-title em { color: var(--primary-color); font-style: normal; position: relative; }
+        .sec-title em::after { content:''; position:absolute; bottom: 5px; left:0; width:100%; height:8px; background: var(--gold-dim); z-index: -1; transform: skewX(-15deg); }
+        .sec-sub { text-align: center; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 60px; max-width: 650px; margin-left: auto; margin-right: auto; }
+        
+        .reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-spring); }
+        .reveal.vis { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* ==================== SHOWROOM GRID ==================== */
+        #showroom { background: var(--bg-dark); }
+        .cat-tools { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; gap: 20px; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid var(--border2); backdrop-filter: blur(10px); }
+        .srch { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--border2); border-radius: 8px; padding: 0 20px; max-width: 400px; width: 100%; transition: 0.4s var(--ease-smooth); }
+        .srch:focus-within { border-color: var(--primary-color); box-shadow: 0 0 20px rgba(255,59,48,0.15); background: rgba(0,0,0,0.8); }
+        .srch i { color: var(--text-muted); transition: 0.3s; }
+        .srch:focus-within i { color: var(--primary-color); }
+        .srch input { background: transparent; border: none; outline: none; color: #fff; padding: 16px 0; width: 100%; font-size: 0.95rem; font-weight: 500; }
+        
+        .ftabs { display: flex; gap: 12px; flex-wrap: wrap; }
+        .ftab { background: rgba(255,255,255,0.03); color: var(--text-light); border: 1px solid var(--border2); padding: 12px 24px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: 0.4s var(--ease-spring); }
+        .ftab.on, .ftab:hover { background: var(--primary-gradient); border-color: transparent; color: white; box-shadow: var(--glow); transform: translateY(-2px); }
+        
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 35px; }
+        .product-card { background: linear-gradient(160deg, #16161a 0%, #0d0d10 100%); border-radius: 16px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); transition: 0.5s var(--ease-spring); display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .product-card::before { content:''; position: absolute; inset: 0; border-radius: 16px; padding: 2px; background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.5; transition: 0.5s; pointer-events: none;}
+        .product-card:hover { transform: translateY(-12px); box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 30px rgba(255,59,48,0.15); border-color: var(--primary-color); }
+        .product-card:hover::before { opacity: 1; background: var(--primary-gradient); }
+        
+        .card-badge { position: absolute; top: 18px; left: 18px; z-index: 5; font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 6px; background: var(--primary-gradient); color: #fff; box-shadow: 0 4px 15px rgba(255,59,48,0.4); }
+        .card-img { height: 260px; overflow: hidden; position: relative; }
+        .card-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, #0d0d10 0%, transparent 60%); z-index: 1; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-smooth); }
+        .product-card:hover .card-img img { transform: scale(1.1) rotate(-1deg); }
+        
+        .card-body { padding: 25px; position: relative; z-index: 2; margin-top: -30px; }
+        .card-make { font-size: 0.75rem; letter-spacing: 2px; color: var(--primary-color); text-transform: uppercase; margin-bottom: 6px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.8);}
+        .card-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; line-height: 1.2; }
+        .spec-pill { background: rgba(255,255,255,0.05); border: 1px solid var(--border2); padding: 5px 12px; font-size: 0.65rem; font-weight: 600; border-radius: 6px; color: var(--text-muted); letter-spacing: 1px; display: inline-block; margin: 0 6px 10px 0; transition: 0.3s; }
+        .product-card:hover .spec-pill { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
+        
+        .card-bot { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 15px;}
+        .card-price { font-size: 1.8rem; font-weight: 900; color: #fff; letter-spacing: 1px; line-height: 1; }
+        .card-oldp { font-size: 0.85rem; color: var(--text-muted); text-decoration: line-through; margin-top: 6px; }
+        
+        .card-actions { display: flex; gap: 12px; }
+        .btn-inq { flex: 1; padding: 14px; background: rgba(255,59,48,0.1); border: 1px solid rgba(255,59,48,0.3); color: var(--primary-color); font-size: 0.85rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 8px; transition: 0.4s var(--ease-spring); display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-inq:hover { background: var(--primary-gradient); color: #fff; border-color: transparent; box-shadow: var(--glow); transform: translateY(-2px);}
+        .btn-view-card { width: 50px; height: 50px; background: rgba(255,255,255,0.03); border: 1px solid var(--border2); color: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: 0.4s var(--ease-spring); font-size: 1.1rem; }
+        .btn-view-card:hover { border-color: var(--primary-color); color: var(--primary-color); background: rgba(255,59,48,0.1); transform: translateY(-2px) rotate(5deg); }
+
+        /* ==================== SERVICES ==================== */
+        #services { background: linear-gradient(180deg, #0a0a0c 0%, #121215 100%); }
+        .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .svc-card { background: rgba(255,255,255,0.02); padding: 40px 35px; border-radius: 16px; border: 1px solid var(--border2); position: relative; transition: 0.5s var(--ease-spring); overflow: hidden; backdrop-filter: blur(10px); }
+        .svc-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 0; background: var(--primary-gradient); transition: height 0.5s var(--ease-spring); }
+        .svc-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        .svc-card:hover::before { height: 100%; }
+        .svc-icon { width: 65px; height: 65px; background: linear-gradient(135deg, rgba(255,59,48,0.15), rgba(255,59,48,0.05)); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-color); margin-bottom: 25px; transition: 0.4s; }
+        .svc-card:hover .svc-icon { transform: scale(1.1) rotate(10deg); box-shadow: var(--glow); background: var(--primary-color); color: #fff; border-color: transparent;}
+        .svc-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 15px; letter-spacing: 0.5px; }
+        .svc-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; }
+
+        /* ==================== FORMS & CONTACT ==================== */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; border-radius: 20px; overflow: hidden; border: 1px solid var(--border2); box-shadow: 0 20px 50px rgba(0,0,0,0.6); background: var(--bg-card); }
+        .c-left { padding: 60px 50px; background: linear-gradient(135deg, #151518, #0a0a0c); }
+        .c-left h3 { font-size: 2.4rem; font-weight: 900; margin-bottom: 12px; }
+        .c-left p { color: var(--text-muted); font-size: 1rem; margin-bottom: 35px; }
+        
+        .frow { position: relative; margin-bottom: 25px; }
+        .frow label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; font-weight: 700; transition: 0.3s; }
+        .frow .icon-wrap { position: absolute; left: 20px; top: 43px; color: var(--text-muted); font-size: 1.1rem; transition: 0.3s; z-index: 2; }
+        .frow input, .frow textarea, .frow select { width: 100%; padding: 18px 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 12px; font-size: 1rem; transition: 0.4s var(--ease-smooth); outline: none; }
+        .frow.has-icon input { padding-left: 55px; }
+        .frow textarea { min-height: 140px; resize: vertical; }
+        .frow input:focus, .frow textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 0 4px rgba(255,59,48,0.15); background: rgba(0,0,0,0.6); }
+        .frow:focus-within label { color: var(--primary-color); transform: translateY(-2px); }
+        .frow:focus-within .icon-wrap { color: var(--primary-color); }
+        
+        .c-right { position: relative; min-height: 500px; }
+        .c-right iframe { width: 100%; height: 100%; border: none; filter: invert(100%) hue-rotate(180deg) brightness(0.8) contrast(1.2); }
+        .map-card { position: absolute; bottom: 40px; left: 40px; right: 40px; background: rgba(15, 15, 17, 0.85); backdrop-filter: blur(15px); padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
+        .mrow { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; font-size: 0.95rem; color: #eee; line-height: 1.5;}
+        .mrow:last-child { margin-bottom: 0; }
+        .mrow i { color: var(--primary-color); font-size: 1.2rem; width: 24px; text-align: center; margin-top: 3px;}
+
+        @media (max-width: 992px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .c-right { min-height: 400px; }
+            .map-card { bottom: 20px; left: 20px; right: 20px; padding: 20px; }
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer { background: #050507; border-top: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--primary-gradient); opacity: 0.5; }
+        .foot-top { padding: 70px 6% 50px; display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 40px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .foot-brand .fl { font-size: 2.2rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 5px; }
+        .foot-brand .fl span { color: var(--primary-color); }
+        .foot-brand .fls { font-size: 0.65rem; color: var(--primary-color); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; font-weight: 700; }
+        .foot-brand p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; max-width: 320px; margin-bottom: 25px; }
+        .fsoc { display: flex; gap: 12px; }
+        .fsoc a { width: 40px; height: 40px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--text-light); transition: 0.4s var(--ease-spring); }
+        .fsoc a:hover { color: #fff; border-color: var(--primary-color); background: var(--primary-color); transform: translateY(-5px); box-shadow: var(--glow); }
+        .fcol h4 { font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: #fff; margin-bottom: 20px; font-weight: 800; position: relative; padding-bottom: 10px;}
+        .fcol h4::after { content: ''; position: absolute; bottom: 0; left: 0; width: 30px; height: 2px; background: var(--primary-color); }
+        .fcol ul li { margin-bottom: 12px; }
+        .fcol ul li a { font-size: 0.9rem; color: var(--text-muted); transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .fcol ul li a:hover { color: var(--primary-color); transform: translateX(5px); }
+        .fcol ul li a i { font-size: 0.7rem; color: var(--primary-color); opacity: 0.5; }
+        .sister-cards { display: flex; flex-direction: column; gap: 12px; }
+        .sister-card { display: block; padding: 15px; border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; background: rgba(255,255,255,.01); transition: 0.4s var(--ease-spring); }
+        .sister-card:hover { border-color: var(--primary-color); background: rgba(255,59,48,0.05); transform: translateX(5px); }
+        .sn { font-size: 0.9rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 4px; color: #fff;}
+        .sn em { color: var(--primary-color); font-style: normal; }
+        .sd { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; }
+        
+        .foot-bot { padding: 25px 6%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: #000; }
+        .fcopy { font-size: 0.8rem; color: var(--text-muted); }
+        .fcopy a { color: var(--primary-color); font-weight: 700; }
+        .flinks { display: flex; gap: 20px; align-items: center; }
+        .flinks a { font-size: 0.8rem; color: var(--text-muted); transition: 0.3s; }
+        .flinks a:hover { color: #fff; }
+
+        @media (max-width: 900px) { .foot-top { grid-template-columns: 1fr 1fr; } .foot-brand { grid-column: 1 / -1; max-width: 100%;} .foot-brand p { max-width: 100%;} }
+        @media (max-width: 600px) { .foot-top { grid-template-columns: 1fr; gap: 30px;} .foot-bot { flex-direction: column; text-align: center; } }
+
+        /* ==================== MODALS (Advanced UX/UI) ==================== */
+        .modal-ov {
+            display: flex; position: fixed; inset: 0; background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(25px);
+            z-index: 5000; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer;
+        }
+        .modal-ov.open { opacity: 1; visibility: visible; }
+
+        .modal-box {
+            background: #101014; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px;
+            width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto;
+            transform: scale(0.9) translateY(40px); opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.1); cursor: default;
+        }
+        .modal-ov.open .modal-box { transform: scale(1) translateY(0); opacity: 1; }
+
+        .modal-box::-webkit-scrollbar { width: 8px; }
+        .modal-box::-webkit-scrollbar-track { background: transparent; }
+        .modal-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+        .modal-box::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
+
+        .modal-lg { max-width: 1200px; overflow: hidden; padding: 0; background: #0a0a0c; }
+        .modal-split { display: flex; flex-direction: column; height: 100%; max-height: 90vh; }
+
+        .modal-close-btn {
+            position: absolute; top: 20px; right: 20px; z-index: 50; background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 44px; height: 44px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer; backdrop-filter: blur(10px); font-size: 1.2rem;
+        }
+        .modal-close-btn:hover {
+            background: var(--primary-color); border-color: var(--primary-color);
+            transform: rotate(90deg) scale(1.1); box-shadow: 0 0 20px rgba(255,59,48,0.4);
+        }
+
+        @media (min-width: 992px) {
+            .modal-split { flex-direction: row; }
+            .modal-left { width: 55%; display: flex; flex-direction: column; background: #000; position: relative; border-right: 1px solid rgba(255,255,255,0.05); }
+            .modal-right { width: 45%; display: flex; flex-direction: column; background: #101014; overflow-y: auto; }
+            .modal-right::-webkit-scrollbar { width: 6px; }
+            .modal-right::-webkit-scrollbar-track { background: transparent; }
+            .modal-right::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+            .modal-right::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
+        }
+        @media (max-width: 991px) {
+            .modal-left { width: 100%; }
+            .modal-right { overflow-y: visible; }
+            .modal-lg { max-height: 95vh; overflow-y: auto; }
+            .modal-hero-wrap { min-height: 350px !important; }
+            .modal-body { padding: 30px 20px !important; }
+            .m-title { font-size: 2.2rem !important; }
+            .m-price { font-size: 2.6rem !important; }
+            .modal-form-wrap { padding: 30px 20px !important; }
+        }
+
+        .modal-hero-wrap { flex: 1; position: relative; min-height: 450px; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .modal-hero-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease, transform 0.4s var(--ease-spring); position: absolute; inset: 0; }
+
+        .m-nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s var(--ease-spring);
+            z-index: 20; backdrop-filter: blur(8px); font-size: 1.2rem;
+        }
+        .m-nav-btn:hover { background: var(--primary-color); border-color: var(--primary-color); box-shadow: 0 10px 25px rgba(255,59,48,0.5); transform: translateY(-50%) scale(1.15); }
+        .m-nav-prev { left: 25px; }
+        .m-nav-next { right: 25px; }
+
+        .modal-gallery {
+            display: flex; gap: 12px; padding: 20px; overflow-x: auto; background: #050507;
+            border-top: 1px solid #222; scroll-behavior: smooth;
+        }
+        .modal-gallery::-webkit-scrollbar { height: 4px; }
+        .modal-gallery::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        .modal-gallery img {
+            width: 100px; height: 75px; object-fit: cover; border-radius: 8px; cursor: pointer;
+            border: 2px solid transparent; transition: 0.3s; opacity: 0.5; flex-shrink: 0;
+        }
+        .modal-gallery img.gal-active, .modal-gallery img:hover { border-color: var(--primary-color); opacity: 1; transform: scale(1.05); }
+
+        .modal-body { padding: 50px 40px; display: flex; flex-direction: column; height: 100%; }
+        .m-badge-row { margin-bottom: 15px; }
+        .m-badge { font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; padding: 8px 16px; border-radius: 8px; background: var(--primary-gradient); color: #fff; box-shadow: 0 8px 20px rgba(255,59,48,0.4); display: inline-block; }
+        .m-make { font-size: 1rem; letter-spacing: 4px; color: var(--primary-color); text-transform: uppercase; margin-bottom: 8px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .m-make::before { content: ''; width: 20px; height: 2px; background: var(--primary-color); }
+        .m-title { font-size: 2.6rem; font-weight: 900; line-height: 1.1; margin-bottom: 20px; color: #fff; }
+        .m-price-row { display: flex; align-items: flex-end; gap: 15px; margin-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 25px; }
+        .m-price { font-size: 3.2rem; font-weight: 900; color: #fff; line-height: 1; text-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+        .m-oldp { font-size: 1.2rem; color: var(--text-muted); text-decoration: line-through; margin-bottom: 6px; }
+        
+        .m-ship {
+            font-size: 0.95rem; color: #4dbb6a; margin-top: 20px; margin-bottom: 35px;
+            font-weight: 700; display: flex; align-items: center; gap: 12px;
+            background: linear-gradient(90deg, rgba(77, 187, 106, 0.15), rgba(77, 187, 106, 0.05));
+            padding: 16px 20px; border-radius: 12px; border: 1px solid rgba(77, 187, 106, 0.3);
+            position: relative; overflow: hidden;
+        }
+        .m-ship::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(77, 187, 106, 0.2), transparent);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+
+        .m-scroll-details { flex: 1; margin-bottom: 40px; }
+        .m-spec-grid { display: flex; flex-direction: column; gap: 25px; }
+        .m-spec-block { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 30px; transition: 0.3s; }
+        .m-spec-block:hover { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); }
+        .m-spec-block h5 { font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-light); margin-bottom: 25px; display: flex; align-items: center; gap: 12px; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .m-spec-block h5 i { color: var(--primary-color); font-size: 1.2rem; }
+        .spec-list { display: flex; flex-direction: column; gap: 15px; }
+        .spec-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.08); padding-bottom: 15px; font-size: 1rem; }
+        .spec-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .spec-row .sk { color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; }
+        .spec-row .sv { color: #fff; font-weight: 800; text-align: right; max-width: 60%; }
+
+        .m-ctas { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; position: sticky; bottom: 0; background: #101014; padding-top: 15px; z-index: 10; margin-top: auto; border-top: 1px solid var(--border2); }
+        .m-ctas .btn { border-radius: 12px; font-size: 0.95rem; font-weight: 800; letter-spacing: 1.5px; }
+        .m-ctas .btn-m-pdf { grid-column: span 2; padding: 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-weight: 800; text-transform: uppercase; text-align: center; border-radius: 12px; transition: 0.4s var(--ease-spring); font-size: 0.85rem; letter-spacing: 1.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        .m-ctas .btn-m-pdf:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.5);}
+        .m-ctas .btn-m-pdf i { font-size: 1.1rem; }
+
+        .modal-form-wrap { padding: 50px 40px; background: radial-gradient(circle at top right, rgba(255,59,48,0.05), transparent 60%); }
+        .modal-form-wrap h3 { font-size: 2.4rem; font-weight: 900; margin-bottom: 10px; color: #fff; text-transform: uppercase; letter-spacing: 1px;}
+        .modal-form-wrap p.subtitle { color: var(--text-muted); margin-bottom: 35px; font-size: 1.05rem; line-height: 1.6; }
+
+        /* ==================== TOAST ==================== */
+        .toast {
+            position: fixed; bottom: 40px; right: 40px; background: rgba(18, 25, 18, 0.95);
+            backdrop-filter: blur(15px); border: 1px solid rgba(77, 187, 106, 0.3); border-left: 6px solid #4dbb6a;
+            border-radius: 12px; padding: 25px 35px; display: flex; align-items: center; gap: 20px;
+            font-size: 1.1rem; font-weight: 600; color: #fff; z-index: 9999;
+            transform: translateX(120%) scale(0.9); opacity: 0; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+        .toast.show { transform: translateX(0) scale(1); opacity: 1; }
+        .toast i { font-size: 1.8rem; color: #4dbb6a; }
+
+    </style>
+</head>
+<body>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <div class="logo">ELITE <span>ROUTE</span><small class="logo-sub-txt">Automobile Trading For Export L.L.C.</small></div>
+        </div>
+        
+        <div class="nav-menu-wrap" id="navMenuWrap">
+            <ul class="nav-links">
+                <li><a href="#home" class="active-link" onclick="closeMobileNav()">Home</a></li>
+                <li><a href="#showroom" onclick="closeMobileNav()">Showroom</a></li>
+                <li><a href="#services" onclick="closeMobileNav()">Services</a></li>
+                <li><a href="#contact" onclick="closeMobileNav()">Contact</a></li>
+            </ul>
+            <button class="btn-qte" onclick="openModal('quoteModal'); closeMobileNav()">Get Quote</button>
+        </div>
+
+        <button class="burger-btn" id="burgerBtn" onclick="toggleMobileNav()">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="home" class="hero">
+        <div class="hero-slider" id="heroSlider">
+            <div style="height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--primary-color);">
+                <i class="fas fa-circle-notch fa-spin fa-3x" style="margin-bottom: 20px;"></i>
+                <div style="font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; color: #fff;">LOADING SHOWROOM...</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar reveal">
+        <div class="stat-item"><div class="stat-num">1,200+</div><div class="stat-lbl">Units Exported</div></div>
+        <div class="stat-item"><div class="stat-num">48</div><div class="stat-lbl">Countries Served</div></div>
+        <div class="stat-item"><div class="stat-num">16+</div><div class="stat-lbl">Years Experience</div></div>
+        <div class="stat-item"><div class="stat-num">98%</div><div class="stat-lbl">Client Satisfaction</div></div>
+    </div>
+
+    <!-- SHOWROOM / CATALOG -->
+    <section id="showroom" class="sec">
+        <div class="eyebrow reveal">Live Inventory</div>
+        <h2 class="sec-title reveal">Global <em>Showroom</em></h2>
+        <p class="sec-sub reveal">Direct pricing, live inventory, and seamless export checkout. Every vehicle ships with full documentation.</p>
+
+        <div class="cat-tools reveal">
+            <div class="srch">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search make, model, type…">
+            </div>
+            <div class="ftabs">
+                <button class="ftab on" data-filter="all">All</button>
+                <button class="ftab" data-filter="luxury">Luxury</button>
+                <button class="ftab" data-filter="suv">SUV</button>
+                <button class="ftab" data-filter="exotic">Exotic</button>
+                <button class="ftab" data-filter="fleet">Fleet</button>
+            </div>
+        </div>
+
+        <div class="car-grid" id="productGrid"></div>
+        
+        <div style="text-align: center; margin-top: 60px;">
+            <button id="viewMoreBtn" class="btn secondary-btn" style="display:none; padding: 16px 40px;"><i class="fas fa-sync-alt"></i> Load More Vehicles</button>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="sec">
+        <div class="eyebrow reveal">What We Do</div>
+        <h2 class="sec-title reveal">Why Choose <em>Elite</em></h2>
+        <p class="sec-sub reveal">Comprehensive automotive trading solutions for B2B, governments, and VIP buyers worldwide.</p>
+        <div class="svc-grid" id="svcGrid"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="sec">
+        <div class="eyebrow reveal">Get In Touch</div>
+        <h2 class="sec-title reveal">Contact &amp; <em>Location</em></h2>
+        <p class="sec-sub reveal">Visit our global export hub in Dubai or submit a confidential inquiry online.</p>
+        <div class="contact-grid reveal">
+            <div class="c-left">
+                <h3>Request A Quote</h3>
+                <p>Our export specialists respond within 24 hours.</p>
+                <form id="contactPageForm">
+                    <div class="frow has-icon"><label>Full Name / Company</label><i class="fas fa-building icon-wrap"></i><input type="text" required placeholder="e.g. Al-Mansouri Imports LLC"></div>
+                    <div class="frow has-icon"><label>Email Address</label><i class="fas fa-envelope icon-wrap"></i><input type="email" required placeholder="procurement@company.com"></div>
+                    <div class="frow has-icon"><label>Destination Port</label><i class="fas fa-anchor icon-wrap"></i><input type="text" required placeholder="e.g. Port of Jeddah, Saudi Arabia"></div>
+                    <div class="frow"><label>Vehicle Requirements</label><textarea required placeholder="Make, model, year, quantity, specs…"></textarea></div>
+                    <button type="submit" class="btn primary-btn" style="width:100%; padding: 20px; font-size: 1.05rem; border-radius: 12px;">Send Message &nbsp;<i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+            <div class="c-right" id="mapContainer"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer-connect">
+        <div class="foot-top reveal">
+            <div class="foot-brand">
+                <div class="fl">ELITE <span>ROUTE</span></div>
+                <div class="fls">Automobile Trading For Export L.L.C.</div>
+                <p>A globally trusted name in luxury and commercial vehicle exports. Connecting buyers worldwide with the finest automobiles from UAE, USA, and Europe since 2008.</p>
+                <div class="fsoc">
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+            <div class="fcol">
+                <h4>Quick Links</h4>
+                <ul id="quickLinksList"></ul>
+            </div>
+            <div class="fcol">
+                <h4>Inventory</h4>
+                <ul id="inventoryLinksList"></ul>
+            </div>
+            <div class="fcol">
+                <h4>Connected With</h4>
+                <div class="sister-cards" id="sisterCardsList"></div>
+            </div>
+        </div>
+        <div class="foot-bot">
+            <div class="fcopy">&copy; 2026 <a href="#">ELITE ROUTE</a> | Automobile Trading For Export L.L.C. — Dubai, UAE. All rights reserved.</div>
+            <div class="flinks">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Export Compliance</a>
+                <!-- Sleek Admin Access Link tied directly to the injected Control Panel script -->
+                <a href="#" id="admin-access-link" style="color:var(--primary-color); font-weight:700;"><i class="fas fa-user-shield"></i> Admin Portal</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FULL DETAILS CAR MODAL (Advanced Version) -->
+    <div class="modal-ov" id="carModal">
+        <div class="modal-box modal-lg">
+            <button class="modal-close-btn" id="carModalClose" onclick="closeModal('carModal')"><i class="fas fa-times"></i></button>
+            <div class="modal-split">
+                <div class="modal-left">
+                    <div class="modal-hero-wrap">
+                        <button class="m-nav-btn m-nav-prev" id="mNavPrev"><i class="fas fa-chevron-left"></i></button>
+                        <img id="mHeroImg" class="modal-hero-img" src="" alt="">
+                        <button class="m-nav-btn m-nav-next" id="mNavNext"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="modal-gallery" id="mGallery"></div>
+                </div>
+                <div class="modal-right">
+                    <div class="modal-body">
+                        <div class="m-badge-row"><span id="mBadge" class="m-badge"></span></div>
+                        <div id="mMake" class="m-make"></div>
+                        <div id="mTitle" class="m-title"></div>
+                        <div class="m-price-row"><div id="mPrice" class="m-price"></div><div id="mOldP" class="m-oldp"></div></div>
+                        <div class="m-ship"><i class="fas fa-ship"></i> Free Shipping to Port of Destination Included</div>
+                        
+                        <div class="m-scroll-details">
+                            <div class="m-spec-grid">
+                                <div class="m-spec-block">
+                                    <h5><i class="fas fa-cogs"></i> Vehicle Specifications</h5>
+                                    <div id="mSpecs" class="spec-list"></div>
+                                </div>
+                                <div class="m-spec-block">
+                                    <h5><i class="fas fa-globe"></i> Export & Logistics</h5>
+                                    <div id="mExport" class="spec-list"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="m-ctas">
+                            <button class="btn primary-btn" id="mInqBtn" style="width:100%; padding: 18px;"><i class="fas fa-envelope"></i> Inquire</button>
+                            <a class="btn secondary-btn" id="mWaBtn" href="#" target="_blank" style="width:100%; padding: 18px; border-color:#25d366; color:#25d366;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                            <button class="btn-m-pdf" onclick="showToast('Spec sheet download started!')"><i class="fas fa-file-pdf"></i> Download PDF Brochure</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INQUIRY MODAL (Advanced UI Form) -->
+    <div class="modal-ov" id="inqModal">
+        <div class="modal-box">
+            <div class="modal-form-wrap">
+                <button class="modal-close-btn" onclick="closeModal('inqModal')"><i class="fas fa-times"></i></button>
+                <h3>Export Inquiry</h3>
+                <p class="subtitle">Inquiring about: <strong id="inqTitle" style="color:var(--primary-color)"></strong></p>
+                <form id="inqForm">
+                    <div class="frow has-icon"><label>Name / Company</label><i class="fas fa-user icon-wrap"></i><input type="text" required placeholder="Full Name"></div>
+                    <div class="frow has-icon"><label>Email Address</label><i class="fas fa-envelope icon-wrap"></i><input type="email" required placeholder="you@company.com"></div>
+                    <div class="frow has-icon"><label>Phone / WhatsApp</label><i class="fas fa-phone-alt icon-wrap"></i><input type="tel" placeholder="+1 234 567 8900"></div>
+                    <div class="frow has-icon"><label>Destination Port</label><i class="fas fa-ship icon-wrap"></i><input type="text" required placeholder="e.g. Jebel Ali, UAE"></div>
+                    <div class="frow"><label>Additional Notes</label><textarea placeholder="Specify requirements, quantity, etc..."></textarea></div>
+                    <button type="submit" class="btn primary-btn" style="width:100%; padding: 20px; font-size: 1.05rem; border-radius: 12px;">Submit Inquiry &nbsp;<i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUOTE MODAL (Advanced UI Form) -->
+    <div class="modal-ov" id="quoteModal">
+        <div class="modal-box">
+            <div class="modal-form-wrap">
+                <button class="modal-close-btn" onclick="closeModal('quoteModal')"><i class="fas fa-times"></i></button>
+                <h3>Request A Quote</h3>
+                <p class="subtitle">Let our export specialists find exactly what you need.</p>
+                <form id="quoteForm">
+                    <div class="frow has-icon"><label>Name / Company</label><i class="fas fa-user icon-wrap"></i><input type="text" required placeholder="Full Name"></div>
+                    <div class="frow has-icon"><label>Email Address</label><i class="fas fa-envelope icon-wrap"></i><input type="email" required placeholder="you@company.com"></div>
+                    <div class="frow has-icon"><label>Vehicle Interest</label><i class="fas fa-car icon-wrap"></i><input type="text" placeholder="Make, Model, Specs..."></div>
+                    <div class="frow has-icon"><label>Destination Country</label><i class="fas fa-globe icon-wrap"></i><input type="text" placeholder="e.g. Saudi Arabia"></div>
+                    <button type="submit" class="btn primary-btn" style="width:100%; padding: 20px; font-size: 1.05rem; border-radius: 12px;">Submit Request &nbsp;<i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN PAGE SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        const SUPABASE_URL = 'https://doycdipvtyflshhsxqqx.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRveWNkaXB2dHlmbHNoaHN4cXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNzczMjIsImV4cCI6MjA5Mjc1MzMyMn0.txaoSZw0DWdhICWnkDDTAFW_WqSkv6YdhHbMTlWLIwk';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let products =[], currentInquiryCarTitle = '';
+        let activeFilter = 'all', itemsToShow = 6;
+        let currentModalImages =[];
+        let currentModalImgIndex = 0;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            await fetchDynamicContent();
+
+            // Navbar Scroll Effect
+            window.addEventListener('scroll', () => {
+                document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+                
+                let current = '';
+                document.querySelectorAll('.sec, .hero').forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= sectionTop - 100) current = section.getAttribute('id');
+                });
+                document.querySelectorAll('.nav-links a').forEach(a => {
+                    a.classList.remove('active-link');
+                    if(a.getAttribute('href') === `#${current}`) a.classList.add('active-link');
+                });
+            });
+
+            // Filter Tabs
+            document.querySelectorAll('.ftab').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    activeFilter = this.dataset.filter;
+                    document.querySelectorAll('.ftab').forEach(b => b.classList.remove('on'));
+                    this.classList.add('on'); itemsToShow = 6; renderProducts(activeFilter);
+                });
+            });
+
+            // Load More with smooth stagger
+            document.getElementById('viewMoreBtn').addEventListener('click', function () {
+                const hidden = document.querySelectorAll('#productGrid .product-card[style*="display: none"]');
+                let shown = 0; 
+                hidden.forEach((c, idx) => { 
+                    if (shown < 6) { 
+                        c.style.display = 'block'; 
+                        setTimeout(() => c.classList.add('vis'), 50 * idx);
+                        shown++; 
+                    } 
+                });
+                if (document.querySelectorAll('#productGrid .product-card[style*="display: none"]').length === 0) this.style.display = 'none';
+            });
+
+            // Search Live
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                const val = this.value.toLowerCase();
+                if (!val) { renderProducts(activeFilter); return; }
+                document.querySelectorAll('.product-card').forEach(c => { 
+                    const match = c.textContent.toLowerCase().includes(val);
+                    c.style.display = match ? 'block' : 'none'; 
+                    if(match) setTimeout(() => c.classList.add('vis'), 50);
+                });
+                document.getElementById('viewMoreBtn').style.display = 'none';
+            });
+
+            // Close Modals on outside click
+            document.querySelectorAll('.modal-ov').forEach(m => { 
+                m.addEventListener('click', function (e) { 
+                    if (e.target === this) closeModal(this.id); 
+                }); 
+            });
+            document.addEventListener('keydown', e => { 
+                if (e.key === 'Escape') document.querySelectorAll('.modal-ov').forEach(m => closeModal(m.id)); 
+            });
+
+            // Modal Gallery Nav Listeners
+            document.getElementById('mNavPrev').addEventListener('click', () => {
+                if (currentModalImages.length <= 1) return;
+                currentModalImgIndex = (currentModalImgIndex - 1 + currentModalImages.length) % currentModalImages.length;
+                updateModalHeroImage();
+            });
+            document.getElementById('mNavNext').addEventListener('click', () => {
+                if (currentModalImages.length <= 1) return;
+                currentModalImgIndex = (currentModalImgIndex + 1) % currentModalImages.length;
+                updateModalHeroImage();
+            });
+
+            // Form Submissions
+            setupForm('inqForm', 'inquiries', els => ({ name: els[0].value, email: els[1].value, phone: els[2].value, destination: els[3].value, notes: els[4].value, car_title: currentInquiryCarTitle }), 'inqModal');
+            setupForm('quoteForm', 'quotes', els => ({ name: els[0].value, email: els[1].value, interest: els[2].value, destination: els[3].value }), 'quoteModal');
+            setupForm('contactPageForm', 'quotes', els => ({ name: els[0].value, email: els[1].value, destination: els[2].value, message: els[3].value, interest: 'General Website Inquiry' }), null);
+        });
+
+        // Mobile Menu Toggles
+        function toggleMobileNav() {
+            document.getElementById('burgerBtn').classList.toggle('active');
+            document.getElementById('navMenuWrap').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('navMenuWrap').classList.contains('active') ? 'hidden' : '';
+        }
+        function closeMobileNav() {
+            document.getElementById('burgerBtn').classList.remove('active');
+            document.getElementById('navMenuWrap').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        async function fetchDynamicContent() {
+            // 1. Fetch Inventory & Settings & Services & Footer Data
+            const[invRes, setRes, svcRes, linksRes, sistersRes] = await Promise.all([
+                supabaseClient.from('inventory').select('*').order('id', { ascending: false }),
+                supabaseClient.from('site_settings').select('*').eq('key','contact_info').single(),
+                supabaseClient.from('services').select('*').order('order_idx'),
+                supabaseClient.from('footer_links').select('*').order('order_idx'),
+                supabaseClient.from('sister_companies').select('*').order('order_idx')
+            ]);
+
+            // Map inventory
+            if(invRes.data) {
+                products = invRes.data.map(item => ({
+                    id: item.id, make: item.make, name: item.name, badge: item.badge, bc: item.bc, price: item.price, old: item.old_price,
+                    img: item.img, imgs: item.imgs && item.imgs.length > 0 ? item.imgs : [item.img], tags: item.tags ||[], cat: item.cat || 'luxury',
+                    specs: item.specs || {}, export: item.export || {}
+                }));
+            }
+
+            // 2. Build Hero Slider Dynamically
+            const sContainer = document.getElementById('heroSlider');
+            sContainer.innerHTML = '';
+            const top7 = products.slice(0, 7);
+
+            if (top7.length > 0) {
+                top7.forEach((car, index) => {
+                    let title = index === 0 ? `DRIVE YOUR <br><em>DREAM</em>` : `${car.make} <br><em>${car.name}</em>`;
+                    let specStr = Object.values(car.specs || {}).slice(0, 3).join(' • ');
+                    let sub = index === 0 
+                        ? `Experience the pinnacle of automotive engineering and seamless global export solutions with Elite Route. Your journey begins here.`
+                        : (specStr ? `Highlight Specs: ${specStr}` : `Unmatched performance and elite luxury export.`);
+                    
+                    let btns = index === 0
+                        ? `<a href="#showroom" class="btn primary-btn"><i class="fas fa-eye"></i> View Collection</a> <button class="btn secondary-btn" onclick="openModal('quoteModal')">Request Allocation</button>`
+                        : `<button class="btn primary-btn" onclick="window.openCarModal(${car.id})"><i class="fas fa-car"></i> Full Details</button> <button class="btn secondary-btn" onclick="window.openInqModalByCarId(${car.id})">Inquire Now</button>`;
+                    
+                    sContainer.innerHTML += `
+                    <div class="hero-slide">
+                        <div class="slide-bg" style="background-image:url('${car.img}')"></div><div class="hero-ov"></div>
+                        <div class="hero-content">
+                            <div class="h-tag-pill"><i class="fas ${index===0?'fa-star':'fa-bolt'}"></i>&nbsp;${index===0?'Featured Collection':'Latest Arrival'}</div>
+                            <h1>${title}</h1>
+                            <p>${sub}</p>
+                            <div class="h-btns">${btns}</div>
+                        </div>
+                        <div class="slide-wm">${index===0?'ELITE ROUTE':car.make.toUpperCase()}</div>
+                    </div>`;
+                });
+            } else {
+                sContainer.innerHTML = `<div class="hero-slide"><div class="hero-content"><h1>No Vehicles Found</h1></div></div>`;
+            }
+
+            // Init Slick
+            $('.hero-slider').slick({ autoplay: true, autoplaySpeed: 6000, speed: 1000, fade: true, cssEase: 'cubic-bezier(0.25, 1, 0.5, 1)', dots: true, arrows: false, pauseOnHover: false });
+
+            // 3. Render Services
+            if(svcRes.data && document.getElementById('svcGrid')) {
+                document.getElementById('svcGrid').innerHTML = svcRes.data.map(s => `<div class="svc-card reveal"><div class="svc-icon"><i class="${s.icon}"></i></div><h3>${s.title}</h3><p>${s.description}</p></div>`).join('');
+            }
+
+            // 4. Contact Info Map
+            if (setRes.data && setRes.data.value && document.getElementById('mapContainer')) {
+                const c = setRes.data.value;
+                document.getElementById('mapContainer').innerHTML = `
+                    <iframe src="${c.map_iframe}" allowfullscreen loading="lazy"></iframe>
+                    <div class="map-card">
+                        <div class="mrow"><i class="fas fa-map-marker-alt"></i> ${c.address}</div>
+                        <div class="mrow"><i class="fas fa-phone-alt"></i> ${c.phone}</div>
+                        <div class="mrow"><i class="fas fa-envelope"></i> ${c.email}</div>
+                    </div>`;
+            }
+
+            // 5. Render Dynamic Footer Links
+            if(linksRes.data) {
+                const quickLinks = linksRes.data.filter(l => l.section === 'quick');
+                const invLinks = linksRes.data.filter(l => l.section === 'inventory');
+                if(document.getElementById('quickLinksList')) document.getElementById('quickLinksList').innerHTML = quickLinks.map(l => `<li><a href="${l.url}"><i class="${l.icon}"></i> ${l.label}</a></li>`).join('');
+                if(document.getElementById('inventoryLinksList')) document.getElementById('inventoryLinksList').innerHTML = invLinks.map(l => `<li><a href="${l.url}"><i class="${l.icon}"></i> ${l.label}</a></li>`).join('');
+            }
+
+            // 6. Render Dynamic Sister Companies
+            if(sistersRes.data && document.getElementById('sisterCardsList')) {
+                document.getElementById('sisterCardsList').innerHTML = sistersRes.data.map(s => 
+                    `<a class="sister-card" href="${s.url}" target="_blank"><div class="sn"><em>${s.highlight}</em> ${s.name}</div><div class="sd">${s.description}</div></a>`
+                ).join('');
+            }
+
+            // Render Products Grid & Re-trigger Reveal Logic
+            renderProducts('all');
+            setTimeout(() => {
+                const obs = new IntersectionObserver(entries => { entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('vis'); obs.unobserve(en.target); } }); }, { threshold: 0.1 });
+                document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+            }, 500);
+        }
+
+        /* ==================== RENDER PRODUCTS ==================== */
+        function renderProducts(filter) {
+            const grid = document.getElementById('productGrid'); grid.innerHTML = '';
+            const list = filter === 'all' ? products : products.filter(p => p.cat === filter);
+
+            if(list.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 60px; color: var(--text-muted); font-size:1.1rem;">No vehicles found in this category.</div>';
+                document.getElementById('viewMoreBtn').style.display = 'none'; return;
+            }
+
+            list.forEach(car => {
+                const tags = car.tags.map(t => `<span class="spec-pill">${t}</span>`).join('');
+                const badge = car.badge ? `<div class="card-badge ${car.bc}">${car.badge}</div>` : '';
+                const oldp = car.old ? `<div class="card-oldp">${car.old}</div>` : '';
+                
+                const card = document.createElement('div'); card.className = 'product-card reveal'; card.dataset.id = car.id; card.style.display = 'none';
+                card.innerHTML = `
+                    ${badge} 
+                    <div class="card-img"><img src="${car.img}" loading="lazy"></div> 
+                    <div class="card-body"> 
+                        <div class="card-make">${car.make}</div> 
+                        <div class="card-title">${car.name}</div> 
+                        <div>${tags}</div> 
+                        <div class="card-bot"> 
+                            <div><div class="card-price">${car.price}</div>${oldp}</div> 
+                        </div> 
+                        <div class="card-actions"> 
+                            <button class="btn-inq" onclick="window.openInqModalByCarId(${car.id})"><i class="fas fa-paper-plane"></i> Inquire</button> 
+                            <button class="btn-view-card" onclick="window.openCarModal(${car.id})"><i class="fas fa-expand"></i></button> 
+                        </div> 
+                    </div>`;
+                grid.appendChild(card);
+            });
+
+            const allCards = grid.querySelectorAll('.product-card');
+            allCards.forEach((card, i) => { 
+                if (i < itemsToShow) { 
+                    card.style.display = 'block'; 
+                    setTimeout(() => card.classList.add('vis'), 50 * i); 
+                } 
+            });
+            document.getElementById('viewMoreBtn').style.display = Array.from(allCards).some(c => c.style.display === 'none') ? 'inline-block' : 'none';
+        }
+
+        /* ==================== GLOBAL MODAL LOGIC ==================== */
+        function updateModalHeroImage() {
+            const hero = document.getElementById('mHeroImg');
+            hero.style.transform = 'scale(1.05)';
+            hero.style.opacity = 0;
+            setTimeout(() => {
+                hero.src = currentModalImages[currentModalImgIndex];
+                hero.style.transform = 'scale(1)';
+                hero.style.opacity = 1;
+            }, 300);
+
+            // Update active state in gallery
+            const galImgs = document.getElementById('mGallery').querySelectorAll('img');
+            galImgs.forEach((img, i) => {
+                if (i === currentModalImgIndex) {
+                    img.classList.add('gal-active');
+                    img.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                } else {
+                    img.classList.remove('gal-active');
+                }
+            });
+        }
+
+        window.openCarModal = function(id) {
+            const car = products.find(p => p.id === id); if (!car) return;
+            
+            // Image Gallery Setup
+            currentModalImages = car.imgs;
+            currentModalImgIndex = 0;
+            
+            const gal = document.getElementById('mGallery'); gal.innerHTML = '';
+            car.imgs.forEach((url, i) => {
+                const img = document.createElement('img'); img.src = url; img.loading = 'lazy';
+                img.addEventListener('click', function () { 
+                    currentModalImgIndex = i;
+                    updateModalHeroImage(); 
+                });
+                gal.appendChild(img);
+            });
+
+            updateModalHeroImage();
+            
+            // Text Details
+            const badge = document.getElementById('mBadge');
+            if (car.badge) { badge.textContent = car.badge; badge.style.display = 'inline-block'; } else { badge.style.display = 'none'; }
+            document.getElementById('mMake').textContent = car.make; 
+            document.getElementById('mTitle').textContent = car.name; 
+            document.getElementById('mPrice').textContent = car.price; 
+            document.getElementById('mOldP').textContent = car.old || ''; 
+            
+            // Specs Formatting
+            const formatDict = (dict, elId) => {
+                const el = document.getElementById(elId); el.innerHTML = '';
+                const entries = Object.entries(dict || {});
+                if(entries.length === 0) el.innerHTML = `<div class="spec-row"><span class="sk">No details provided.</span></div>`;
+                else entries.forEach(([k, v]) => el.innerHTML += `<div class="spec-row"><span class="sk">${k}</span><span class="sv">${v}</span></div>`);
+            };
+            formatDict(car.specs, 'mSpecs');
+            formatDict(car.export, 'mExport');
+            
+            // Actions
+            document.getElementById('mWaBtn').href = `https://wa.me/971501234567?text=${encodeURIComponent(`Hi Elite Route, I'm interested in the ${car.make} ${car.name} (${car.price}).`)}`;
+            document.getElementById('mInqBtn').onclick = () => { closeModal('carModal'); window.openInqModalByCarId(car.id); };
+            
+            openModal('carModal');
+        }
+
+        window.openInqModalByCarId = function(id) {
+            const car = products.find(p => p.id === id); if(!car) return;
+            currentInquiryCarTitle = `${car.make} ${car.name}`;
+            document.getElementById('inqTitle').textContent = currentInquiryCarTitle;
+            openModal('inqModal');
+        }
+
+        function openModal(id) { document.body.style.overflow = 'hidden'; document.getElementById(id).classList.add('open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+        
+        function showToast(msg) { 
+            const t = document.getElementById('toast'); 
+            document.getElementById('toastMsg').textContent = msg; 
+            t.classList.add('show'); 
+            setTimeout(() => t.classList.remove('show'), 4000); 
+        }
+
+        function setupForm(formId, table, payloadFn, modalId) {
+            const form = document.getElementById(formId);
+            if(!form) return;
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const btn = this.querySelector('button[type="submit"]'); const origTxt = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...'; btn.disabled = true;
+                
+                const { error } = await supabaseClient.from(table).insert([payloadFn(this.elements)]);
+                
+                btn.innerHTML = origTxt; btn.disabled = false;
+                if (error) alert("Error: " + error.message);
+                else { 
+                    if(modalId) closeModal(modalId); 
+                    showToast('Request successfully sent! Our team will contact you shortly.'); 
+                    this.reset(); 
+                }
+            });
+        }
+    </script>
+
+
+    <!-- ========================================================================= -->
+    <!-- INLINED CONTROLPANEL.JS - FULL ADMIN SUITE EMBEDDED LOCALLY               -->
+    <!-- ========================================================================= -->
+    <script id="admin-control-panel-script">
+        (function () {
+            'use strict';
+
+            let sb = null;
+            let inventoryData = [], inquiriesData = [], quotesData =[], servicesData =[];
+            let footerLinksData = [], sisterCompaniesData =[];
+            let editingId = null;
+
+            // Initialize Admin Setup
+            function initAdmin() {
+                injectStyles();
+                injectHTML();
+                
+                setupImageUpload('img_file', 'img_url', 'img_hidden', 'img_preview', false);
+                setupImageUpload('imgs_files', 'imgs_url', 'imgs_hidden', 'imgs_preview', true);
+
+                // Bind to the slick footer link instead of a floating button
+                const adminTrigger = document.getElementById('admin-access-link');
+                if(adminTrigger) {
+                    adminTrigger.onclick = (e) => {
+                        e.preventDefault();
+                        document.getElementById('ep-overlay').style.display = 'block';
+                        setTimeout(() => document.getElementById('ep-overlay').classList.add('ep-show'), 10);
+                    };
+                }
+
+                document.getElementById('ep-login-btn').onclick = async (e) => {
+                    const btn = e.target.closest('button'); const origTxt = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...'; btn.disabled = true;
+                    const { data, error } = await sb.auth.signInWithPassword({ email: document.getElementById('ep-email').value, password: document.getElementById('ep-pass').value });
+                    btn.innerHTML = origTxt; btn.disabled = false;
+                    
+                    if (error) return showAdminToast("Login Failed: " + error.message, 'error');
+                    showAdminToast("Welcome back, Admin.", 'success');
+                    showPanel();
+                };
+
+                document.getElementById('ep-logout').onclick = async () => { 
+                    await sb.auth.signOut(); 
+                    document.getElementById('ep-login-form').style.display = 'block'; 
+                    document.getElementById('ep-main-panel').style.display = 'none'; 
+                    showAdminToast("Logged out successfully.", 'success');
+                };
+
+                document.querySelectorAll('.ep-nav-btn[data-tab]').forEach(btn => {
+                    btn.onclick = () => {
+                        document.querySelectorAll('.ep-nav-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.ep-tab-content').forEach(c => c.style.display = 'none');
+                        btn.classList.add('active'); document.getElementById(btn.dataset.tab).style.display = 'block';
+                    };
+                });
+
+                // Form Submissions routing through generic handler
+                document.getElementById('car-form').onsubmit = (e) => handleFormSubmit(e, 'inventory', (fd) => {
+                    const obj = Object.fromEntries(fd.entries());
+                    obj.img = document.getElementById('img_hidden').value;
+                    try { obj.imgs = JSON.parse(document.getElementById('imgs_hidden').value); } catch(err) { obj.imgs =[]; }
+                    obj.tags = obj.tags_raw ? obj.tags_raw.split(',').map(s=>s.trim()).filter(Boolean) :[];
+                    obj.specs = extractKV('specs-container'); 
+                    obj.export = extractKV('export-container');
+                    delete obj.tags_raw; delete obj.imgs_raw;
+                    return obj;
+                });
+
+                document.getElementById('service-form').onsubmit = (e) => handleFormSubmit(e, 'services', fd => Object.fromEntries(fd.entries()));
+                document.getElementById('sister-form').onsubmit = (e) => handleFormSubmit(e, 'sister_companies', fd => Object.fromEntries(fd.entries()));
+                document.getElementById('footer-link-form').onsubmit = (e) => handleFormSubmit(e, 'footer_links', fd => Object.fromEntries(fd.entries()));
+
+                // Settings Submit
+                document.getElementById('settings-form').onsubmit = async (e) => {
+                    e.preventDefault();
+                    const btn = e.target.querySelector('button'); const origTxt = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
+                    
+                    const val = { address: document.getElementById('set-address').value, phone: document.getElementById('set-phone').value, email: document.getElementById('set-email').value, map_iframe: document.getElementById('set-map').value };
+                    const { error } = await sb.from('site_settings').update({value: val}).eq('key', 'contact_info'); 
+                    
+                    btn.innerHTML = origTxt; btn.disabled = false;
+                    if(error) showAdminToast(error.message, 'error'); else showAdminToast('Global Settings Saved!', 'success');
+                };
+
+                // Check Session Status immediately
+                sb.auth.getUser().then(({ data }) => { if (data.user) showPanel(); });
+            }
+
+            // Ensure Supabase is loaded from the main window context
+            function checkSupabase() {
+                if (window.supabase) {
+                    sb = window.supabase.createClient(
+                        'https://doycdipvtyflshhsxqqx.supabase.co', 
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRveWNkaXB2dHlmbHNoaHN4cXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNzczMjIsImV4cCI6MjA5Mjc1MzMyMn0.txaoSZw0DWdhICWnkDDTAFW_WqSkv6YdhHbMTlWLIwk'
+                    );
+                    initAdmin();
+                } else {
+                    setTimeout(checkSupabase, 100);
+                }
+            }
+            checkSupabase();
+
+            function injectStyles() {
+                const css = `
+                    :root { --ep-primary: #ff3b30; --ep-primary-grad: linear-gradient(135deg, #ff3b30, #d63026); --ep-bg: #0a0a0c; --ep-card: #151518; --ep-border: rgba(255,255,255,0.08); --ep-ease: cubic-bezier(0.34, 1.56, 0.64, 1); }
+                    #ep-overlay { position: fixed; inset: 0; background: rgba(5,5,8,0.92); backdrop-filter: blur(20px); z-index: 10000; display: none; font-family: 'Montserrat', sans-serif; color: #fff; opacity: 0; transition: opacity 0.4s var(--ep-ease); }
+                    #ep-overlay.ep-show { display: block; opacity: 1; }
+                    
+                    .ep-container { max-width: 1400px; height: 94vh; margin: 3vh auto; background: var(--ep-bg); border: 1px solid var(--ep-border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px rgba(0,0,0,0.9), inset 0 1px 1px rgba(255,255,255,0.05); transform: translateY(20px); transition: transform 0.4s var(--ep-ease); }
+                    #ep-overlay.ep-show .ep-container { transform: translateY(0); }
+                    
+                    .ep-header { padding: 25px 35px; background: #0f0f13; border-bottom: 1px solid var(--ep-border); display: flex; justify-content: space-between; align-items: center; }
+                    .ep-nav { display: flex; background: var(--ep-card); border-bottom: 1px solid var(--ep-border); overflow-x: auto; scrollbar-width: none; }
+                    .ep-nav::-webkit-scrollbar { display: none; }
+                    .ep-nav-btn { flex: 1; padding: 20px 15px; border: none; background: none; color: #888; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1.5px; transition: 0.3s; white-space: nowrap; position: relative; }
+                    .ep-nav-btn::after { content:''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--ep-primary); transform: scaleX(0); transition: transform 0.3s var(--ep-ease); transform-origin: center; }
+                    .ep-nav-btn.active { color: #fff; background: rgba(255,59,48,0.05); }
+                    .ep-nav-btn.active::after, .ep-nav-btn:hover::after { transform: scaleX(1); }
+                    .ep-nav-btn:hover { color: #fff; }
+                    .ep-content { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
+                    .ep-content::-webkit-scrollbar { width: 8px; }
+                    .ep-content::-webkit-scrollbar-track { background: var(--ep-bg); }
+                    .ep-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+                    .ep-content::-webkit-scrollbar-thumb:hover { background: var(--ep-primary); }
+                    
+                    .ep-input, .ep-textarea, .ep-select { width: 100%; padding: 14px 18px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 8px; font-family: inherit; font-size: 0.9rem; transition: 0.4s var(--ep-ease); outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+                    .ep-textarea { resize: vertical; min-height: 120px; }
+                    .ep-input:focus, .ep-textarea:focus, .ep-select:focus { border-color: var(--ep-primary); box-shadow: 0 0 0 4px rgba(255,59,48,0.15), inset 0 2px 4px rgba(0,0,0,0.2); background: rgba(0,0,0,0.8); }
+                    .ep-select option { background: var(--ep-card); }
+                    
+                    .ep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+                    .ep-btn { padding: 14px 28px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; transition: 0.4s var(--ep-ease); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1.5px; display: inline-flex; align-items: center; gap: 10px; justify-content: center; position: relative; overflow: hidden; }
+                    .ep-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+                    .ep-btn-p { background: var(--ep-primary-grad); color: #fff; box-shadow: 0 4px 15px rgba(255,59,48,0.3); }
+                    .ep-btn-p:hover:not(:disabled) { box-shadow: 0 8px 25px rgba(255,59,48,0.5); transform: translateY(-2px); }
+                    .ep-btn-sec { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px); }
+                    .ep-btn-sec:hover:not(:disabled) { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+                    .ep-btn-sm { padding: 10px 18px; font-size: 0.7rem; border-radius: 6px; }
+                    
+                    .ep-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 20px; background: var(--ep-card); border-radius: 12px; overflow: hidden; border: 1px solid var(--ep-border); }
+                    .ep-table th { text-align: left; padding: 20px; background: rgba(0,0,0,0.4); color: var(--ep-primary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid var(--ep-border); }
+                    .ep-table td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.9rem; vertical-align: middle; transition: background 0.3s; }
+                    .ep-table tr:last-child td { border-bottom: none; }
+                    .ep-table tr:hover td { background: rgba(255,255,255,0.02); }
+                    
+                    .ep-status { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+                    .status-replied { background: rgba(37,211,102,0.1); color: #25d366; border: 1px solid rgba(37,211,102,0.2); }
+                    .status-new { background: rgba(255,193,7,0.1); color: #ffc107; border: 1px solid rgba(255,193,7,0.2); }
+                    
+                    /* Advanced Modal */
+                    .ep-modal-wrapper { display: flex; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:11000; padding:40px; overflow-y:auto; backdrop-filter: blur(15px); opacity: 0; visibility: hidden; transition: all 0.5s var(--ep-ease); align-items: center; justify-content: center; }
+                    .ep-modal-wrapper.open { opacity: 1; visibility: visible; }
+                    .modal-inner { width: 100%; max-width: 1000px; display: flex; flex-direction: column; background: #121215; border-radius: 16px; border: 1px solid var(--ep-border); box-shadow: 0 40px 100px rgba(0,0,0,0.9); position: relative; transform: scale(0.9) translateY(40px); transition: 0.6s var(--ep-ease); }
+                    .ep-modal-wrapper.open .modal-inner { transform: scale(1) translateY(0); }
+                    
+                    .modal-header { padding: 35px 40px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+                    .modal-header h2 { margin: 0; font-weight: 900; font-size: 1.8rem; letter-spacing: 1px; color: #fff; }
+                    .modal-body-scroll { padding: 40px; overflow-y: auto; flex: 1; }
+                    .modal-body-scroll::-webkit-scrollbar { width: 6px; }
+                    .modal-body-scroll::-webkit-scrollbar-track { background: transparent; }
+                    .modal-body-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+                    .modal-footer { padding: 25px 40px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: flex-end; gap: 15px; background: #0a0a0c; border-radius: 0 0 16px 16px; }
+                    
+                    .ep-label { display: block; font-size: 0.75rem; color: var(--ep-primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; font-weight: 800; }
+                    
+                    .ep-section { background: rgba(255,255,255,0.02); border: 1px solid var(--ep-border); border-radius: 12px; padding: 30px; margin-bottom: 30px; transition: 0.3s; }
+                    .ep-section:hover { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.15); }
+                    .ep-sec-title { font-size: 1rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+                    .ep-sec-title i { color: var(--ep-primary); font-size: 1.2rem; }
+                    .kv-row { display: flex; gap: 15px; margin-bottom: 15px; align-items: center; }
+                    
+                    .close-modal-btn { position: absolute; top: -20px; right: -20px; z-index: 100; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; transition: 0.4s var(--ep-ease); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.6); backdrop-filter: blur(10px); font-size: 1.2rem; }
+                    .close-modal-btn:hover { background: var(--ep-primary); border-color: var(--ep-primary); transform: scale(1.15) rotate(90deg); box-shadow: 0 0 20px rgba(255,59,48,0.5); }
+
+                    .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+                    @media(max-width: 900px) { .split-grid { grid-template-columns: 1fr; } }
+                    
+                    .file-drop-area { border: 2px dashed rgba(255,255,255,0.15); border-radius: 12px; padding: 40px 20px; text-align: center; background: rgba(0,0,0,0.3); transition: 0.4s var(--ep-ease); cursor: pointer; position: relative; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+                    .file-drop-area:hover, .file-drop-area.drag-over { border-color: var(--ep-primary); background: rgba(255,59,48,0.05); transform: translateY(-2px); }
+                    .file-drop-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width:100%; height:100%; }
+                    .img-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 12px; margin-top: 20px; }
+                    .img-thumb-wrap { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); height: 90px; transition: 0.3s; }
+                    .img-thumb-wrap:hover { border-color: var(--ep-primary); transform: scale(1.05); }
+                    .img-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; }
+                    .img-remove-btn { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.8); color: #fff; border: 1px solid rgba(255,255,255,0.2); width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; transition: 0.3s;}
+                    .img-remove-btn:hover { background: var(--ep-primary); border-color: var(--ep-primary); transform: scale(1.15) rotate(90deg); }
+
+                    #ep-toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 12000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+                    .ep-toast { background: rgba(18,25,18,0.95); backdrop-filter: blur(15px); border: 1px solid rgba(77,187,106,0.3); border-left: 6px solid #4dbb6a; border-radius: 10px; padding: 20px 25px; display: flex; align-items: center; gap: 15px; font-size: 1rem; font-weight: 600; color: #fff; transform: translateX(120%) scale(0.9); opacity: 0; transition: all 0.5s var(--ep-ease); box-shadow: 0 15px 40px rgba(0,0,0,0.6); pointer-events: auto; }
+                    .ep-toast.show { transform: translateX(0) scale(1); opacity: 1; }
+                    .ep-toast-error { background: rgba(25,18,18,0.95); border-color: rgba(255,59,48,0.3); border-left-color: #ff3b30; }
+                    .ep-toast i { font-size: 1.4rem; }
+                `;
+                const style = document.createElement('style'); style.innerHTML = css; document.head.appendChild(style);
+            }
+
+            function injectHTML() {
+                document.body.insertAdjacentHTML('beforeend', `
+                    <div id="ep-overlay">
+                        <div class="ep-container">
+                            <div class="ep-header">
+                                <div style="font-size: 1.6rem; font-weight: 900; letter-spacing: 4px;">ELITE <span style="color:#ff3b30">ADMIN PRO</span></div>
+                                <button class="ep-btn ep-btn-sec" onclick="window.closeMainPanel()"><i class="fas fa-times"></i> Close Panel</button>
+                            </div>
+
+                            <div id="ep-login-form" style="padding: 120px 20px; max-width: 480px; margin: 0 auto; text-align: center;">
+                                <i class="fas fa-user-lock" style="font-size: 3rem; color: #ff3b30; margin-bottom: 20px;"></i>
+                                <h2 style="margin-bottom: 30px; font-weight: 900; letter-spacing: 1px;">Secure Authorization</h2>
+                                <div style="margin-bottom: 20px; text-align: left;">
+                                    <label class="ep-label">Admin Email</label>
+                                    <input type="email" id="ep-email" class="ep-input" placeholder="admin@eliteroute.com">
+                                </div>
+                                <div style="margin-bottom: 35px; text-align: left;">
+                                    <label class="ep-label">Password</label>
+                                    <input type="password" id="ep-pass" class="ep-input" placeholder="••••••••">
+                                </div>
+                                <button id="ep-login-btn" class="ep-btn ep-btn-p" style="width: 100%; padding: 16px;"><i class="fas fa-lock"></i> Authenticate Session</button>
+                            </div>
+
+                            <div id="ep-main-panel" style="display: none; display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+                                <div class="ep-nav">
+                                    <button class="ep-nav-btn active" data-tab="tab-inventory"><i class="fas fa-car"></i> Inventory</button>
+                                    <button class="ep-nav-btn" data-tab="tab-leads"><i class="fas fa-envelope-open-text"></i> Inquiries</button>
+                                    <button class="ep-nav-btn" data-tab="tab-quotes"><i class="fas fa-file-invoice-dollar"></i> Quotes</button>
+                                    <button class="ep-nav-btn" data-tab="tab-services"><i class="fas fa-briefcase"></i> Services</button>
+                                    <button class="ep-nav-btn" data-tab="tab-footer"><i class="fas fa-link"></i> Site Data</button>
+                                    <button class="ep-nav-btn" data-tab="tab-settings"><i class="fas fa-cog"></i> Settings</button>
+                                    <button class="ep-nav-btn" id="ep-logout" style="flex: 0.5; color: #ff4444;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                                </div>
+
+                                <div class="ep-content">
+                                    <!-- INVENTORY -->
+                                    <div id="tab-inventory" class="ep-tab-content">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                                            <div style="position: relative; width: 100%; max-width: 400px;">
+                                                <i class="fas fa-search" style="position: absolute; left: 16px; top: 16px; color: #888;"></i>
+                                                <input type="text" id="inv-search" class="ep-input" style="padding-left: 45px;" placeholder="Search make or model..." onkeyup="window.filterInventory()">
+                                            </div>
+                                            <button class="ep-btn ep-btn-p" onclick="window.openCarForm()"><i class="fas fa-plus"></i> Add Vehicle</button>
+                                        </div>
+                                        <table class="ep-table">
+                                            <thead><tr><th>Image</th><th>Make & Model</th><th>Price</th><th>Category</th><th>Actions</th></tr></thead>
+                                            <tbody id="inv-list"></tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- INQUIRIES -->
+                                    <div id="tab-leads" class="ep-tab-content" style="display: none;">
+                                        <table class="ep-table">
+                                            <thead><tr><th>Date</th><th>Customer</th><th>Vehicle</th><th>Status</th><th>Actions</th></tr></thead>
+                                            <tbody id="leads-list"></tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- QUOTES -->
+                                    <div id="tab-quotes" class="ep-tab-content" style="display: none;">
+                                        <table class="ep-table">
+                                            <thead><tr><th>Date</th><th>Customer</th><th>Interest</th><th>Status</th><th>Actions</th></tr></thead>
+                                            <tbody id="quotes-list"></tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- SERVICES -->
+                                    <div id="tab-services" class="ep-tab-content" style="display: none;">
+                                        <div style="text-align: right; margin-bottom: 20px;">
+                                            <button class="ep-btn ep-btn-p" onclick="window.openServiceForm()"><i class="fas fa-plus"></i> Add Service</button>
+                                        </div>
+                                        <table class="ep-table">
+                                            <thead><tr><th>Icon</th><th>Title</th><th>Description</th><th>Actions</th></tr></thead>
+                                            <tbody id="services-list"></tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- FOOTER & PARTNERS -->
+                                    <div id="tab-footer" class="ep-tab-content" style="display: none;">
+                                        <div class="split-grid">
+                                            <div class="ep-section">
+                                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                                                    <h3 style="color:#fff; text-transform:uppercase; font-size:1rem; letter-spacing:2px; font-weight:800;"><i class="fas fa-building" style="color:#ff3b30; margin-right:8px;"></i> Sister Companies</h3>
+                                                    <button class="ep-btn ep-btn-p ep-btn-sm" onclick="window.openSisterForm()"><i class="fas fa-plus"></i> Add</button>
+                                                </div>
+                                                <table class="ep-table">
+                                                    <thead><tr><th>Name</th><th>URL</th><th>Actions</th></tr></thead>
+                                                    <tbody id="sister-list"></tbody>
+                                                </table>
+                                            </div>
+                                            <div class="ep-section">
+                                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                                                    <h3 style="color:#fff; text-transform:uppercase; font-size:1rem; letter-spacing:2px; font-weight:800;"><i class="fas fa-link" style="color:#ff3b30; margin-right:8px;"></i> Footer Links</h3>
+                                                    <button class="ep-btn ep-btn-p ep-btn-sm" onclick="window.openFooterLinkForm()"><i class="fas fa-plus"></i> Add</button>
+                                                </div>
+                                                <table class="ep-table">
+                                                    <thead><tr><th>Section</th><th>Label</th><th>URL</th><th>Actions</th></tr></thead>
+                                                    <tbody id="footer-links-list"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SETTINGS -->
+                                    <div id="tab-settings" class="ep-tab-content" style="display: none; max-width: 600px;">
+                                        <div class="ep-section">
+                                            <div class="ep-sec-title"><i class="fas fa-map-marker-alt"></i> Contact & Location Info</div>
+                                            <form id="settings-form" style="display:flex; flex-direction:column; gap:20px;">
+                                                <div><label class="ep-label">Physical Address</label><input id="set-address" class="ep-input"></div>
+                                                <div><label class="ep-label">Phone / WhatsApp</label><input id="set-phone" class="ep-input"></div>
+                                                <div><label class="ep-label">Support Email</label><input id="set-email" class="ep-input"></div>
+                                                <div><label class="ep-label">Google Maps Iframe URL</label><textarea id="set-map" class="ep-textarea"></textarea></div>
+                                                <button type="submit" class="ep-btn ep-btn-p" style="padding:16px; margin-top:10px;"><i class="fas fa-save"></i> Save Global Settings</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ADMIN MODALS INJECTED HERE -->
+                    <div id="ep-car-modal" class="ep-modal-wrapper">
+                        <div class="modal-inner">
+                            <button class="close-modal-btn" type="button" onclick="window.closeAdminModal('ep-car-modal')"><i class="fas fa-times"></i></button>
+                            <form id="car-form" style="display:flex; flex-direction:column; max-height:90vh;">
+                                <div class="modal-header"><h2 id="car-modal-title">Vehicle Editor</h2></div>
+                                <div class="modal-body-scroll">
+                                    <div class="split-grid">
+                                        <div class="ep-section">
+                                            <div class="ep-sec-title"><i class="fas fa-info-circle"></i> General Information</div>
+                                            <div class="ep-grid" style="grid-template-columns: 1fr;">
+                                                <div><label class="ep-label">Make</label><input name="make" class="ep-input" required placeholder="e.g. Mercedes-Benz"></div>
+                                                <div><label class="ep-label">Model Name</label><input name="name" class="ep-input" required placeholder="e.g. G63 AMG"></div>
+                                                <div><label class="ep-label">Category</label>
+                                                    <select name="cat" class="ep-select">
+                                                        <option value="luxury">Luxury</option><option value="suv">SUV</option>
+                                                        <option value="exotic">Exotic</option><option value="fleet">Fleet</option>
+                                                    </select>
+                                                </div>
+                                                <div><label class="ep-label">Tags (Comma separated)</label><input name="tags_raw" class="ep-input" placeholder="V8 Biturbo, LHD, Brand New"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ep-section">
+                                            <div class="ep-sec-title"><i class="fas fa-tags"></i> Pricing & Badging</div>
+                                            <div class="ep-grid" style="grid-template-columns: 1fr;">
+                                                <div><label class="ep-label">Price Text</label><input name="price" class="ep-input" placeholder="e.g. $185,000"></div>
+                                                <div><label class="ep-label">Old Price</label><input name="old_price" class="ep-input" placeholder="Optional strikethrough price"></div>
+                                                <div><label class="ep-label">Badge Text</label><input name="badge" class="ep-input" placeholder="e.g. NEW ARRIVAL"></div>
+                                                <div><label class="ep-label">Badge Color</label>
+                                                    <select name="bc" class="ep-select">
+                                                        <option value="">Default (Red Gradient)</option>
+                                                        <option value="hot">Solid Dark Red</option>
+                                                        <option value="luxury">Luxury Purple</option>
+                                                        <option value="fleet">Fleet Blue</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ep-section">
+                                        <div class="ep-sec-title"><i class="fas fa-images"></i> Media Gallery</div>
+                                        <div class="split-grid">
+                                            <div>
+                                                <label class="ep-label">Primary Image</label>
+                                                <div class="file-drop-area">
+                                                    <i class="fas fa-image" style="font-size:32px; color:#ff3b30; margin-bottom:10px;"></i>
+                                                    <div style="font-size:0.85rem; font-weight:600; color:#fff; margin-bottom:4px;">Select Primary Photo</div>
+                                                    <div style="font-size:0.75rem; color:#888;">Drag & Drop or Click</div>
+                                                    <input type="file" id="img_file" accept="image/*">
+                                                </div>
+                                                <input type="text" id="img_url" class="ep-input" style="margin-top:15px;" placeholder="Or paste image URL...">
+                                                <input type="hidden" name="img" id="img_hidden">
+                                                <img id="img_preview" style="width: 100%; height: 160px; object-fit: cover; display: none; margin-top: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                                            </div>
+                                            <div>
+                                                <label class="ep-label">Additional Gallery Images</label>
+                                                <div class="file-drop-area">
+                                                    <i class="fas fa-cloud-upload-alt" style="font-size:32px; color:#ff3b30; margin-bottom:10px;"></i>
+                                                    <div style="font-size:0.85rem; font-weight:600; color:#fff; margin-bottom:4px;">Upload Multiple Photos</div>
+                                                    <div style="font-size:0.75rem; color:#888;">Drag & Drop or Click</div>
+                                                    <input type="file" id="imgs_files" accept="image/*" multiple>
+                                                </div>
+                                                <input type="text" id="imgs_url" class="ep-input" style="margin-top:15px;" placeholder="Or paste image URL and press Enter...">
+                                                <input type="hidden" name="imgs_raw" id="imgs_hidden" value="[]">
+                                                <div id="imgs_preview" class="img-preview-grid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="split-grid">
+                                        <div class="ep-section" style="margin-bottom:0;">
+                                            <div class="ep-sec-title"><i class="fas fa-cogs"></i> Technical Specifications</div>
+                                            <div id="specs-container"></div>
+                                            <button type="button" class="ep-btn ep-btn-sec ep-btn-sm" style="margin-top:15px; width:100%" onclick="window.addKVRow('specs-container')"><i class="fas fa-plus"></i> Add Spec Row</button>
+                                        </div>
+                                        <div class="ep-section" style="margin-bottom:0;">
+                                            <div class="ep-sec-title"><i class="fas fa-ship"></i> Export & Logistics Data</div>
+                                            <div id="export-container"></div>
+                                            <button type="button" class="ep-btn ep-btn-sec ep-btn-sm" style="margin-top:15px; width:100%" onclick="window.addKVRow('export-container')"><i class="fas fa-plus"></i> Add Logistics Row</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="ep-btn ep-btn-sec" onclick="window.closeAdminModal('ep-car-modal')">Cancel</button>
+                                    <button type="submit" class="ep-btn ep-btn-p"><i class="fas fa-save"></i> Save Vehicle Record</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="ep-service-modal" class="ep-modal-wrapper">
+                        <div class="modal-inner" style="max-width: 600px;">
+                            <button class="close-modal-btn" type="button" onclick="window.closeAdminModal('ep-service-modal')"><i class="fas fa-times"></i></button>
+                            <form id="service-form" style="display:flex; flex-direction:column;">
+                                <div class="modal-header"><h2 id="service-modal-title">Add Service</h2></div>
+                                <div class="modal-body-scroll ep-grid">
+                                    <div style="grid-column: span 2;"><label class="ep-label">Icon Class</label><input name="icon" class="ep-input" required placeholder="fas fa-globe"></div>
+                                    <div style="grid-column: span 2;"><label class="ep-label">Title</label><input name="title" class="ep-input" required></div>
+                                    <div style="grid-column: span 2;"><label class="ep-label">Description</label><textarea name="description" class="ep-textarea" required></textarea></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="ep-btn ep-btn-sec" onclick="window.closeAdminModal('ep-service-modal')">Cancel</button>
+                                    <button type="submit" class="ep-btn ep-btn-p"><i class="fas fa-save"></i> Save Service</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="ep-sister-modal" class="ep-modal-wrapper">
+                        <div class="modal-inner" style="max-width: 600px;">
+                            <button class="close-modal-btn" type="button" onclick="window.closeAdminModal('ep-sister-modal')"><i class="fas fa-times"></i></button>
+                            <form id="sister-form" style="display:flex; flex-direction:column;">
+                                <div class="modal-header"><h2 id="sister-modal-title">Sister Company</h2></div>
+                                <div class="modal-body-scroll ep-grid">
+                                    <div><label class="ep-label">Highlight Text (Red)</label><input name="highlight" class="ep-input" required placeholder="e.g. EWAN"></div>
+                                    <div><label class="ep-label">Remaining Name</label><input name="name" class="ep-input" required placeholder="e.g. ALMUTAMAIZ"></div>
+                                    <div style="grid-column: span 2;"><label class="ep-label">Description Subtitle</label><input name="description" class="ep-input" required placeholder="Premium Automotive — UAE"></div>
+                                    <div style="grid-column: span 2;"><label class="ep-label">Target URL</label><input name="url" class="ep-input" required placeholder="https://..."></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="ep-btn ep-btn-sec" onclick="window.closeAdminModal('ep-sister-modal')">Cancel</button>
+                                    <button type="submit" class="ep-btn ep-btn-p"><i class="fas fa-save"></i> Save Company</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="ep-footer-link-modal" class="ep-modal-wrapper">
+                        <div class="modal-inner" style="max-width: 600px;">
+                            <button class="close-modal-btn" type="button" onclick="window.closeAdminModal('ep-footer-link-modal')"><i class="fas fa-times"></i></button>
+                            <form id="footer-link-form" style="display:flex; flex-direction:column;">
+                                <div class="modal-header"><h2 id="footer-link-modal-title">Footer Link</h2></div>
+                                <div class="modal-body-scroll ep-grid">
+                                    <div style="grid-column: span 2;"><label class="ep-label">Section</label>
+                                        <select name="section" class="ep-select">
+                                            <option value="quick">Quick Links</option>
+                                            <option value="inventory">Inventory Categories</option>
+                                        </select>
+                                    </div>
+                                    <div><label class="ep-label">Link Label</label><input name="label" class="ep-input" required placeholder="e.g. Luxury Sedans"></div>
+                                    <div><label class="ep-label">URL / Anchor</label><input name="url" class="ep-input" required placeholder="e.g. #showroom"></div>
+                                    <div style="grid-column: span 2;"><label class="ep-label">Icon Class</label><input name="icon" class="ep-input" value="fas fa-chevron-right" placeholder="e.g. fas fa-chevron-right"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="ep-btn ep-btn-sec" onclick="window.closeAdminModal('ep-footer-link-modal')">Cancel</button>
+                                    <button type="submit" class="ep-btn ep-btn-p"><i class="fas fa-save"></i> Save Link</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="ep-toast-container"></div>
+                `);
+            }
+
+            function showAdminToast(msg, type = 'success') {
+                const container = document.getElementById('ep-toast-container');
+                const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+                const colorClass = type === 'success' ? '' : 'ep-toast-error';
+                
+                const toast = document.createElement('div');
+                toast.className = `ep-toast ${colorClass}`;
+                toast.innerHTML = `<i class="fas ${icon}" style="color: ${type==='success'?'#4dbb6a':'#ff3b30'}"></i> <span>${msg}</span>`;
+                container.appendChild(toast);
+                
+                setTimeout(() => toast.classList.add('show'), 50);
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 500);
+                }, 3500);
+            }
+
+            window.openAdminModal = (id) => document.getElementById(id).classList.add('open');
+            window.closeAdminModal = (id) => document.getElementById(id).classList.remove('open');
+            window.closeMainPanel = () => {
+                const ov = document.getElementById('ep-overlay');
+                ov.classList.remove('ep-show');
+                setTimeout(() => ov.style.display = 'none', 400);
+            };
+
+            window.addKVRow = (containerId, key = '', val = '') => {
+                const div = document.createElement('div');
+                div.className = 'kv-row';
+                div.innerHTML = `
+                    <input type="text" class="ep-input kv-k" placeholder="Key (e.g. Engine)" value="${key}" style="flex:1">
+                    <input type="text" class="ep-input kv-v" placeholder="Value (e.g. 4.0L V8)" value="${val}" style="flex:2">
+                    <button type="button" class="ep-btn ep-btn-sec" style="padding: 14px 18px;" onclick="this.parentElement.remove()" title="Remove Row"><i class="fas fa-trash" style="color:#ff4444"></i></button>
+                `;
+                document.getElementById(containerId).appendChild(div);
+            };
+
+            const extractKV = (containerId) => {
+                const obj = {};
+                document.getElementById(containerId).querySelectorAll('.kv-row').forEach(row => {
+                    const k = row.querySelector('.kv-k').value.trim();
+                    const v = row.querySelector('.kv-v').value.trim();
+                    if(k) obj[k] = v;
+                });
+                return obj;
+            };
+
+            function compressImage(file, callback) {
+                const reader = new FileReader(); reader.readAsDataURL(file);
+                reader.onload = event => {
+                    const img = new Image(); img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX = 1200; let width = img.width, height = img.height;
+                        if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } } 
+                        else { if (height > MAX) { width *= MAX / height; height = MAX; } }
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
+                        callback(canvas.toDataURL('image/jpeg', 0.8));
+                    };
+                };
+            }
+
+            window.renderMultiPreview = (prId, hiId) => {
+                const pr = document.getElementById(prId); const hi = document.getElementById(hiId);
+                let urls =[]; try { urls = JSON.parse(hi.value); } catch(e) { urls =[]; }
+                pr.innerHTML = '';
+                urls.forEach((u, i) => {
+                    const wrap = document.createElement('div'); wrap.className = 'img-thumb-wrap';
+                    const img = document.createElement('img'); img.src = u;
+                    const btn = document.createElement('button'); btn.className = 'img-remove-btn'; btn.innerHTML = '<i class="fas fa-times"></i>';
+                    btn.type = 'button';
+                    btn.onclick = () => { urls.splice(i, 1); hi.value = JSON.stringify(urls); window.renderMultiPreview(prId, hiId); };
+                    wrap.appendChild(img); wrap.appendChild(btn); pr.appendChild(wrap);
+                });
+            };
+
+            function setupImageUpload(fileId, urlId, hidId, prevId, multiple) {
+                const fi = document.getElementById(fileId), ui = document.getElementById(urlId), hi = document.getElementById(hidId), pr = document.getElementById(prevId);
+                const dropArea = fi.closest('.file-drop-area');
+
+                if (dropArea) {
+                    dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.classList.add('drag-over'); });
+                    dropArea.addEventListener('dragleave', e => { e.preventDefault(); dropArea.classList.remove('drag-over'); });
+                    dropArea.addEventListener('drop', e => { e.preventDefault(); dropArea.classList.remove('drag-over'); 
+                        if (e.dataTransfer.files.length) { fi.files = e.dataTransfer.files; fi.dispatchEvent(new Event('change')); }
+                    });
+                }
+                
+                if(!multiple) {
+                    ui.addEventListener('input', e => { hi.value = e.target.value; pr.src = e.target.value; pr.style.display = e.target.value ? 'block' : 'none'; });
+                    fi.addEventListener('change', e => {
+                        if(!e.target.files.length) return; ui.value = '';
+                        compressImage(e.target.files[0], b64 => { hi.value = b64; pr.src = b64; pr.style.display = 'block'; });
+                    });
+                } else {
+                    ui.addEventListener('keydown', e => {
+                        if(e.key === 'Enter') {
+                            e.preventDefault();
+                            const newUrls = e.target.value.split(',').map(s=>s.trim()).filter(Boolean);
+                            if(newUrls.length > 0) {
+                                let curr =[]; try { curr = JSON.parse(hi.value); } catch(err){}
+                                hi.value = JSON.stringify(curr.concat(newUrls)); 
+                                e.target.value = ''; window.renderMultiPreview(prevId, hidId);
+                            }
+                        }
+                    });
+                    fi.addEventListener('change', e => {
+                        if(!e.target.files.length) return; ui.value = ''; 
+                        let curr =[]; try { curr = JSON.parse(hi.value); } catch(err){}
+                        let loaded = 0;
+                        Array.from(e.target.files).forEach((file, idx) => {
+                            compressImage(file, b64 => {
+                                curr.push(b64); loaded++; 
+                                if(loaded === e.target.files.length) {
+                                    hi.value = JSON.stringify(curr);
+                                    window.renderMultiPreview(prevId, hidId);
+                                    fi.value = ''; 
+                                }
+                            });
+                        });
+                    });
+                }
+            }
+
+            async function handleFormSubmit(e, table, extractDataFn) {
+                e.preventDefault();
+                const btn = e.target.querySelector('button[type="submit"]');
+                const origText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving...';
+                btn.disabled = true;
+
+                try {
+                    const obj = extractDataFn(new FormData(e.target));
+                    let err;
+                    if (editingId) { const res = await sb.from(table).update(obj).eq('id', editingId); err = res.error; } 
+                    else { const res = await sb.from(table).insert([obj]); err = res.error; }
+
+                    if (err) throw err;
+                    showAdminToast(`${table.replace('_', ' ')} saved successfully!`, 'success');
+                    window.closeAdminModal(e.target.closest('.ep-modal-wrapper').id);
+                    loadData();
+                } catch (error) {
+                    showAdminToast(error.message, 'error');
+                } finally {
+                    btn.innerHTML = origText; btn.disabled = false;
+                }
+            }
+
+            function showPanel() { document.getElementById('ep-login-form').style.display = 'none'; document.getElementById('ep-main-panel').style.display = 'flex'; loadData(); }
+
+            async function loadData() {
+                const[inv, inq, qts, svc, set, fl, sc] = await Promise.all([
+                    sb.from('inventory').select('*').order('id', {ascending:false}),
+                    sb.from('inquiries').select('*').order('created_at', {ascending:false}),
+                    sb.from('quotes').select('*').order('created_at', {ascending:false}),
+                    sb.from('services').select('*').order('order_idx'),
+                    sb.from('site_settings').select('*').eq('key', 'contact_info').single(),
+                    sb.from('footer_links').select('*').order('order_idx'),
+                    sb.from('sister_companies').select('*').order('order_idx')
+                ]);
+                
+                inventoryData = inv.data ||[]; inquiriesData = inq.data ||[]; quotesData = qts.data ||[]; 
+                servicesData = svc.data ||[]; footerLinksData = fl.data ||[]; sisterCompaniesData = sc.data ||[];
+                
+                renderInventory(inventoryData);
+                
+                const stFn = (s) => `<span class="ep-status ${s==='Replied'?'status-replied':'status-new'}"><i class="${s==='Replied'?'fas fa-check-circle':'fas fa-clock'}" style="margin-right:5px"></i>${s||'New'}</span>`;
+                
+                document.getElementById('leads-list').innerHTML = inquiriesData.map(i => `<tr><td>${new Date(i.created_at).toLocaleDateString()}</td><td><strong>${i.name}</strong><br><small style="color:#aaa">${i.email} | ${i.phone}</small></td><td><span style="color:var(--ep-primary); font-weight:700">${i.car_title}</span></td><td>${stFn(i.status)}</td><td><button class="ep-btn ep-btn-p ep-btn-sm" onclick="window.viewInq(${i.id}, 'inquiries')">Manage</button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('inquiries',${i.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+                document.getElementById('quotes-list').innerHTML = quotesData.map(i => `<tr><td>${new Date(i.created_at).toLocaleDateString()}</td><td><strong>${i.name}</strong><br><small style="color:#aaa">${i.email}</small></td><td>${i.interest}</td><td>${stFn(i.status)}</td><td><button class="ep-btn ep-btn-p ep-btn-sm" onclick="window.viewInq(${i.id}, 'quotes')">Manage</button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('quotes',${i.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+                
+                document.getElementById('services-list').innerHTML = servicesData.map(s => `<tr><td><div style="width:40px;height:40px;background:rgba(255,59,48,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center"><i class="${s.icon}" style="font-size:1.2rem; color:#ff3b30"></i></div></td><td><strong>${s.title}</strong></td><td><span style="color:#aaa">${s.description.substring(0,50)}...</span></td><td><button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.editForm('services',${s.id})"><i class="fas fa-edit"></i> Edit</button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('services',${s.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+                
+                document.getElementById('sister-list').innerHTML = sisterCompaniesData.map(s => `<tr><td><strong><span style="color:#ff3b30">${s.highlight}</span> ${s.name}</strong></td><td><a href="${s.url}" target="_blank" style="color:#aaa;text-decoration:underline">${s.url}</a></td><td><button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.editForm('sister_companies',${s.id})"><i class="fas fa-edit"></i></button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('sister_companies',${s.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+                
+                document.getElementById('footer-links-list').innerHTML = footerLinksData.map(f => `<tr><td><span class="ep-status status-new" style="background:rgba(255,255,255,0.05); color:#fff; border:1px solid rgba(255,255,255,0.1);">${f.section}</span></td><td><i class="${f.icon}" style="color:var(--ep-primary);margin-right:8px"></i> ${f.label}</td><td><span style="color:#aaa">${f.url}</span></td><td><button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.editForm('footer_links',${f.id})"><i class="fas fa-edit"></i></button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('footer_links',${f.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+
+                if(set.data && set.data.value) {
+                    document.getElementById('set-address').value = set.data.value.address || ''; document.getElementById('set-phone').value = set.data.value.phone || ''; document.getElementById('set-email').value = set.data.value.email || ''; document.getElementById('set-map').value = set.data.value.map_iframe || '';
+                }
+            }
+            
+            function renderInventory(data) {
+                document.getElementById('inv-list').innerHTML = data.map(i => `<tr><td><div style="padding:3px; background:var(--ep-card); border:1px solid var(--ep-border); border-radius:6px; display:inline-block;"><img src="${i.img}" style="height:45px; width:75px; border-radius:4px; object-fit:cover;"></div></td><td><strong>${i.make}</strong> <span style="color:#aaa">${i.name}</span></td><td><strong style="color:#fff; font-size:1rem;">${i.price}</strong></td><td><span class="ep-status status-replied" style="background:rgba(255,255,255,0.05); color:var(--ep-primary); border:none;">${i.cat}</span></td><td><button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.editForm('inventory',${i.id})"><i class="fas fa-edit"></i> Edit</button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('inventory',${i.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+            }
+
+            window.filterInventory = () => { const q = document.getElementById('inv-search').value.toLowerCase(); renderInventory(inventoryData.filter(i => i.make.toLowerCase().includes(q) || i.name.toLowerCase().includes(q))); };
+
+            window.openCarForm = () => { 
+                editingId = null; document.getElementById('car-form').reset(); 
+                document.getElementById('img_hidden').value = ''; document.getElementById('img_preview').style.display='none';
+                document.getElementById('imgs_hidden').value = '[]'; window.renderMultiPreview('imgs_preview', 'imgs_hidden');
+                document.getElementById('specs-container').innerHTML=''; window.addKVRow('specs-container');
+                document.getElementById('export-container').innerHTML=''; window.addKVRow('export-container');
+                document.getElementById('car-modal-title').innerText = "Add New Vehicle"; window.openAdminModal('ep-car-modal'); 
+            };
+            window.openServiceForm = () => { editingId = null; document.getElementById('service-form').reset(); document.getElementById('service-modal-title').innerText = "Add Service"; window.openAdminModal('ep-service-modal'); };
+            window.openSisterForm = () => { editingId = null; document.getElementById('sister-form').reset(); document.getElementById('sister-modal-title').innerText = "Add Sister Company"; window.openAdminModal('ep-sister-modal'); };
+            window.openFooterLinkForm = () => { editingId = null; document.getElementById('footer-link-form').reset(); document.getElementById('footer-link-modal-title').innerText = "Add Footer Link"; window.openAdminModal('ep-footer-link-modal'); };
+
+            window.editForm = (table, id) => {
+                editingId = id;
+                if(table === 'inventory') {
+                    const item = inventoryData.find(c => c.id === id); const form = document.getElementById('car-form');
+                    document.getElementById('car-modal-title').innerText = "Edit Vehicle Details";
+                    for(let k in item) { if(form.elements[k] && typeof item[k]!=='object') form.elements[k].value = item[k]; }
+                    
+                    document.getElementById('img_hidden').value = item.img || ''; document.getElementById('img_url').value = (item.img && item.img.length < 1000) ? item.img : '';
+                    if(item.img) { document.getElementById('img_preview').src = item.img; document.getElementById('img_preview').style.display = 'block'; } else document.getElementById('img_preview').style.display = 'none';
+                    
+                    document.getElementById('imgs_hidden').value = JSON.stringify(item.imgs ||[]); document.getElementById('imgs_url').value = '';
+                    window.renderMultiPreview('imgs_preview', 'imgs_hidden');
+                    
+                    form.elements['tags_raw'].value = (item.tags||[]).join(', ');
+                    
+                    const sc = document.getElementById('specs-container'); sc.innerHTML='';
+                    Object.entries(item.specs||{}).forEach(([k,v]) => window.addKVRow('specs-container', k, v));
+                    if(sc.innerHTML === '') window.addKVRow('specs-container'); 
+
+                    const ec = document.getElementById('export-container'); ec.innerHTML='';
+                    Object.entries(item.export||{}).forEach(([k,v]) => window.addKVRow('export-container', k, v));
+                    if(ec.innerHTML === '') window.addKVRow('export-container');
+
+                    window.openAdminModal('ep-car-modal');
+                } else if(table === 'services') {
+                    const item = servicesData.find(c => c.id === id); const form = document.getElementById('service-form');
+                    document.getElementById('service-modal-title').innerText = "Edit Service";
+                    for(let k in item) { if(form.elements[k]) form.elements[k].value = item[k]; }
+                    window.openAdminModal('ep-service-modal');
+                } else if(table === 'sister_companies') {
+                    const item = sisterCompaniesData.find(c => c.id === id); const form = document.getElementById('sister-form');
+                    document.getElementById('sister-modal-title').innerText = "Edit Sister Company";
+                    for(let k in item) { if(form.elements[k]) form.elements[k].value = item[k]; }
+                    window.openAdminModal('ep-sister-modal');
+                } else if(table === 'footer_links') {
+                    const item = footerLinksData.find(c => c.id === id); const form = document.getElementById('footer-link-form');
+                    document.getElementById('footer-link-modal-title').innerText = "Edit Footer Link";
+                    for(let k in item) { if(form.elements[k]) form.elements[k].value = item[k]; }
+                    window.openAdminModal('ep-footer-link-modal');
+                }
+            };
+
+            window.delRow = async (table, id) => { 
+                if (confirm("Are you sure you want to delete this record permanently?")) { 
+                    const { error } = await sb.from(table).delete().eq('id', id); 
+                    if(error) showAdminToast(error.message, 'error');
+                    else { showAdminToast('Record deleted.', 'success'); loadData(); }
+                } 
+            };
+
+            window.viewInq = async (id, table) => {
+                const item = (table === 'inquiries' ? inquiriesData : quotesData).find(i => i.id === id);
+                let info = `Customer: ${item.name}\nEmail: ${item.email}\nDest: ${item.destination}\n\n`;
+                if(item.car_title) info += `Vehicle: ${item.car_title}\n`; if(item.interest) info += `Interest: ${item.interest}\n`;
+                if(item.notes) info += `Notes: ${item.notes}\n`; if(item.message) info += `Message: ${item.message}\n`;
+                info += `\n--- Status Notes ---\n${item.reply || 'None'}`;
+                
+                const reply = prompt(info + "\n\nEnter admin notes to update status to 'Replied':", item.reply || "");
+                if (reply !== null && reply.trim() !== "") { 
+                    const { error } = await sb.from(table).update({ reply: reply, status: 'Replied' }).eq('id', id); 
+                    if (error) showAdminToast(error.message, 'error');
+                    else { showAdminToast('Inquiry marked as replied.', 'success'); loadData(); }
+                }
+            };
+
+        })();
+    </script>
+    <script src="js/loading.js"></script>
+    <script src="js/sect.js"></script>
+    <script src="js/attemp.js"></script>
+    <script src="js/controlpanel.js"></script>
+</body>
+</html>
