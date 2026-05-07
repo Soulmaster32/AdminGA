@@ -1,0 +1,165 @@
+                        let curr =[]; try { curr = JSON.parse(hi.value); } catch(err){}
+                        let loaded = 0;
+                        Array.from(e.target.files).forEach((file, idx) => {
+                            compressImage(file, b64 => {
+                                curr.push(b64); loaded++; 
+                                if(loaded === e.target.files.length) {
+                                    hi.value = JSON.stringify(curr);
+                                    window.renderMultiPreview(prevId, hidId);
+                                    fi.value = ''; 
+                                }
+                            });
+                        });
+                    });
+                }
+            }
+
+            async function handleFormSubmit(e, table, extractDataFn) {
+                e.preventDefault();
+                const btn = e.target.querySelector('button[type="submit"]');
+                const origText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving...';
+                btn.disabled = true;
+
+                try {
+                    const obj = extractDataFn(new FormData(e.target));
+                    let err;
+                    if (editingId) { const res = await sb.from(table).update(obj).eq('id', editingId); err = res.error; } 
+                    else { const res = await sb.from(table).insert([obj]); err = res.error; }
+
+                    if (err) throw err;
+                    showAdminToast(`${table.replace('_', ' ')} saved successfully!`, 'success');
+                    window.closeAdminModal(e.target.closest('.ep-modal-wrapper').id);
+                    loadData();
+                } catch (error) {
+                    showAdminToast(error.message, 'error');
+                } finally {
+                    btn.innerHTML = origText; btn.disabled = false;
+                }
+            }
+
+            function showPanel() { document.getElementById('ep-login-form').style.display = 'none'; document.getElementById('ep-main-panel').style.display = 'flex'; loadData(); }
+
+            async function loadData() {
+                const[inv, inq, qts, svc, set, fl, sc] = await Promise.all([
+                    sb.from('inventory').select('*').order('id', {ascending:false}),
+                    sb.from('inquiries').select('*').order('created_at', {ascending:false}),
+                    sb.from('quotes').select('*').order('created_at', {ascending:false}),
+                    sb.from('services').select('*').order('order_idx'),
+                    sb.from('site_settings').select('*').eq('key', 'contact_info').single(),
+                    sb.from('footer_links').select('*').order('order_idx'),
+                    sb.from('sister_companies').select('*').order('order_idx')
+                ]);
+                
+                inventoryData = inv.data ||[]; inquiriesData = inq.data ||[]; quotesData = qts.data ||[]; 
+                servicesData = svc.data ||[]; footerLinksData = fl.data ||[]; sisterCompaniesData = sc.data ||[];
+                
+                renderInventory(inventoryData);
+                
+                const stFn = (s) => `<span class="ep-status ${s==='Replied'?'status-replied':'status-new'}"><i class="${s==='Replied'?'fas fa-check-circle':'fas fa-clock'}" style="margin-right:5px"></i>${s||'New'}</span>`;
+                
+                document.getElementById('leads-list').innerHTML = inquiriesData.map(i => `<tr><td>${new Date(i.created_at).toLocaleDateString()}</td><td><strong>${i.name}</strong><br><small style="color:#aaa">${i.email} | ${i.phone}</small></td><td><span style="color:var(--ep-primary); font-weight:700">${i.car_title}</span></td><td>${stFn(i.status)}</td><td><button class="ep-btn ep-btn-p ep-btn-sm" onclick="window.viewInq(${i.id}, 'inquiries')">Manage</button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('inquiries',${i.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+                document.getElementById('quotes-list').innerHTML = quotesData.map(i => `<tr><td>${new Date(i.created_at).toLocaleDateString()}</td><td><strong>${i.name}</strong><br><small style="color:#aaa">${i.email}</small></td><td>${i.interest}</td><td>${stFn(i.status)}</td><td><button class="ep-btn ep-btn-p ep-btn-sm" onclick="window.viewInq(${i.id}, 'quotes')">Manage</button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('quotes',${i.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+                
+                document.getElementById('services-list').innerHTML = servicesData.map(s => `<tr><td><div style="width:40px;height:40px;background:rgba(255,59,48,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center"><i class="${s.icon}" style="font-size:1.2rem; color:#ff3b30"></i></div></td><td><strong>${s.title}</strong></td><td><span style="color:#aaa">${s.description.substring(0,50)}...</span></td><td><button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.editForm('services',${s.id})"><i class="fas fa-edit"></i> Edit</button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('services',${s.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+                
+                document.getElementById('sister-list').innerHTML = sisterCompaniesData.map(s => `<tr><td><strong><span style="color:#ff3b30">${s.highlight}</span> ${s.name}</strong></td><td><a href="${s.url}" target="_blank" style="color:#aaa;text-decoration:underline">${s.url}</a></td><td><button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.editForm('sister_companies',${s.id})"><i class="fas fa-edit"></i></button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('sister_companies',${s.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+                
+                document.getElementById('footer-links-list').innerHTML = footerLinksData.map(f => `<tr><td><span class="ep-status status-new" style="background:rgba(255,255,255,0.05); color:#fff; border:1px solid rgba(255,255,255,0.1);">${f.section}</span></td><td><i class="${f.icon}" style="color:var(--ep-primary);margin-right:8px"></i> ${f.label}</td><td><span style="color:#aaa">${f.url}</span></td><td><button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.editForm('footer_links',${f.id})"><i class="fas fa-edit"></i></button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('footer_links',${f.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+
+                if(set.data && set.data.value) {
+                    document.getElementById('set-address').value = set.data.value.address || ''; document.getElementById('set-phone').value = set.data.value.phone || ''; document.getElementById('set-email').value = set.data.value.email || ''; document.getElementById('set-map').value = set.data.value.map_iframe || '';
+                }
+            }
+            
+            function renderInventory(data) {
+                document.getElementById('inv-list').innerHTML = data.map(i => `<tr><td><div style="padding:3px; background:var(--ep-card); border:1px solid var(--ep-border); border-radius:6px; display:inline-block;"><img src="${i.img}" style="height:45px; width:75px; border-radius:4px; object-fit:cover;"></div></td><td><strong>${i.make}</strong> <span style="color:#aaa">${i.name}</span></td><td><strong style="color:#fff; font-size:1rem;">${i.price}</strong></td><td><span class="ep-status status-replied" style="background:rgba(255,255,255,0.05); color:var(--ep-primary); border:none;">${i.cat}</span></td><td><button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.editForm('inventory',${i.id})"><i class="fas fa-edit"></i> Edit</button> <button class="ep-btn ep-btn-sec ep-btn-sm" onclick="window.delRow('inventory',${i.id})"><i class="fas fa-trash" style="color:#ff4444"></i></button></td></tr>`).join('');
+            }
+
+            window.filterInventory = () => { const q = document.getElementById('inv-search').value.toLowerCase(); renderInventory(inventoryData.filter(i => i.make.toLowerCase().includes(q) || i.name.toLowerCase().includes(q))); };
+
+            window.openCarForm = () => { 
+                editingId = null; document.getElementById('car-form').reset(); 
+                document.getElementById('img_hidden').value = ''; document.getElementById('img_preview').style.display='none';
+                document.getElementById('imgs_hidden').value = '[]'; window.renderMultiPreview('imgs_preview', 'imgs_hidden');
+                document.getElementById('specs-container').innerHTML=''; window.addKVRow('specs-container');
+                document.getElementById('export-container').innerHTML=''; window.addKVRow('export-container');
+                document.getElementById('car-modal-title').innerText = "Add New Vehicle"; window.openAdminModal('ep-car-modal'); 
+            };
+            window.openServiceForm = () => { editingId = null; document.getElementById('service-form').reset(); document.getElementById('service-modal-title').innerText = "Add Service"; window.openAdminModal('ep-service-modal'); };
+            window.openSisterForm = () => { editingId = null; document.getElementById('sister-form').reset(); document.getElementById('sister-modal-title').innerText = "Add Sister Company"; window.openAdminModal('ep-sister-modal'); };
+            window.openFooterLinkForm = () => { editingId = null; document.getElementById('footer-link-form').reset(); document.getElementById('footer-link-modal-title').innerText = "Add Footer Link"; window.openAdminModal('ep-footer-link-modal'); };
+
+            window.editForm = (table, id) => {
+                editingId = id;
+                if(table === 'inventory') {
+                    const item = inventoryData.find(c => c.id === id); const form = document.getElementById('car-form');
+                    document.getElementById('car-modal-title').innerText = "Edit Vehicle Details";
+                    for(let k in item) { if(form.elements[k] && typeof item[k]!=='object') form.elements[k].value = item[k]; }
+                    
+                    document.getElementById('img_hidden').value = item.img || ''; document.getElementById('img_url').value = (item.img && item.img.length < 1000) ? item.img : '';
+                    if(item.img) { document.getElementById('img_preview').src = item.img; document.getElementById('img_preview').style.display = 'block'; } else document.getElementById('img_preview').style.display = 'none';
+                    
+                    document.getElementById('imgs_hidden').value = JSON.stringify(item.imgs ||[]); document.getElementById('imgs_url').value = '';
+                    window.renderMultiPreview('imgs_preview', 'imgs_hidden');
+                    
+                    form.elements['tags_raw'].value = (item.tags||[]).join(', ');
+                    
+                    const sc = document.getElementById('specs-container'); sc.innerHTML='';
+                    Object.entries(item.specs||{}).forEach(([k,v]) => window.addKVRow('specs-container', k, v));
+                    if(sc.innerHTML === '') window.addKVRow('specs-container'); 
+
+                    const ec = document.getElementById('export-container'); ec.innerHTML='';
+                    Object.entries(item.export||{}).forEach(([k,v]) => window.addKVRow('export-container', k, v));
+                    if(ec.innerHTML === '') window.addKVRow('export-container');
+
+                    window.openAdminModal('ep-car-modal');
+                } else if(table === 'services') {
+                    const item = servicesData.find(c => c.id === id); const form = document.getElementById('service-form');
+                    document.getElementById('service-modal-title').innerText = "Edit Service";
+                    for(let k in item) { if(form.elements[k]) form.elements[k].value = item[k]; }
+                    window.openAdminModal('ep-service-modal');
+                } else if(table === 'sister_companies') {
+                    const item = sisterCompaniesData.find(c => c.id === id); const form = document.getElementById('sister-form');
+                    document.getElementById('sister-modal-title').innerText = "Edit Sister Company";
+                    for(let k in item) { if(form.elements[k]) form.elements[k].value = item[k]; }
+                    window.openAdminModal('ep-sister-modal');
+                } else if(table === 'footer_links') {
+                    const item = footerLinksData.find(c => c.id === id); const form = document.getElementById('footer-link-form');
+                    document.getElementById('footer-link-modal-title').innerText = "Edit Footer Link";
+                    for(let k in item) { if(form.elements[k]) form.elements[k].value = item[k]; }
+                    window.openAdminModal('ep-footer-link-modal');
+                }
+            };
+
+            window.delRow = async (table, id) => { 
+                if (confirm("Are you sure you want to delete this record permanently?")) { 
+                    const { error } = await sb.from(table).delete().eq('id', id); 
+                    if(error) showAdminToast(error.message, 'error');
+                    else { showAdminToast('Record deleted.', 'success'); loadData(); }
+                } 
+            };
+
+            window.viewInq = async (id, table) => {
+                const item = (table === 'inquiries' ? inquiriesData : quotesData).find(i => i.id === id);
+                let info = `Customer: ${item.name}\nEmail: ${item.email}\nDest: ${item.destination}\n\n`;
+                if(item.car_title) info += `Vehicle: ${item.car_title}\n`; if(item.interest) info += `Interest: ${item.interest}\n`;
+                if(item.notes) info += `Notes: ${item.notes}\n`; if(item.message) info += `Message: ${item.message}\n`;
+                info += `\n--- Status Notes ---\n${item.reply || 'None'}`;
+                
+                const reply = prompt(info + "\n\nEnter admin notes to update status to 'Replied':", item.reply || "");
+                if (reply !== null && reply.trim() !== "") { 
+                    const { error } = await sb.from(table).update({ reply: reply, status: 'Replied' }).eq('id', id); 
+                    if (error) showAdminToast(error.message, 'error');
+                    else { showAdminToast('Inquiry marked as replied.', 'success'); loadData(); }
+                }
+            };
+
+        })();
+    </script>
+    <script src="js/loading.js"></script>
+    <script src="js/sect.js"></script>
+    <script src="js/attemp.js"></script>
+    <script src="js/controlpanel.js"></script>
+</body>
+</html>
